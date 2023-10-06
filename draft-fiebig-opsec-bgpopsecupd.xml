@@ -1,0 +1,1021 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="rfc7991bis.rnc"?>
+<!DOCTYPE rfc [
+        <!ENTITY nbsp    "&#160;">
+        <!ENTITY zwsp   "&#8203;">
+        <!ENTITY nbhy   "&#8209;">
+        <!ENTITY wj     "&#8288;">
+]>
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude"
+     ipr="trust200902" submissionType="IETF" category="bcp" version="3" docName="draft-fiebig-opsec-bgpopsecupd-latest">
+    <front>
+        <title abbrev="BGP OPSEC">Updated BGP Operations and Security</title>
+        <seriesInfo name="Internet-Draft" status="standard" value="draft-fiebig-opsec-bgpopsecupd-latest"/>
+        <author fullname="Tobias Fiebig" initials="T." surname="Fiebig">
+            <organization abbrev="MPI-INF">Max-Planck-Institut fuer Informatik</organization>
+            <address>
+                <postal>
+                    <street>Campus E14</street>
+                    <city>Saarbruecken</city>
+                    <code>66123</code>
+                    <country>Germany</country>
+                </postal>
+                <phone>+49 681 9325 3527</phone>
+                <email>tfiebig@mpi-inf.mpg.de</email>
+            </address>
+        </author>
+        <author fullname="Carlos M. Martinez" initials="C." surname="Martinez">
+            <organization abbrev="LACNIC">Latin American and Caribbean Internet Address Registry</organization>
+            <address>
+                <postal>
+                    <street>Rambla Mexico 6125</street>
+                    <city>Montevideo</city>
+                    <code>11400</code>
+                    <country>Uruguay</country>
+                </postal>
+                <phone>+598 2604 2222</phone>
+                <email>carlos@lacnic.net</email>
+            </address>
+        </author>
+        <author fullname="Q Misell" initials="Q" surname="Misell">
+            <organization abbrev="AS207960">AS207960 Cyfyngedig</organization>
+            <address>
+                <postal>
+                    <street>13 Pen-y-lan Terrace</street>
+                    <city>Caerdydd</city>
+                    <code>CF23 9EU</code>
+                    <country>United Kingdom</country>
+                </postal>
+                <email>q@as207970.net</email>
+                <email>q@magicalcodewit.ch</email>
+                <uri>https://magicalcodewit.ch</uri>
+            </address>
+        </author>
+        <area>ops</area>
+        <workgroup>Operational Security Capabilities for IP Network Infrastructure</workgroup>
+
+        <abstract>
+            <t>
+                The Border Gateway Protocol (BGP) is the protocol almost exclusivelyused in the Internet to exchange routing information between networkdomains.
+                Due to this central nature, it is important to understandthe security measures that can and should be deployed to preventaccidental or intentional routing disturbances.
+            </t>
+
+            <t>
+                This document describes measures to protect the BGP sessions itselfsuch as Time to Live (TTL), the TCP Authentication Option (TCP-AO),and control-plane filtering.
+                It also describes measures to bettercontrol the flow of routing information, using prefix filtering andautomation of prefix filters, max-prefix filtering, Autonomous System(AS) path filtering, route flap dampening, and BGP communitycrubbing.
+            </t>
+        </abstract>
+    </front>
+
+    <middle>
+        <section  anchor="sec-introduction">
+            <name>Introduction</name>
+            <t>
+                The Border Gateway Protocol (BGP), specified in RFC 4271 <xref target="RFC4271" format="default"/>, is theprotocol used in the Internet to exchange routing information betweennetwork domains.
+                BGP does not directly include mechanisms thatcontrol whether the routes exchanged conform to the variousguidelines defined by the Internet community.
+                This document intends to both summarize common existing guidelines and help networkadministrators apply coherent BGP policies.
+            </t>
+            <section  anchor="sec-requirements-language">
+                <name>Requirements Language</name>
+                <t>The key words <bcp14>MUST</bcp14>, <bcp14>MUST NOT</bcp14>, <bcp14>REQUIRED</bcp14>, <bcp14>SHALL</bcp14>,
+                    <bcp14>SHALL NOT</bcp14>, <bcp14>SHOULD</bcp14>, <bcp14>SHOULD NOT</bcp14>, <bcp14>RECOMMENDED</bcp14>,
+                    <bcp14>NOT RECOMMENDED</bcp14>, <bcp14>MAY</bcp14>, and <bcp14>OPTIONAL</bcp14> in this document are to be
+                    interpreted as described in <xref target="BCP14"/> when, and only when, they appear in all capitals,
+                    as shown here.</t>
+            </section>
+        </section>
+        <section  anchor="sec-scope-of-the-document">
+            <name>Scope of the Document</name>
+            <t>
+                The guidelines defined in this document are intended for generic Internet BGP peerings.
+                The nature of the Internet is such that Autonomous Systems can always agree on exceptions to a common framework for relevant local needs, and therefore configure a BGP session in a manner that may differ from the recommendations provided in this document.
+                While this is perfectly acceptable, every configured exception might have an impact on the entire inter-domain routing environment, and network administrators <bcp14>SHOULD</bcp14> carefully appraise this impact before implementation.
+            </t>
+        </section>
+        <section  anchor="sec-definitions-and-acronyms">
+            <name>Definitions and Acronyms</name>
+            <t>
+                The following terms are used in this document:
+            </t>
+            <dl newline="true" spacing="normal">
+                <dt>ACL:</dt>
+                <dd>Access Control List</dd>
+
+                <dt>ASN:</dt>
+                <dd>Autonomous System Number</dd>
+
+                <dt>IRR:</dt>
+                <dd>Internet Routing Registry</dd>
+
+                <dt>IXP:</dt>
+                <dd>Internet Exchange Point</dd>
+
+                <dt>LIR:</dt>
+                <dd>Local Internet Registry</dd>
+
+                <dt>PMTUD:</dt>
+                <dd>Path MTU Discovery</dd>
+
+                <dt>RIR:</dt>
+                <dd>Regional Internet Registry</dd>
+
+                <dt>Tier 1 transit provider:</dt>
+                <dd>an IP transit provider that can reach any network on the Internet without purchasing transit services.</dd>
+
+                <dt>uRPF:</dt>
+                <dd>Unicast Reverse Path Forwarding</dd>
+
+            </dl>
+            <t>
+                In addition to the list above, the following terms are used with a specific meaning.
+            </t>
+            <dl newline="true" spacing="normal">
+                <dt>Downstream:</dt>
+                <dd>any network that is downstream; it can be a provider or a customer network.</dd>
+
+                <dt>Upstream:</dt>
+                <dd>any network that is upstream.</dd>
+
+            </dl>
+        </section>
+        <section  anchor="sec-protection-of-the-bgp-speaker">
+            <name>Protection of the BGP Speaker</name>
+                <t>
+                    The BGP speaker needs to be protected from attempts to subvert the BGP session.
+                    This protection <bcp14>SHOULD</bcp14> be achieved by an Access Control List (ACL) that would discard all packets directed to TCP port 179 on the local device and sourced from an address not known or permitted to become a BGP neighbor.
+                    Experience has shown that the natural protection TCP should offer is not always sufficient, as it is sometimes run in control-plane software.
+                    In the absence of ACLs, it is possible to attack a BGP speaker by simply sending a high volume of connection requests to it.
+                </t>
+
+                <t>
+                    If supported, an ACL specific to the control plane of the router <bcp14>SHOULD</bcp14> be used (receive-ACL, control-plane policing, etc.), to avoid configuration of data-plane filters for packets transiting through the router (and therefore not reaching the control plane).
+                    If the hardware cannot do that, interface ACLs can be used to block packets addressed to the local router.
+                </t>
+
+                <t>
+                    Some routers automatically program such an ACL upon BGP configuration.
+                    On other devices, this ACL should be configured and maintained manually or using scripts.
+                </t>
+
+                <t>
+                    In addition to strict filtering, rate-limiting MAY be configured for accepted BGP traffic.
+                    Rate-limiting BGP traffic consists in permitting only a certain quantity of bits per second (or packets per second) of BGP traffic to the control plane.
+                    This protects the BGP router control plane in case the amount of BGP traffic surpasses platform capabilities.
+                </t>
+
+                <t>
+                    Filtering and rate-limiting of control-plane traffic is a wider topic than "just for BGP".
+                    (If a network administrator brings down a router by overloading one of the other protocols remotely, BGP is harmed as well.
+                    For a more detailed recommendation on how to protect the router's control plane, see RFC 6192 <xref target="RFC6192" format="default"/> )
+                </t>
+
+        </section>
+        <section  anchor="sec-protection-of-the-bgp-sessions">
+            <name>Protection of the BGP Sessions</name>
+
+                <t>
+                    Current security issues of TCP-based protocols (therefore including BGP) have been documented in RFC 6952 <xref target="RFC6952" format="default"/> .
+                    The following subsections list the major points raised in this RFC and give the best practices related to TCP session protection for BGP operation.
+                </t>
+            <section  anchor="sec-protection-of-tcp-sessions-used-by-bgp">
+                <name>Protection of TCP Sessions Used by BGP</name>
+
+                <t>
+                    Attacks on TCP sessions used by BGP (aka BGP sessions), for example, sending spoofed TCP RST packets, could bring down a BGP peering.
+                    Following a successful ARP spoofing attack (or other similar man-in- the-middle attack), the attacker might even be able to inject packets into the TCP stream (routing attacks).
+                </t>
+                <t>
+                    BGP sessions can be secured with a variety of mechanisms.
+                    MD5 protection of the TCP session header, described in RFC 2385 <xref target="RFC2385" format="default"/>, was the first such mechanism.
+                    It has been obsoleted by the TCP Authentication Option (TCP-AO; RFC 5925 <xref target="RFC5925" format="default"/>), which offers stronger protection.
+                    While MD5 is still the most used mechanism due to its availability in vendors' equipment, TCP-AO <bcp14>SHOULD</bcp14> be preferred when implemented.
+                </t>
+                <t>
+                    IPsec could also be used for session protection.
+                    At the time of publication, there is not enough experience of the impact of using IPsec for BGP peerings, and further analysis is required to define guidelines.
+                </t>
+                <t>
+                    The drawback of TCP session protection is additional configuration and management overhead for the maintenance of authentication information (for example, MD5 passwords).
+                    Protection of TCP sessions used by BGP hence <bcp14>MAY</bcp14> be enabled even when peerings are established over shared networks where spoofing can be done (like IXPs), but operators are <bcp14>RECOMMENDED</bcp14> to consider the trade-offs and to apply TCP session protection where appropriate.
+                </t>
+                <t>
+                    Furthermore, network administrators <bcp14>SHOULD</bcp14> block spoofed packets (packets with a source IP address belonging to their IP address space) at all edges of their network (see RFC 2827 <xref target="RFC2827" format="default"/>  and RFC 3704 <xref target="RFC3704" format="default"/> ).
+                    This protects the TCP session used by Internal BGP (IBGP) from attackers outside the Autonomous System.
+                </t>
+            </section>
+            <section  anchor="sec-bgp-ttl-security-gtsm">
+                <name>BGP TTL Security (GTSM)</name>
+
+                <t>
+                    BGP sessions can be made harder to spoof with the Generalized TTL Security Mechanisms (GTSM aka TTL security), defined in RFC 5082 <xref target="RFC5082" format="default"/>.
+                    Instead of sending TCP packets with TTL value of 1, the BGP speakers send the TCP packets with TTL value of 255, and the receiver checks that the TTL value equals 255.
+                    Since it's impossible to send an IP packet with TTL of 255 to an IP host that is not directly connected, BGP TTL security effectively prevents all spoofing attacks coming from third parties not directly connected to the same subnet as the BGP-speaking routers.
+                    Network administrators <bcp14>SHOULD</bcp14> implement TTL security on directly connected BGP peerings.
+                </t>
+                <t>
+                    GTSM could also be applied to multi-hop BGP peering as well.
+                    To achieve this, TTL needs to be configured with a proper value depending on the distance between BGP speakers (using the principle described above).
+                    Nevertheless, it is not as effective because anyone inside the TTL diameter could spoof the TTL.
+                </t>
+                <t>
+                    Like MD5 protection, TTL security has to be configured on both ends of a BGP session.
+                </t>
+            </section>
+        </section>
+        <section  anchor="sec-prefix-filtering">
+            <name>Prefix Filtering</name>
+
+            <t>
+                The main aspect of securing BGP resides in controlling the prefixes that are received and advertised on the BGP peerings.
+                Prefixes exchanged between BGP peers are controlled with inbound and outbound filters that can match on IP prefixes (as described in this section), AS paths (as described in ) or any other attributes of a BGP prefix (for example, BGP communities, as described in <xref target="sec-bgp-community-scrubbing" format="default"/>).
+            </t>
+            <section  anchor="sec-definition-of-prefix-filters">
+                <name>Definition of Prefix Filters</name>
+
+                <t>
+                    This section lists the most commonly used prefix filters.
+                    The following sections will clarify where these filters should be applied.
+                </t>
+                <section  anchor="sec-special-purpose-prefixes">
+                    <name>Special-Purpose Prefixes</name>
+                    <section  anchor="sec-ipv4-special-purpose-prefixes">
+                        <name>IPv4 Special-Purpose Prefixes</name>
+                        <t>
+                            The IANA IPv4 Special-Purpose Address Registry <xref target="IANAv4Spec" format="default"/>  maintains the list of IPv4 special-purpose prefixes and their routing scope, and it <bcp14>SHOULD</bcp14> be used for prefix-filter configuration.
+                            Prefixes with value "False" in column "Global" <bcp14>SHOULD</bcp14> be discarded on Internet BGP peerings.
+                        </t>
+                    </section>
+                    <section  anchor="sec-ipv6-special-purpose-prefixes">
+                        <name>IPv6 Special-Purpose Prefixes</name>
+                        <t>
+                            The IANA IPv6 Special-Purpose Address Registry <xref target="IANAv6Spec" format="default"/>  maintains the list of IPv6 special-purpose prefixes and their routing scope, and it <bcp14>SHOULD</bcp14> be used for prefix-filter configuration.
+                            Only prefixes with value "False" in column "Global" <bcp14>SHOULD</bcp14> be discarded on Internet BGP peerings.
+                        </t>
+                    </section>
+                </section>
+                <section  anchor="sec-unallocated-prefixes">
+                    <name>Unallocated Prefixes</name>
+                    <t>
+                        IANA allocates prefixes to RIRs that in turn allocate prefixes to LIRs (Local Internet Registries).
+                        It is wise not to accept routing table prefixes that are not allocated by IANA and/or RIRs.
+                        This section details the options for building a list of allocated prefixes at every level.
+                        It is important to understand that filtering unallocated prefixes requires constant updates, as prefixes are continually allocated.
+                        Therefore, automation of such prefix filters is key for the success of this approach.
+                        Network administrators <bcp14>SHOULD NOT</bcp14> consider solutions described in this section if they are not capable of maintaining updated prefix filters: the damage would probably be worse than the intended security policy.
+                    </t>
+                    <section  anchor="sec-iana-allocated-prefix-filters">
+                        <name> IANA-Allocated Prefix Filters</name>
+                        <t>
+                            IANA has allocated all the IPv4 available space.
+                            Therefore, there is no reason why network administrators would keep checking that prefixes they receive from BGP peers are in the IANA-allocated IPv4 address space <xref target="IANAv4Reg" format="default"/> .
+                            No specific filters need to be put in place by administrators who want to make sure that IPv4 prefixes they receive in BGP updates have been allocated by IANA.
+                        </t>
+                        <t>
+                            For IPv6, given the size of the address space, it can be seen as wise to accept only prefixes derived from those allocated by IANA.
+                            Administrators can dynamically build this list from the IANA- allocated IPv6 space <xref target="IANAv6Reg" format="default"/> .
+                            As IANA keeps allocating prefixes to RIRs, the aforementioned list should be checked regularly against changes, and if they occur, prefix filters should be computed and pushed on network devices.
+                            The list could also be pulled directly by routers when they implement such mechanisms.
+                            As there is delay between the time a RIR receives a new prefix and the moment it starts allocating portions of it to its LIRs, there is no need for doing this step quickly and frequently.
+                            However, network administrators <bcp14>SHOULD</bcp14> ensure that all IPv6 prefix filters are updated within a maximum of one month after any change in the list of IPv6 prefixes allocated by IANA.
+                        </t>
+                        <t>
+                            If the process in place (whether manual or automatic) cannot guarantee that the list is updated regularly, then it's better not to configure any filters based on allocated networks.
+                            The IPv4 experience has shown that many network operators implemented filters for prefixes not allocated by IANA but did not update them on a regular basis.
+                            This created problems for the latest allocations, and required extra work for RIRs that had to "de-bogonize" the newly allocated prefixes.
+                            (See <xref target="RIPE-351" format="default"/>  for information on de-bogonizing.)
+                        </t>
+                    </section>
+
+                    <section  anchor="sec-rir-allocated-prefix-filters">
+                        <name>RIR-Allocated Prefix Filters</name>
+                        <t>
+                            A more precise check can be performed when one would like to make sure that prefixes they receive are being originated or transited by Autonomous Systems (ASes) entitled to do so.
+                            It has been observed in the past that an AS could easily advertise someone else's prefix (or more specific prefixes) and create black holes or security threats.
+                            To partially mitigate this risk, administrators would need to make sure BGP advertisements correspond to information located in the existing registries.
+                            At this stage, two options can be considered: short- and long-term options.
+                            They are described in the following subsections.
+                        </t>
+                        <section  anchor="sec-prefix-filters-created-from-internet-routing-registries-irrs">
+                            <name>Prefix Filters Created from Internet Routing Registries (IRRs)</name>
+                            <t>
+                                An Internet Routing Registry (IRR) is a database containing Internet routing information, described using Routing Policy Specification Language objects as described in RFC 4012 <xref target="RFC4012" format="default"/> .
+                                Network administrators are given privileges to describe routing policies of their own networks in the IRR, and that information is published, usually publicly.
+                                A majority of Regional Internet Registries do also operate an IRR and can control whether registered routes conform to the prefixes that are allocated or directly assigned.
+                                However, it should be noted that the list of such prefixes is not necessarily a complete list, and as such the list of routes in an IRR is not the same as the set of RIR-allocated prefixes.
+                            </t>
+                            <t>
+                                It is possible to use the IRR information to build, for a given neighbor AS, a list of originated or transited prefixes that one may accept.
+                                This can be done relatively easily using scripts and existing tools capable of retrieving this information from the registries.
+                                This approach is exactly the same for both IPv4 and IPv6.
+                            </t>
+                            <t>
+                                The macro-algorithm for the script is as follows.
+                                For the peer that is considered, the distant network administrator has provided the AS and may be able to provide an AS-SET object (aka AS-MACRO).
+                                An AS-SET is an object that contains AS numbers or other AS-SETs.
+                                An operator may create an AS-SET defining all the AS numbers of its customers.
+                                A Tier 1 transit provider might create an AS-SET describing the AS-SET of connected operators, which in turn describe the AS numbers of their customers.
+                                Using recursion, it is possible to retrieve from an AS-SET the complete list of AS numbers that the peer is likely to announce.
+                                For each of these AS numbers, it is also easy to look in the corresponding IRR for all associated prefixes.
+                                With these two mechanisms, a script can build, for a given peer, the list of allowed prefixes and the AS number from which they should be originated.
+                                One could decide not use the origin information and only build monolithic prefix filters from fetched data.
+                            </t>
+                            <t>
+                                As prefixes, AS numbers, and AS-SETs may not all be under the same RIR authority, it is difficult to choose for each object the appropriate IRR to poll.
+                                Some IRRs have been created and are not restricted to a given region or authoritative RIR.
+                                They allow RIRs to publish information contained in their IRR in a common place.
+                                They also make it possible for any subscriber (probably under contract) to publish information too.
+                                When doing requests inside such an IRR, it is possible to specify the source of information in order to have the most reliable data.
+                                One could check a popular IRR containing many sources (such as RADb <xref target="RADb" format="default"/>, the Routing Assets Database) and only select as sources some desired RIRs and trusted major ISPs (Internet Service Providers).
+                            </t>
+                            <t>
+                                As objects in IRRs may frequently vary over time, it is important that prefix filters computed using this mechanism are refreshed regularly.
+                                Refreshing the filters on a daily basis <bcp14>SHOULD</bcp14> be considered because routing changes must sometimes be done in an emergency and registries may be updated at the very last moment.
+                                Note that this approach significantly increases the complexity of the router configurations, as it can quickly add tens of thousands of configuration lines for some important peers.
+                                To manage this complexity, network administrators could use, for example, IRRToolSet <xref target="IRRToolSet" format="default"/>, a set of tools making it possible to simplify the creation of automated filter configuration from policies stored in an IRR.
+                            </t>
+                            <t>
+                                Last but not least, network administrators <bcp14>SHOULD</bcp14> publish and maintain their resources properly in the IRR database maintained by their RIR, when available.
+                            </t>
+                        </section>
+                        <section  anchor="sec-sidr-secure-inter-domain-routing">
+                            <name>SIDR - Secure Inter-Domain Routing</name>
+                            <t>
+                                An infrastructure called SIDR (Secure Inter-Domain Routing), described in RFC 6480 <xref target="RFC6480" format="default"/>, has been designed to secure Internet advertisements.
+                                At the time of writing this document, many documents have been published and a framework with a complete set of protocols is proposed so that advertisements can be checked against signed routing objects in RIRs.
+                            </t>
+                            <t>
+                                There are basically two services that SIDR offers:
+                            </t>
+                            <ul spacing="normal">
+                                <li>
+                                    Origin validation, described in RFC 6811 <xref target="RFC6811" format="default"/>, seeks to make sure that attributes associated with routes are correct.
+                                    (The major point is the validation of the AS number originating a given route.)
+                                    Origin validation is now operational (Internet registries, protocols, implementations on some routers), and in theory it can be implemented knowing that the number of signed resources is still low at the time of writing this document.
+                                </li>
+                                <li>
+                                    Path validation provided by BGPsec <xref target="RFC7353" format="default"/>  seeks to make sure that no one announces fake/wrong BGP paths that would attract traffic for a given destination; see RFC 7132 <xref target="RFC7132" format="default"/> .
+                                    BGPsec is still an ongoing work item at the time of writing this document and therefore cannot be implemented.
+                                </li>
+                            </ul>
+                            <t>
+                                Implementing SIDR mechanisms is expected to solve many of the BGP routing security problems in the long term, but it may take time for deployments to be made and objects to become signed.
+                                Also, note that the SIDR infrastructure is complementing (not replacing) the security best practices listed in this document.
+                                Therefore, network administrators <bcp14>SHOULD</bcp14> implement any SIDR proposed mechanism (for example, route origin validation) on top of the other existing mechanisms even if they could sometimes appear to be targeting the same goal.
+                            </t>
+                            <t>
+                                If route origin validation is implemented, the reader <bcp14>SHOULD</bcp14> refer to the rules described in RFC 7115 <xref target="RFC7115" format="default"/> .
+                                In short, each external route received on a router <bcp14>SHOULD</bcp14> be checked against the Resource Public Key Infrastructure (RPKI) data set:
+                            </t>
+                            <ul spacing="normal">
+                                <li>
+                                    If a corresponding ROA (Route Origin Authorization) is found and is valid, then the prefix <bcp14>SHOULD</bcp14> be accepted.
+                                </li>
+                                <li>
+                                    If the ROA is found and is INVALID, then the prefix <bcp14>SHOULD</bcp14> be discarded.
+                                </li>
+                                <li>
+                                    If a ROA is not found, then the prefix <bcp14>SHOULD</bcp14> be accepted, but the corresponding route <bcp14>SHOULD</bcp14> be given a low preference.
+                                </li>
+                            </ul>
+
+                            <t>
+                                In addition to this, network administrators <bcp14>SHOULD</bcp14> sign their routing objects so their routes can be validated by other networks running origin validation.
+                            </t>
+                            <t>
+                                One should understand that the RPKI model brings new, interesting challenges.
+                                The paper "On the Risk of Misbehaving RPKI Authorities" <xref target="hotRPKI" format="default"/> explains how the RPKI model can impact the Internet if authorities don't behave as they are supposed to.
+                                Further analysis is certainly required on RPKI, which carries part of BGP security.
+                            </t>
+                        </section>
+                    </section>
+
+                </section>
+                <section  anchor="sec-prefixes-that-are-too-specific">
+                    <name>Prefixes That Are Too Specific</name>
+
+                    <t>
+                        Most ISPs will not accept advertisements beyond a certain level of specificity (and in return, they do not announce prefixes they consider to be too specific).
+                        That acceptable specificity is decided for each peering between the two BGP peers.
+                        Some ISP communities have tried to document acceptable specificity.
+                        This document does not make any judgement on what the best approach is, it just notes that there are existing practices on the Internet and recommends that the reader refer to them.
+                        As an example, the RIPE community has documented that, at the time of writing of this document, IPv4 prefixes longer than /24 and IPv6 prefixes longer than /48 are generally neither announced nor accepted in the Internet <xref target="RIPE-399" format="default"/>  <xref target="RIPE-532" format="default"/> .
+                        These values may change in the future.
+                    </t>
+                </section>
+                <section  anchor="sec-filtering-prefixes-belonging-to-the-local-as-and-downstreams">
+                    <name>Filtering Prefixes Belonging to the Local AS and Downstreams</name>
+
+                    <t>
+                        A network <bcp14>SHOULD</bcp14> filter its own prefixes on peerings with all itspeers (inbound direction).
+                        This prevents local traffic (from a local source to a local destination) from leaking over an external peering, in case someone else is announcing the prefix over the Internet.
+                        This also protects the infrastructure that may directly suffer if the backbone's prefix is suddenly preferred over the Internet.
+                    </t>
+                    <t>
+                        In some cases, for example, multihoming scenarios, such filters <bcp14>SHOULD NOT</bcp14> be applied, as this would break the desired redundancy.
+                    </t>
+                    <t>
+                        To an extent, such filters can also be configured on a network for the prefixes of its downstreams in order to protect them, too.
+                        Such filters must be defined with caution as they can break existing redundancy mechanisms.
+                        For example, when an operator has a multihomed customer, it should keep accepting the customer prefix from its peers and upstreams.
+                        This will make it possible for the customer to keep accessing its operator network (and other customers) via the Internet even if the BGP peering between the customer and the operator is down.
+                    </t>
+                </section>
+                <section  anchor="sec-ixp-lan-prefixes">
+                    <name>IXP LAN Prefixes</name>
+                    <section  anchor="sec-network-security">
+                        <name>Network Security</name>
+
+                        <t>
+                            When a network is present on an IXP and peers with other IXP members over a common subnet (IXP LAN prefix), it <bcp14>SHOULD NOT</bcp14> accept more- specific prefixes for the IXP LAN prefix from any of its external BGP peers.
+                            Accepting these routes may create a black hole for connectivity to the IXP LAN.
+                            If the IXP LAN prefix is accepted as an "exact match", care needs to be taken to prevent other routers in the network from sending IXP traffic towards the externally learned IXP LAN prefix (recursive route lookup pointing into the wrong direction).
+                            This can be achieved by preferring IGP routes over External BGP (EBGP), or by using "BGP next-hop-self" on all routes learned on that IXP.
+                        </t>
+                        <t>
+                            If the IXP LAN prefix is accepted at all, it <bcp14>SHOULD</bcp14> only be accepted from the ASes that the IXP authorizes to announce it -- this will usually be automatically achieved by filtering announcements using the IRR database.
+                        </t>
+                    </section>
+                    <section  anchor="sec-pmtud-and-the-loose-urpf-problem">
+                        <name>PMTUD and the Loose uRPF Problem</name>
+
+                        <t>
+                            In order to have PMTUD working in the presence of loose uRPF, it is necessary that all the networks that may source traffic that could flow through the IXP (i.e., IXP members and their downstreams) have a route for the IXP LAN prefix.
+                            This is necessary as "packet too big" ICMP messages sent by IXP members' routers may be sourced using an address of the IXP LAN prefix.
+                            In the presence of loose uRPF, this ICMP packet is dropped if there is no route for the IXP LAN prefix or    a less specific route covering IXP LAN prefix.
+                        </t>
+
+                        <t>
+                            In that case, any IXP member <bcp14>SHOULD</bcp14> make sure it has a route for the IXP LAN prefix or a less specific prefix on all its routers and that it announces the IXP LAN prefix or the less specific route (up to a default route) to its downstreams.
+                            The announcements done for this purpose <bcp14>SHOULD</bcp14> pass IRR-generated filters described in <xref target="sec-prefix-filters-created-from-internet-routing-registries-irrs" format="default"/> as well as "prefixes that are too specific" filters described in <xref target="sec-prefixes-that-are-too-specific" format="default"/>.
+                            The easiest way to implement this is for the IXP itself to take care of the origination of its prefix and advertise it to all IXP members through a BGP peering.
+                            Most likely, the BGP route servers would be used for this, and the IXP would send its entire prefix, which would be equal to or less specific than the IXP LAN prefix.
+                        </t>
+                        <t>
+                            Appendix A gives an example of guidelines regarding IXP LAN prefix.
+                        </t>
+                    </section>
+                </section>
+                <section  anchor="sec-the-default-route">
+                    <name>The Default Route</name>
+                    <section  anchor="sec-ipv4">
+                        <name>IPv4</name>
+                        <t>
+                            Typically, the 0.0.0.0/0 prefix is not intended to be accepted or advertised except in specific customer/provider configurations; general filtering outside of these is <bcp14>RECOMMENDED</bcp14>.
+                        </t>
+                    </section>
+                    <section  anchor="sec-ipv6">
+                        <name>IPv6</name>
+                        <t>
+                            Typically, the ::/0 prefix is not intended to be accepted or advertised except in specific customer/provider configurations; general filtering outside of these is <bcp14>RECOMMENDED</bcp14>.
+                        </t>
+                    </section>
+                </section>
+            </section>
+            <section  anchor="sec-prefix-filtering-recommendations-in-full-routing-networks">
+                <name>Prefix Filtering Recommendations in Full Routing Networks</name>
+                <t>
+                    For networks that have the full Internet BGP table, some policies should be applied on each BGP peer for received and advertised routes.
+                    It is <bcp14>RECOMMENDED</bcp14> that each Autonomous System configures rules for advertised and received routes at all its borders, as this will protect the network and its peer even in case of misconfiguration.
+                    The most commonly used filtering policy is proposed in this section and uses prefix filters defined in <xref target="sec-definition-of-prefix-filters" format="default"/>.
+                </t>
+                <section  anchor="sec-filters-with-internet-peers">
+                    <name>Filters with Internet Peers</name>
+                    <section  anchor="sec-inbound-filtering-with-peers">
+                        <name>Inbound Filtering</name>
+                        <t>
+                            There are basically two options -- the loose one where no check will be done against RIR allocations and the strict one where it will be verified that announcements strictly conform to what is declared in routing registries.
+                        </t>
+                        <section  anchor="sec-inbound-filtering-loose-option">
+                            <name>Inbound Filtering Loose Option</name>
+
+                            <t>
+                                In this case, the following prefixes received from a BGP peer will be filtered:
+                            </t>
+                            <ul spacing="normal">
+                                <li>
+                                    prefixes that are not globally routable (<xref target="sec-special-purpose-prefixes" format="default"/>)
+                                </li>
+                                <li>
+                                    prefixes not allocated by IANA (IPv6 only) (<xref target="sec-iana-allocated-prefix-filters" format="default"/>)
+                                </li>
+                                <li>
+                                    routes that are too specific (<xref target="sec-prefixes-that-are-too-specific" format="default"/>)
+                                </li>
+                                <li>
+                                    prefixes belonging to the local AS (<xref target="sec-filtering-prefixes-belonging-to-the-local-as-and-downstreams" format="default"/>)
+                                </li>
+                                <li>
+                                    IXP LAN prefixes (<xref target="sec-ixp-lan-prefixes" format="default"/>)
+                                </li>
+                                <li>
+                                    the default route (<xref target="sec-the-default-route" format="default"/>)
+                                </li>
+                            </ul>
+
+                        </section>
+                        <section  anchor="sec-inbound-filtering-strict-option">
+                            <name>Inbound Filtering Strict Option</name>
+                            <t>
+                                In this case, filters are applied to make sure advertisements strictly conform to what is declared in routing registries (<xref target="sec-rir-allocated-prefix-filters" format="default"/>).
+                                Warning is given as registries are not always accurate (prefixes missing, wrong information, etc.).
+                                This varies across the registries and regions of the Internet.
+                                Before applying a strict policy, the reader <bcp14>SHOULD</bcp14> check the impact on the filter and make sure the solution is not worse than the problem.
+                            </t>
+                            <t>
+                                Also, in case of script failure, each administrator may decide if all routes are accepted or rejected depending on routing policy.
+                                While accepting the routes during that time frame could break the BGP routing security, rejecting them might re-route too much traffic on transit peers, and could cause more harm than what a loose policy would have done.
+                            </t>
+                            <t>
+                                In addition to this, network administrators could apply the following filters beforehand in case the routing registry that's used as the source of information by the script is not fully trusted:
+                            </t>
+                            <ul spacing="normal">
+                                <li>
+                                    prefixes that are not globally routable (<xref target="sec-special-purpose-prefixes" format="default"/>)
+                                </li>
+                                <li>
+                                    routes that are too specific (<xref target="sec-prefixes-that-are-too-specific" format="default"/>)
+                                </li>
+                                <li>
+                                    prefixes belonging to the local AS (<xref target="sec-filtering-prefixes-belonging-to-the-local-as-and-downstreams" format="default"/>)
+                                </li>
+                                <li>
+                                    IXP LAN prefixes (<xref target="sec-ixp-lan-prefixes" format="default"/>)
+                                </li>
+                                <li>
+                                    the default route (<xref target="sec-the-default-route" format="default"/>)
+                                </li>
+                            </ul>
+                        </section>
+                    </section>
+                    <section  anchor="sec-outbound-filtering-with-peers">
+                        <name>Outbound Filtering</name>
+                        <t>
+                            The configuration should ensure that only appropriate prefixes are sent.
+                            These can be, for example, prefixes belonging to both the network in question and its downstreams.
+                            This can be achieved by using BGP communities, AS paths, or both.
+                        </t>
+                        <t>
+                            Also, it may be desirable to add the following filters before any policy to avoid unwanted route announcements due to bad configuration:
+                        </t>
+                        <ul spacing="normal">
+                            <li>
+                                Prefixes that are not globally routable (<xref target="sec-special-purpose-prefixes" format="default"/>)
+                            </li>
+                            <li>
+                                Routes that are too specific (<xref target="sec-prefixes-that-are-too-specific" format="default"/>)
+                            </li>
+                            <li>
+                                IXP LAN prefixes (<xref target="sec-ixp-lan-prefixes" format="default"/>)
+                            </li>
+                            <li>
+                                The default route (<xref target="sec-the-default-route" format="default"/>)
+                            </li>
+                        </ul>
+                        <t>
+                            If it is possible to list the prefixes to be advertised, then just configuring the list of allowed prefixes and denying the rest is sufficient.
+                        </t>
+                    </section>
+                </section>
+                <section  anchor="sec-filters-with-customers">
+                    <name>Filters with Customers</name>
+                    <section  anchor="sec-inbound-filtering-with-customers">
+                        <name>Inbound Filtering</name>
+                        <t>
+                            The inbound policy with end customers is pretty straightforward: only customer prefixes <bcp14>SHOULD</bcp14> be accepted, all others <bcp14>SHOULD</bcp14> be discarded.
+                            The list of accepted prefixes can be manually specified, after having verified that they are valid.
+                            This validation can be done with the appropriate IP address management authorities.
+                        </t>
+                        <t>
+                            The same rules apply when the customer is a network connecting other customers (for example, a Tier 1 transit provider connecting service providers).
+                            An exception is when the customer network applies strict inbound/outbound prefix filtering, and there are too many prefixes announced by that network to list them in the router configuration.
+                            In that case, filters as in <xref target="sec-inbound-filtering-with-peers" format="default"/> can be applied.
+                        </t>
+                    </section>
+                    <section  anchor="sec-outbound-filtering-with-customers">
+                        <name>Outbound Filtering</name>
+                        <t>
+                            The outbound policy with customers may vary according to the routes the customer wants to receive.
+                            In the simplest possible scenario, the customer may want to receive only the default route; this can be done easily by applying a filter with the default route only.
+                        </t>
+                        <t>
+                            In case the customer wants to receive the full routing (if it is multihomed or if it wants to have a view of the Internet table), the following filters can be applied on the BGP peering:
+                        </t>
+                        <ul spacing="normal">
+                            <li>
+                                prefixes that are not globally routable (<xref target="sec-special-purpose-prefixes" format="default"/>)
+                            </li>
+                            <li>
+                                routes that are too specific (<xref target="sec-prefixes-that-are-too-specific" format="default"/>)
+                            </li>
+                            <li>
+                                the default route (<xref target="sec-the-default-route" format="default"/>)
+                            </li>
+                        </ul>
+                        <t>
+                            In some cases, the customer may desire to receive the default route in addition to the full BGP table.
+                            This can be done by the provider simply by removing the filter for the default route.
+                            As the default route may not be present in the routing table, network administrators may decide to originate it only for peerings where it has to be advertised.
+                        </t>
+                    </section>
+                </section>
+                <section  anchor="sec-filtering-with-upstream-providers">
+                    <name>Filters with Upstream Providers</name>
+                    <section  anchor="sec-inbound-filtering-with-upstreams">
+                        <name>Inbound Filtering</name>
+                        <t>
+                            If the full routing table is desired from the upstream, the prefix filtering to apply is the same as the one for peers <xref target="sec-inbound-filtering-with-peers" format="default"/> with the exception of the default route.
+                            Sometimes, the default route (in addition to the full BGP table) can be desired from an upstream provider.
+                            If the upstream provider is supposed to announce only the default route, a simple filter will be applied to accept only the default prefix and nothing else.
+                        </t>
+                    </section>
+                    <section  anchor="sec-outbound-filtering-with-upstreams">
+                        <name>Outbound Filtering</name>
+                        <t>
+                            The filters to be applied would most likely not differ much from the ones applied for Internet peers (<xref target="sec-outbound-filtering-with-peers" format="default"/>).
+                            However, different policies could be applied if a particular upstream should not provide transit to all the prefixes.
+                        </t>
+                    </section>
+                </section>
+            </section>
+            <section  anchor="sec-prefix-filtering-recommendations-for-leaf-networks">
+                <name>Prefix Filtering Recommendations for Leaf Networks</name>
+                <section  anchor="sec-inbound-filtering-leafs">
+                    <name>Inbound Filtering</name>
+
+                        <t>
+                            The leaf network will deploy the filters corresponding to the routes it is requesting from its upstream.
+                            If a default route is requested, a simple inbound filter can be applied to accept only the default route (<xref target="sec-the-default-route" format="default"/>).
+                            If the leaf network is not capable of listing the prefixes because there are too many (for example, if it requires the full Internet routing table), then it should configure the following filters to avoid receiving bad announcements from its upstream:
+                        </t>
+                        <ul spacing="normal">
+                            <li>
+                                prefixes not routable (<xref target="sec-special-purpose-prefixes" format="default"/>)
+                            </li>
+                            <li>
+                                routes that are too specific (<xref target="sec-prefixes-that-are-too-specific" format="default"/>)
+                            </li>
+                            <li>
+                                prefixes belonging to local AS (<xref target="sec-filtering-prefixes-belonging-to-the-local-as-and-downstreams" format="default"/>)
+                            </li>
+                            <li>
+                                the default route (<xref target="sec-the-default-route" format="default"/>) depending on whether or not the route is requested
+                            </li>
+                        </ul>
+
+                </section>
+                <section  anchor="sec-outbound-filtering-leafs">
+                    <name>Outbound Filtering</name>
+                    <t>
+                        A leaf network will most likely have a very straightforward policy:
+                        it will only announce its local routes.
+                        It can also configure the prefix filters described in <xref target="sec-outbound-filtering-with-peers" format="default"/> to avoid announcing invalid routes to its upstream provider.
+                    </t>
+                </section>
+            </section>
+
+        </section>
+        <section  anchor="sec-bgp-route-flap-dampening">
+            <name>BGP Route Flap Dampening</name>
+            <t>
+                The BGP route flap dampening mechanism makes it possible to give penalties to routes each time they change in the BGP routing table.
+                Initially, this mechanism was created to protect the entire Internet from multiple events that impact a single network.
+                Studies have shown that implementations of BGP route flap dampening could cause more harm than benefit; therefore, in the past, the RIPE community has recommended against using BGP route flap dampening <xref target="RIPE-378" format="default"/> .
+                Later, studies were conducted to propose new route flap dampening thresholds in order to make the solution "usable"; see RFC 7196 <xref target="RFC7196" format="default"/> and <xref target="RIPE-580" format="default"/>  (in which RIPE reviewed its recommendations).
+                Following IETF and RIPE recommendations and using BGP route flap dampening with the adjusted configured thresholds is <bcp14>RECOMMENDED</bcp14>.
+            </t>
+        </section>
+        <section  anchor="sec-maximum-prefixes-on-a-peering">
+            <name>Maximum Prefixes on a Peering</name>
+            <t>
+                It is <bcp14>RECOMMENDED</bcp14> to configure a limit on the number of routes to be accepted from a peer.
+                The following rules are generally <bcp14>RECOMMENDED</bcp14>:
+            </t>
+            <ul spacing="normal">
+                <li>
+                    From peers, it is <bcp14>RECOMMENDED</bcp14> to have a limit lower than the number of routes in the Internet.
+                    This will shut down the BGP peering if the peer suddenly advertises the full table.
+                    Network administrators can also configure different limits for each peer, according to the number of routes they are supposed to advertise,  plus some headroom to permit growth.
+                </li>
+                <li>
+                    From upstreams that provide full routing, it is <bcp14>RECOMMENDED</bcp14> to have a limit higher than the number of routes in the Internet.
+                    A limit is still useful in order to protect the network (and in particular, the routers' memory) if too many routes are sent by the upstream.
+                    The limit should be chosen according to the number of routes that can actually be handled by routers.
+                </li>
+            </ul>
+            <t>
+                It is important to regularly review the limits that are configured as the Internet can quickly change over time.
+                Some vendors propose mechanisms to have two thresholds: while the higher number specified will shut down the peering, the first threshold will only trigger a log and can be used to passively adjust limits based on observations made on the network.
+            </t>
+        </section>
+        <section  anchor="sec-as-path-filtering">
+            <name>AS Path Filtering</name>
+            <t>
+                This section lists the <bcp14>RECOMMENDED</bcp14> practices when processing BGP AS paths.
+            </t>
+            <ul spacing="normal">
+                <li>
+                    Network administrators <bcp14>SHOULD</bcp14> accept from customers only 2-byte or 4-byte AS paths containing ASNs belonging to (or authorized to transit through) the customer.
+                    If network administrators cannot build and generate filtering expressions to implement this, they <bcp14>SHOULD</bcp14> consider accepting only path lengths relevant to the type of customer they have (as in, if these customers are a leaf or have customers of their own) and <bcp14>SHOULD</bcp14> try to discourage excessive prepending in such paths.
+                    This loose policy could be combined with filters for specific 2-byte or 4-byte AS paths that must not be accepted if advertised by the customer, such as upstream transit providers or peer ASNs.
+                </li>
+                <li>
+                    Network administrators <bcp14>SHOULD NOT</bcp14> accept prefixes with private AS numbers in the AS path unless the prefixes are from customers.
+                    An exception could occur when an upstream is offering some particular service like black-hole origination based on a private AS number:
+                    in that case, prefixes <bcp14>SHOULD</bcp14> be accepted.
+                    Customers should be informed by their upstream in order to put in place ad hoc policy to use such services.
+                </li>
+                <li>
+                    Network administrators <bcp14>SHOULD NOT</bcp14> accept prefixes when the first AS number in the AS path is not the one of the peer's unless the peering is done toward a BGP route server <xref target="RFC7947" format="default"/>  (for example, on an IXP) with transparent AS path handling.
+                    In that case, this  verification needs to be deactivated, as the first AS number will be the one of an IXP member, whereas the peer AS number will be the one of the BGP route server.
+                </li>
+                <li>
+                    Network administrators <bcp14>SHOULD NOT</bcp14> advertise prefixes with a nonempty AS path unless they intend to provide transit for these prefixes.
+                </li>
+                <li>
+                    Network administrators <bcp14>SHOULD NOT</bcp14> advertise prefixes with upstream AS numbers in the AS path to their peering AS unless they intend to provide transit for these prefixes.
+                </li>
+                <li>
+                    Private AS numbers are conventionally used in contexts that are "private" and <bcp14>SHOULD NOT</bcp14> be used in advertisements to BGP peers that are not party to such private arrangements, and they <bcp14>SHOULD</bcp14> be stripped when received from BGP peers that are not party to such private arrangements.
+                </li>
+                <li>
+                    Network administrators <bcp14>SHOULD NOT</bcp14> override BGP's default behavior, i.e., they should not accept their own AS number in the AS path.
+                    When considering an exception, the impact (which may be severe on routing) should be studied carefully.
+                </li>
+            </ul>
+            <t>
+                AS path filtering should be further analyzed when ASN renumbering is done.
+                Such an operation is common, and mechanisms exist to allow smooth ASN migration <xref target="RFC7705" format="default"/> .
+                The usual migration technique, local to a router, consists in modifying the AS path so it is presented to a peer with the previous ASN, as if no renumbering was done.
+                This makes it possible to change the ASN of a router without reconfiguring all EBGP peers at the same time (as that operation would require synchronization with all peers attached to that router).
+                During this renumbering operation, the rules described above may be adjusted.
+            </t>
+        </section>
+        <section  anchor="sec-next-hop-filtering">
+            <name>Next-Hop Filtering</name>
+            <t>
+                If peering on a shared network, like an IXP, BGP can advertise prefixes with a third-party next hop, thus directing packets not to the peer announcing the prefix but somewhere else.
+            </t>
+            <t>
+                This is a desirable property for BGP route-server setups <xref target="RFC7947" format="default"/>, where the route server will relay routing information but has neither the capacity nor the desire to receive the actual data packets.
+                So, the BGP route server will announce prefixes with a next-hop setting pointing to the router that originally announced the prefix to the route server.
+            </t>
+            <t>
+                In direct peerings between ISPs, this is undesirable, as one of the peers could trick the other one into sending packets into a black hole (unreachable next hop) or to an unsuspecting third party who would then have to carry the traffic.
+                Especially for black-holing, the root cause of the problem is hard to see without inspecting BGP prefixes at the receiving router of the IXP.
+            </t>
+            <t>
+                Therefore, an inbound route policy <bcp14>SHOULD</bcp14> be applied on IXP peerings in order to set the next hop for accepted prefixes to the BGP peer IP address (belonging to the IXP LAN) that sent the prefix (which is what "next-hop-self" would enforce on the sending side).
+            </t>
+            <t>
+                This policy <bcp14>SHOULD NOT</bcp14> be used on route-server peerings or on peerings where network administrators intentionally permit the other side to send third-party next hops.
+            </t>
+            <t>
+                This policy also <bcp14>SHOULD</bcp14> be adjusted if the best practice of Remote Triggered Black Holing (aka RTBH as described in RFC 6666 <xref target="RFC6666" format="default"/> ) is implemented.
+                In that case, network administrators would apply a well-known BGP next hop for routes they want to filter (if an Internet threat is observed from/to this route, for example).
+                This well-known next hop will be statically routed to a null interface.
+                In combination with a unicast RPF check, this will discard traffic from and toward this prefix.
+                Peers can exchange information about black holes using, for example, particular BGP communities.
+                Network administrators could propagate black-hole information to their peers using an agreed-upon BGP community: when receiving a route with that community, a configured policy could change the next hop in order to create the black hole.
+            </t>
+        </section>
+        <section  anchor="sec-bgp-community-scrubbing">
+            <name>BGP Community Scrubbing</name>
+            <t>
+                Optionally, we can consider the following rules on BGP AS paths:
+            </t>
+            <ul spacing="normal">
+                <li>
+                    Network administrators <bcp14>SHOULD</bcp14> scrub inbound communities with their number in the high-order bits, and allow only those communities that customers/peers can use as a signaling mechanism.
+                </li>
+                <li>
+                    Networks administrators <bcp14>SHOULD NOT</bcp14> remove other communities applied on received routes (communities not removed after application of the previous statement).
+                    In particular, they <bcp14>SHOULD</bcp14> keep original communities when they apply a community.
+                    Customers might need them to communicate with upstream providers.
+                    In particular, network administrators <bcp14>SHOULD NOT</bcp14> (generally) remove the no-export community, as it is usually announced by their peer for a certain purpose.
+                </li>
+            </ul>
+        </section>
+        <section  anchor="sec-security-considerations">
+            <name>Security Considerations</name>
+                <t>
+                    This document is entirely about BGP operational security.
+                    It depicts best practices that one should adopt to secure BGP infrastructure: protecting BGP router and BGP sessions, adopting consistent BGP prefix and AS path filters, and configuring other options to secure the BGP network.
+                </t>
+                <t>
+                    This document does not aim to describe existing BGP implementations, their potential vulnerabilities, or ways they handle errors.
+                    It does not detail how protection could be enforced against attack techniques using crafted packets.
+                </t>
+        </section>
+    </middle>
+
+    <back>
+        <references>
+            <name>References</name>
+            <references>
+                <name>Normative References</name>
+                <referencegroup anchor="BCP14" target="https://www.rfc-editor.org/info/bcp14">
+                    <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
+                    <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
+                </referencegroup>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4271.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5082.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5925.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6811.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7196.xml"/>
+            </references>
+            <references>
+                <name>Informative References</name>
+
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2385.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2827.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3704.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4012.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6192.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6480.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6666.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6952.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7115.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7132.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7947.xml"/>
+                <reference anchor="RIPE-351" target="https://www.ripe.net/publications/docs/ripe-351">
+                     <front>
+                       <title>De-Bogonising New Address Blocks</title>
+                       <seriesInfo name="RIPE" value="351"/>
+                       <author initials="D" surname="Daniel" fullname="Karrenberg">
+                         <organization/>
+                       </author>
+                       <date month="October" year="2005"/>
+                     </front>
+                   </reference>
+                <reference anchor="RIPE-378" target="https://www.ripe.net/publications/docs/ripe-378">
+                     <front>
+                       <title>RIPE Routing Working Group Recommendations On Route-flap Damping</title>
+                       <seriesInfo name="RIPE" value="378"/>
+                       <author initials="P" surname="Smith" fullname="Philip">
+                         <organization/>
+                       </author>
+                       <author initials="C" surname="Panigl" fullname="Christian">
+                         <organization/>
+                       </author>
+                       <date month="May" year="2006"/>
+                     </front>
+                   </reference>
+                <reference anchor="RIPE-399" target="https://www.ripe.net/publications/docs/ripe-399">
+                     <front>
+                       <title>RIPE Routing Working Group Recommendations on Route Aggregation</title>
+                       <seriesInfo name="RIPE" value="399"/>
+                       <author initials="P" surname="Smith" fullname="Philip">
+                         <organization/>
+                       </author>
+                       <author initials="R" surname="Evans" fullname="Rob">
+                         <organization/>
+                       </author>
+                       <author initials="M" surname="Hughes" fullname="Mike">
+                         <organization/>
+                       </author>
+                       <date month="December" year="2006"/>
+                     </front>
+                   </reference>
+                <reference anchor="RIPE-532" target="https://www.ripe.net/publications/docs/ripe-532">
+                     <front>
+                       <title>RIPE Routing Working Group Recommendations on IPv6 Route Aggregation</title>
+                       <seriesInfo name="RIPE" value="532"/>
+                       <author initials="R" surname="Evans" fullname="Rob">
+                         <organization/>
+                       </author>
+                       <author initials="P" surname="Smith" fullname="Philip">
+                         <organization/>
+                       </author>
+                       <date month="November" year="2011"/>
+                     </front>
+                   </reference>
+                <reference anchor="RIPE-580" target="https://www.ripe.net/publications/docs/ripe-580">
+                     <front>
+                       <title>RIPE Routing Working Group Recommendations on Route Flap Damping</title>
+                       <seriesInfo name="RIPE" value="580"/>
+                       <author initials="R" surname="Bush" fullname="Randy">
+                         <organization/>
+                       </author>
+                       <author initials="C" surname="Pelsser" fullname="Cristel">
+                         <organization/>
+                       </author>
+                       <author initials="M" surname="Kuhne" fullname="Mirjam">
+                         <organization/>
+                       </author>
+                       <author initials="O" surname="Maennel" fullname="Olaf">
+                         <organization/>
+                       </author>
+                       <author initials="P" surname="Mohapatra" fullname="Pradosh">
+                         <organization/>
+                       </author>
+                       <author initials="K" surname="Patel" fullname="Keyur">
+                         <organization/>
+                       </author>
+                       <author initials="R" surname="Evans" fullname="Rob">
+                         <organization/>
+                       </author>
+                       <date month="January" year="2013"/>
+                     </front>
+                   </reference>
+                <reference anchor="IANAv4Spec" target="https://www.iana.org/assignments/iana-ipv4-special-registry">
+                     <front>
+                       <title>IANA IPv4 Special-Purpose Address Registry</title>
+                       <author>
+                         <organization>IANA</organization>
+                       </author>
+                     </front>
+                   </reference>
+                <reference anchor="IANAv6Spec" target="https://www.iana.org/assignments/iana-ipv6-special-registry">
+                     <front>
+                       <title>IANA IPv6 Special-Purpose Address Registry</title>
+                       <author>
+                         <organization>IANA</organization>
+                       </author>
+                     </front>
+                   </reference>
+                <reference anchor="IANAv4Reg" target="https://www.iana.org/assignments/ipv4-address-space">
+                     <front>
+                       <title>IANA IPv4 Address Space Registry</title>
+                       <author>
+                         <organization>IANA</organization>
+                       </author>
+                     </front>
+                   </reference>
+                <reference anchor="IANAv6Reg" target="https://www.iana.org/assignments/ipv6-address-space">
+                     <front>
+                       <title>Internet Protocol Version 6 Address Space</title>
+                       <author>
+                         <organization>IANA</organization>
+                       </author>
+                     </front>
+                   </reference>
+                <reference anchor="RADb" target="https://www.radb.net">
+                     <front>
+                       <title>RADb - The Internet Routing Registry</title>
+                       <author>
+                         <organization>Merit Network Inc.</organization>
+                       </author>
+                     </front>
+                   </reference>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7705.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7353.xml"/>
+                <reference anchor="IRRToolSet" target="http://irrtoolset.isc.org">
+                     <front>
+                       <title>IRRToolSet project page</title>
+                       <author>
+                         <organization>ISC</organization>
+                       </author>
+                     </front>
+                   </reference>
+                <reference anchor="hotRPKI" target="https://dl.acm.org/doi/pdf/10.1145/2535771.2535787">
+                     <front>
+                       <title></title>
+                       <seriesInfo name="DOI" value="10.1145/2535771.2535787"/>
+                       <author initials="D" surname="Cooper" fullname="Danny">
+                         <organization/>
+                       </author>
+                       <author initials="E" surname="Heilman" fullname="Ethan">
+                         <organization/>
+                       </author>
+                       <author initials="K" surname="Brogle" fullname="Kyle">
+                         <organization/>
+                       </author>
+                       <author initials="L" surname="Reyzin" fullname="Leonid">
+                         <organization/>
+                       </author>
+                       <author initials="S" surname="Goldberg" fullname="Sharon">
+                         <organization/>
+                       </author>
+                       <date month="November" year="2013"/>
+                     </front>
+                   </reference>
+            </references>
+        </references>
+        <section  anchor="sec-ixp-lan-prefix-filtering-example">
+            <name>IXP LAN Prefix Filtering - Example</name>
+            <t>
+                An IXP in the RIPE region is allocated an IPv4 /22 prefix by RIPE NCC (X.Y.0.0/22 in this example) and uses a /23 of this /22 for the IXP LAN (let say X.Y.0.0/23).
+                This IXP LAN prefix is the one used by IXP members to configure EBGP peerings.
+                The IXP could also be allocated an AS number (AS64496 in our example).
+            </t>
+
+            <t>
+                Any IXP member <bcp14>SHOULD</bcp14> make sure it filters prefixes more specific than X.Y.0.0/23 from all its EBGP peers.
+                If it received X.Y.0.0/24 or X.Y.1.0/24 this could seriously impact its routing.
+            </t>
+
+            <t>
+                The IXP <bcp14>SHOULD</bcp14> originate X.Y.0.0/22 and advertise it to its members through an EBGP peering (most likely from its BGP route servers, configured with AS64496).
+            </t>
+
+            <t>
+                The IXP members <bcp14>SHOULD</bcp14> accept the IXP prefix only if it passes the IRR generated filters (see <xref target="sec-prefix-filters-created-from-internet-routing-registries-irrs" format="default"/>)
+                IXP members <bcp14>SHOULD</bcp14> then advertise X.Y.0.0/22 prefix to their downstreams.
+                This announce would pass IRR based filters as it is originated by the IXP.
+            </t>
+        </section>
+        <section anchor="acknowledgements" numbered="false" toc="default">
+            <name>Acknowledgements</name>
+        </section>
+    </back>
+</rfc>
