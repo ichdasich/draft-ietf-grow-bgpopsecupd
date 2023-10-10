@@ -5,7 +5,6 @@
 *.txt
 *.upload
 *~
-.idea/
 .tags
 /*-[0-9][0-9].xml
 /.gems/
@@ -18,7 +17,7 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-fiebig-opsec-bgpopsecupd.xml*
+draft-fiebig-opsec-bgpopsecupd.xml
 package-lock.json
 report.xml
 !requirements.txt
