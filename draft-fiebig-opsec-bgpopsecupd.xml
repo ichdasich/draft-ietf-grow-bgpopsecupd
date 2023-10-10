@@ -98,86 +98,86 @@
                 The following terms are used in this document:
             </t>
             <dl newline="true" spacing="normal">
-                <dt>ACL</dt>
+                <dt>ACL:</dt>
                 <dd>Access Control List</dd>
 
-                <dt>ASN</dt>
+                <dt>ASN:</dt>
                 <dd>Autonomous System Number</dd>
 
-                <dt>DFZ</dt>
+                <dt>DFZ:</dt>
                 <dd>Default Free Zone</dd>
 
-                <dt>GRT</dt>
+                <dt>GRT:</dt>
                 <dd>Global Routing Table</dd>
 
-                <dt>IRR</dt>
+                <dt>IRR:</dt>
                 <dd>Internet Routing Registry</dd>
 
-                <dt>IXP</dt>
+                <dt>IXP:</dt>
                 <dd>Internet Exchange Point</dd>
 
-                <dt>LIR</dt>
+                <dt>LIR:</dt>
                 <dd>Local Internet Registry</dd>
 
-                <dt>OTC</dt>
+                <dt>OTC:</dt>
                 <dd>Only To Customer BGP Attribute</dd>
 
-                <dt>PMTUD</dt>
+                <dt>PMTUD:</dt>
                 <dd>Path MTU Discovery</dd>
 
-                <dt>uRPF</dt>
+                <dt>uRPF:</dt>
                 <dd>Unicast Reverse Path Forwarding</dd>
             </dl>
             <t>
                 In addition to the list above, the following terms are used with a specific meaning.
             </t>
             <dl newline="true" spacing="normal">
-                <dt>BGP Speaker</dt>
+                <dt>BGP Speaker:</dt>
                 <dd>A device exchanging routes with other BGP speakers using the BGP protocol</dd>
 
-                <dt>BGP Neighbor</dt>
+                <dt>BGP Neighbor:</dt>
                 <dd>Also just 'Neighbor'. Two BGP speakers that communicate using the BGP protocols are neighbors.</dd>
 
-                <dt>Downstream</dt>
+                <dt>Downstream:</dt>
                 <dd>In a direct relationship between two ASes the one receiving upstream from the other. (See: <xref target="RFC9234" format="default"/>)</dd>
 
-                <dt>Exporting a Prefix</dt>
+                <dt>Exporting a Prefix:</dt>
                 <dd>Advertising a prefix to a neighbor.</dd>
 
-                <dt>Full Table</dt>
+                <dt>Full Table:</dt>
                 <dd>A routing table containing a route to all prefixes in the GRT but not the default route.</dd>
 
-                <dt>Importing a Prefix</dt>
+                <dt>Importing a Prefix:</dt>
                 <dd>Accepting a prefix advertised by a neighbor and considering it for route selection and import into the local AS' routing table.</dd>
 
-                <dt>Originating a Prefix</dt>
+                <dt>Originating a Prefix:</dt>
                 <dd>Advertising a prefix with an empty AS-Path.</dd>
 
-                <dt>Network edge</dt>
+                <dt>Network edge:</dt>
                 <dd>Last routers under the control of an operator.</dd>
 
-                <dt>Upstream</dt>
+                <dt>Upstream:</dt>
                 <dd>In a direct relationship between two ASes the one providing upstream to the other. (See: <xref target="RFC9234" format="default"/>)</dd>
 
-                <dt>Operator</dt>
+                <dt>Operator:</dt>
                 <dd>Individual or entity operating BGP speakers and setting policies for all BGP speakers within an organization.</dd>
 
-                <dt>Peer</dt>
+                <dt>Peer:</dt>
                 <dd>Two directly connected ASes who only advertise routes they originate or learned from their downstreams to each other. (See: <xref target="RFC9234" format="default"/>)</dd>
 
-                <dt>Mutual Upstream</dt>
+                <dt>Mutual Upstream:</dt>
                 <dd>When two directly connected ASes both advertise a BGP fulltable to each other. (See: <xref target="I-D.ietf-sidrops-aspa-verification" format="default"/>)</dd>
 
-                <dt>Providing Transit</dt>
+                <dt>Providing Transit:</dt>
                 <dd>Forwarding packets destined for addresses in an advertised prefix.</dd>
 
-                <dt>Providing Upstream</dt>
+                <dt>Providing Upstream:</dt>
                 <dd>Providing transit while advertising a full BGP table or default route to the neighbor.</dd>
 
-                <dt>Router</dt>
+                <dt>Router:</dt>
                 <dd>In this document, router always refers to a BGP speaker.</dd>
 
-                <dt>Tier 1</dt>
+                <dt>Tier 1:</dt>
                 <dd>The minimal set of all ASNs who have downstreams and, for which for each touple (A,B) of two ASes from this set it holds that: i) A and B only occur directly adjacent in AS paths in the GRT. ii) All ASNs further to the left being in the cone of the left AS, and all ASNs on the right being in the cone of the right AS.</dd>
 
             </dl>
