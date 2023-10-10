@@ -2,16 +2,16 @@
 
 This is the working area for the individual Internet-Draft, "BGP Operations and Security".
 
-* [Editor's Copy](https://as207960.github.io/rfc7454-bis/#go.draft-misell-opsec-rfc7454bis.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-misell-opsec-rfc7454bis)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-misell-opsec-rfc7454bis)
-* [Compare Editor's Copy to Individual Draft](https://as207960.github.io/rfc7454-bis/#go.draft-misell-opsec-rfc7454bis.diff)
+* [Editor's Copy](https://ichdasich.github.io/draft-fiebig-opsec-bgpopsecupd/#go.draft-fiebig-opsec-bgpopsecupd.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-fiebig-opsec-bgpopsecupd)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-fiebig-opsec-bgpopsecupd)
+* [Compare Editor's Copy to Individual Draft](https://ichdasich.github.io/draft-fiebig-opsec-bgpopsecupd/#go.draft-fiebig-opsec-bgpopsecupd.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/as207960/rfc7454-bis/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/ichdasich/draft-fiebig-opsec-bgpopsecupd/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.
