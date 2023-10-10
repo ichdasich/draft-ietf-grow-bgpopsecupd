@@ -162,12 +162,12 @@
                     If supported, an ACL specific to the control plane of the router <bcp14>SHOULD</bcp14> be used (receive-ACL, control-plane policing, etc.), to avoid configuration of data-plane filters for packets transiting through the router (and therefore not reaching the control plane).
                     If the hardware cannot do that, interface ACLs can be used to block packets addressed to the local router.
                 </t>
-    
+
                 <t>
                     Some routers automatically program such an ACL upon BGP configuration.
                     On other devices, this ACL should be configured and maintained manually or using scripts.
                 </t>
-    
+
                 <t>
                     In addition to strict filtering, rate-limiting MAY be configured for accepted BGP traffic.
                     Rate-limiting BGP traffic consists in permitting only a certain quantity of bits per second (or packets per second) of BGP traffic to the control plane.
@@ -508,7 +508,7 @@
                             If a ROA is not found, then the prefix <bcp14>SHOULD</bcp14> be accepted, but the corresponding route <bcp14>SHOULD</bcp14> be given a low preference.
                         </li>
                     </ul>
-    
+
                     <t>
                         In addition to this, network administrators <bcp14>SHOULD</bcp14> sign their routing objects so their routes can be validated by other networks running origin validation.
                         Please note that, when signing routing objects, operators <bcp14>SHOULD</bcp14> strive to sign exact matches of their intended announcements, see <xref target="KIRIN-22" format="default"/>.
