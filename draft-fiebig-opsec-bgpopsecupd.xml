@@ -98,46 +98,87 @@
                 The following terms are used in this document:
             </t>
             <dl newline="true" spacing="normal">
-                <dt>ACL:</dt>
+                <dt>ACL</dt>
                 <dd>Access Control List</dd>
 
-                <dt>ASN:</dt>
+                <dt>ASN</dt>
                 <dd>Autonomous System Number</dd>
 
-                <dt>IRR:</dt>
+                <dt>DFZ</dt>
+                <dd>Default Free Zone</dd>
+
+                <dt>GRT</dt>
+                <dd>Global Routing Table</dd>
+
+                <dt>IRR</dt>
                 <dd>Internet Routing Registry</dd>
 
-                <dt>IXP:</dt>
+                <dt>IXP</dt>
                 <dd>Internet Exchange Point</dd>
 
-                <dt>LIR:</dt>
+                <dt>LIR</dt>
                 <dd>Local Internet Registry</dd>
 
-                <dt>PMTUD:</dt>
+                <dt>OTC</dt>
+                <dd>Only To Customer BGP Attribute</dd>
+
+                <dt>PMTUD</dt>
                 <dd>Path MTU Discovery</dd>
 
-                <dt>RIR:</dt>
-                <dd>Regional Internet Registry</dd>
-
-                <dt>Tier 1 transit provider:</dt>
-                <dd>an IP transit provider that can reach any network on the Internet without purchasing transit services.</dd>
-
-                <dt>uRPF:</dt>
+                <dt>uRPF</dt>
                 <dd>Unicast Reverse Path Forwarding</dd>
-
             </dl>
             <t>
                 In addition to the list above, the following terms are used with a specific meaning.
             </t>
             <dl newline="true" spacing="normal">
-                <dt>Downstream:</dt>
-                <dd>any network that is downstream; it can be a provider or a customer network.</dd>
+                <dt>BGP Speaker</dt>
+                <dd>A device exchanging routes with other BGP speakers using the BGP protocol</dd>
 
-                <dt>Upstream:</dt>
-                <dd>any network that is upstream.</dd>
+                <dt>BGP Neighbor</dt>
+                <dd>Also just 'Neighbor'. Two BGP speakers that communicate using the BGP protocols are neighbors.</dd>
 
-                <dt>Peer:</dt>
-                <dd>any network that is neither upstream or downstream.</dd>
+                <dt>Downstream</dt>
+                <dd>In a direct relationship between two ASes the one receiving upstream from the other. (See: <xref target="RFC9234" format="default"/>)</dd>
+
+                <dt>Exporting a Prefix</dt>
+                <dd>Advertising a prefix to a neighbor.</dd>
+
+                <dt>Full Table</dt>
+                <dd>A routing table containing a route to all prefixes in the GRT but not the default route.</dd>
+
+                <dt>Importing a Prefix</dt>
+                <dd>Accepting a prefix advertised by a neighbor and considering it for route selection and import into the local AS' routing table.</dd>
+
+                <dt>Originating a Prefix</dt>
+                <dd>Advertising a prefix with an empty AS-Path.</dd>
+
+                <dt>Network edge</dt>
+                <dd>Last routers under the control of an operator.</dd>
+
+                <dt>Upstream</dt>
+                <dd>In a direct relationship between two ASes the one providing upstream to the other. (See: <xref target="RFC9234" format="default"/>)</dd>
+
+                <dt>Operator</dt>
+                <dd>Individual or entity operating BGP speakers and setting policies for all BGP speakers within an organization.</dd>
+
+                <dt>Peer</dt>
+                <dd>Two directly connected ASes who only advertise routes they originate or learned from their downstreams to each other. (See: <xref target="RFC9234" format="default"/>)</dd>
+
+                <dt>Mutual Upstream</dt>
+                <dd>When two directly connected ASes both advertise a BGP fulltable to each other. (See: <xref target="I-D.ietf-sidrops-aspa-verification" format="default"/>)</dd>
+
+                <dt>Providing Transit</dt>
+                <dd>Forwarding packets destined for addresses in an advertised prefix.</dd>
+
+                <dt>Providing Upstream</dt>
+                <dd>Providing transit while advertising a full BGP table or default route to the neighbor.</dd>
+
+                <dt>Router</dt>
+                <dd>In this document, router always refers to a BGP speaker.</dd>
+
+                <dt>Tier 1</dt>
+                <dd>The minimal set of all ASNs who have downstreams and, for which for each touple (A,B) of two ASes from this set it holds that: i) A and B only occur directly adjacent in AS paths in the GRT. ii) All ASNs further to the left being in the cone of the left AS, and all ASNs on the right being in the cone of the right AS.</dd>
 
             </dl>
         </section>
@@ -233,7 +274,7 @@
                         Protection of TCP sessions used by BGP hence <bcp14>MAY</bcp14> be enabled even when peerings are established over shared networks where spoofing can be done (like IXPs), but operators are <bcp14>RECOMMENDED</bcp14> to consider the trade-offs and to apply TCP session protection where appropriate.
                     </t>
                     <t>
-                        Furthermore, network administrators <bcp14>SHOULD</bcp14> block spoofed packets (packets with a source IP address belonging to their IP address space) at all edges of their network (see RFC 2827 <xref target="RFC2827" format="default"/>  and RFC 3704 <xref target="RFC3704" format="default"/> ).
+                        Furthermore, network administrators <bcp14>SHOULD</bcp14> block spoofed packets (packets with a source IP address not belonging to their IP address space) at all edges of their network (see RFC 2827 <xref target="RFC2827" format="default"/>  and RFC 3704 <xref target="RFC3704" format="default"/> ).
                         This protects the TCP session used by Internal BGP (IBGP) from attackers outside the Autonomous System.
                         Similarly, the considerations for using non globally reachable addresses for links handling BGP sessions from <xref target="sec-protection-of-the-bgp-speaker-net" format="default"/> apply accordingly.
                     </t>
@@ -245,7 +286,7 @@
                         The attack leverages packet fragmentation to bypass standard TCP protection mechanisms, so routes can be injected into an established BGP session.
                         While the attack would be mitigated by the integrity mechanisms suggested in <xref target="sec-protection-of-tcp-sessions-used-by-bgp-integrity" format="default"/>, operators <bcp14>SHOULD</bcp14> additionally take precautions to defend against these attacks, especially if authentication mechanisms are not in use.
                         To mitigate this attack, BGP speakers should not allow packet fragmentation on the control plane for BGP traffic between themselves and their peers.
-                        This is feasible, as even on multi hop sessions, the path MTU should be known to the operators, meaning that it can be statically and consistently configured for both speakers involved in a session to prevent the need for fragmentation.
+                        This is feasible, as even on multi-hop sessions, the path MTU should be known to the operators, meaning that it can be statically and consistently configured for both speakers involved in a session to prevent the need for fragmentation.
                         Hence, operators <bcp14>SHOULD</bcp14> ensure that fragmentation is neither allowed nor necessary for BGP packets between two BGP speakers.
                         If this is not possible, a strict lower limit for the MTU <bcp14>SHOULD</bcp14> be configured.
                         Given that IPv6 requires an MTU of at least 1280b, this value is the <bcp14>RECOMMENDED</bcp14> minimum.
@@ -321,7 +362,7 @@
                         Administrators can dynamically build this list from the IANA- allocated IPv6 space <xref target="IANAv6Reg" format="default"/>.
                         As IANA keeps allocating prefixes to RIRs, the aforementioned list should be checked regularly against changes, and if they occur, prefix filters should be computed and pushed on network devices.
                         The list could also be pulled directly by routers when they implement such mechanisms.
-                        As there is delay between the time a RIR receives a new prefix and the moment it starts allocating portions of it to its LIRs, there is no need for doing this step quickly and frequently.
+                        As there is delay between the time an RIR receives a new prefix and the moment it starts allocating portions of it to its LIRs, there is no need for doing this step quickly and frequently.
                         However, network administrators <bcp14>SHOULD</bcp14> ensure that all IPv6 prefix filters are updated within a maximum of one month after any change in the list of IPv6 prefixes allocated by IANA.
                     </t>
                     <t>
@@ -388,7 +429,7 @@
             <section  anchor="sec-rir-allocated-prefix-filters">
                 <name>Prefix Filters Created from Internet Routing Registries (IRRs)</name>
                 <t>
-                    A more precise check can be performed when one would like to make sure that prefixes they receive are being originated or transited by Autonomous Systems (ASes) entitled to do so.
+                    A more precise check can be performed when one would like to make sure that received prefixes are being originated or transited by Autonomous Systems (ASes) entitled to do so.
                     It has been observed in the past that an AS could easily advertise someone else's prefix (or more specific prefixes) and create black holes or security threats.
                     To partially mitigate this risk, administrators would need to make sure BGP advertisements correspond to information located in the existing registries.
                 </t>
@@ -425,7 +466,7 @@
                     <t>
                         Please note that different IRR may provide conflicting data, especially on AS-SETs.
                         Recently, an attack was observed where a malicious party created an empty AS-SET for a large transit provider (see <xref target="NLNOG-22" format="default"/>).
-                        As it was created in a database often taking precedent over other IRR sources, several ASes imported this empty AS-SET, and hence filtered all prefixes advertised by this transit provider.
+                        As it was created in an RIR database often taking precedent over other IRR sources, several ASes imported this empty AS-SET, and hence filtered all prefixes advertised by this transit provider.
                         To mitigate this issue, hierachical AS-SETs reside in the IRR of the RIR and explicitly list the ASN to which they pertain, e.g., AS65536:AS-EXAMPLE.
                         Additionally, the IRR source may also be referenced: RIPE::AS65536:AS-EXAMPLE.
                     </t>
@@ -438,15 +479,15 @@
                 <section  anchor="sec-prefix-filters-created-from-internet-routing-registries-irrs-creating-filters">
                     <name>Recursively Computing Filters</name>
                     <t>
-                        Using AS-SETs and ROUTE/ROUTE6 objects, it is possible to use the IRR information to build, for a given neighbor AS, a list of originated or transited prefixes that one may accept.
+                        Using AS-SETs and ROUTE/ROUTE6 objects, it is possible to use the IRR information to build, for a given neighbor AS, a list of prefixes the neighbor is authorized to originated or transited.
                         This can be done relatively easily using scripts and existing tools capable of retrieving this information from the registries.
                         This approach is exactly the same for both IPv4 and IPv6.
                     </t>
                     <t>
                         The macro-algorithm for the script is as follows.
-                        For the peer that is considered, the distant network administrator has provided the AS and may be able to provide an hierachically named AS-SET object (aka AS-MACRO).
-                        With these two mechanisms, a script can build, for a given peer, the list of allowed prefixes and the AS number from which they should be originated.
-                        One could decide not use the origin information and only build monolithic prefix filters from fetched data.
+                        For the peer that is considered, the distant network administrator has provided the AS and may be able to provide a hierachically named AS-SET object (aka AS-MACRO).
+                        With these two mechanisms, a script can build, for a given peer, that lists allowed prefixes and the AS number from which they should be originated.
+                        One could decide not to use the origin information and only build monolithic prefix filters from fetched data combining prefixes a neighbor is authorized to transit and originate.
                     </t>
                     <t>
                         As prefixes, AS numbers, and AS-SETs may not all be under the same RIR authority, it is difficult to choose for each object the appropriate IRR to poll.
