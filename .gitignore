@@ -18,7 +18,7 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-misell-opsec-rfc7454bis.xml
+draft-fiebig-opsec-bgpopsecupd.xml*
 package-lock.json
 report.xml
 !requirements.txt
