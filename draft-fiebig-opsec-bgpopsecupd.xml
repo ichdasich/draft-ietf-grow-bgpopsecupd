@@ -180,9 +180,6 @@
                 <dt>Router:</dt>
                 <dd>In this document, router always refers to a BGP speaker.</dd>
 
-                <dt>Tier 1:</dt>
-                <dd>The minimal set of all ASNs who have downstreams and, for which for each touple (A,B) of two ASes from this set it holds that: i) A and B only occur directly adjacent in AS paths in the GRT. ii) All ASNs further to the left being in the cone of the left AS, and all ASNs on the right being in the cone of the right AS.</dd>
-
             </dl>
         </section>
         <section  anchor="sec-protection-of-the-bgp-speaker">
@@ -462,7 +459,7 @@
                         An AS-SET is an object that contains AS numbers or other AS-SETs.
                         The purpose of AS-SETs is creating a recursively queryable structure documenting the cone of an AS.
                         An operator may create an AS-SET defining all AS numbers of its customers.
-                        A Tier 1 transit provider might create an AS-SET describing the AS-SET of connected operators, which in turn describe the AS numbers of their customers.
+                        A transit provider might create an AS-SET listing the AS numbers or AS-SETS of those ASes it provides upstream to. In turn, these ASes describe the AS numbers/AS-SETS of their customers, etc.
                         Using recursion, it is possible to retrieve from an AS-SET the complete list of AS numbers that the neighbor is likely to announce.
                         For each of these AS numbers, it is also easy to look in the corresponding IRR for all associated prefixes.
                     </t>
