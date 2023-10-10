@@ -552,7 +552,7 @@
 
                     <t>
                         In addition to this, operators <bcp14>SHOULD</bcp14> sign their routing objects so their routes can be validated by other networks running origin validation.
-                        Please note that, when signing routing objects, operators <bcp14>SHOULD</bcp14> strive to sign exact matches of their intended announcements, see <xref target="KIRIN-22" format="default"/>.
+                        Please note that, when signing routing objects, operators <bcp14>SHOULD</bcp14> strive to create minimally covering ROAs for their intended announcements, see <xref target="RFC7115" format="default"/> and <xref target="RFC9319" format="default"/>, to reduce the attack surface of attempts to exhaust routers' route processing capacity in terms of memory and CPU <xref target="KIRIN-22" format="default"/>.
                         For example, if an operator received a /29 allocation and intends to announce it in a deaggregation of /32, the corresponding ROA should cover the /29 with a longest allowed prefix of /32, instead of signing for a deaggregation up until /48.
                     </t>
                     <t>
@@ -1495,12 +1495,14 @@
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5082.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5925.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6811.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7115.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7196.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8092.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8195.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8201.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8704.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9234.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9319.xml"/>
                 <reference anchor="I-D.ietf-sidrops-aspa-verification" target="https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-aspa-verification-16">
                     <front>
                         <title>BGP AS_PATH Verification Based on Autonomous System Provider Authorization (ASPA) Objects</title>
@@ -1542,7 +1544,6 @@
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6480.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6666.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6952.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7115.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7132.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7947.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9229.xml"/>
