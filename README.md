@@ -1,6 +1,6 @@
-# BGP Operations and Security
+# Updated BGP Operations and Security
 
-This is the working area for the individual Internet-Draft, "BGP Operations and Security".
+This is the working area for the individual Internet-Draft, "Updated BGP Operations and Security".
 
 * [Editor's Copy](https://ichdasich.github.io/draft-fiebig-opsec-bgpopsecupd/#go.draft-fiebig-opsec-bgpopsecupd.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-fiebig-opsec-bgpopsecupd)
