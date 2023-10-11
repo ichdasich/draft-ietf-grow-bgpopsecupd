@@ -1548,6 +1548,7 @@
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6666.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6952.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7132.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7454.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7947.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9229.xml"/>
                 <reference anchor="TBD" target="https://example.com">
@@ -1852,6 +1853,9 @@
         </references>
         <section anchor="acknowledgements" numbered="false" toc="default">
             <name>Acknowledgements</name>
+			<t>
+				This document is based on <xref target="RFC7545" format="default"/> and we thank the original authors for their work.
+			</t>
         </section>
     </back>
 </rfc>
