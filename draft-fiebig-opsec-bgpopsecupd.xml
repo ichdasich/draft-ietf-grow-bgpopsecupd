@@ -119,6 +119,9 @@
                 <dt>LIR:</dt>
                 <dd>Local Internet Registry</dd>
 
+                <dt>NLRI:</dt>
+                <dd>Network Layer Reachability Information</dd>
+
                 <dt>OTC:</dt>
                 <dd>Only To Customer BGP Attribute</dd>
 
@@ -153,11 +156,11 @@
                 <dt>Importing a Prefix:</dt>
                 <dd>Accepting a prefix advertised by a neighbor and considering it for route selection and import into the local AS' routing table.</dd>
 
-                <dt>Originating a Prefix:</dt>
-                <dd>Advertising a prefix with an empty AS-Path.</dd>
-
                 <dt>Network edge:</dt>
                 <dd>Last routers under the control of an operator.</dd>
+
+                <dt>Mutual Upstream:</dt>
+                <dd>When two directly connected ASes both advertise a BGP fulltable to each other. (See: <xref target="I-D.ietf-sidrops-aspa-verification" format="default"/>)</dd>
 
                 <dt>Upstream:</dt>
                 <dd>In a direct relationship between two ASes the one providing upstream to the other. (See: <xref target="RFC9234" format="default"/>, also known as the provider in a customer-provider relationship.)</dd>
@@ -165,11 +168,11 @@
                 <dt>Operator:</dt>
                 <dd>Individual, group of people, or organizational unit responsible for operating BGP speakers, i.e., making administrative changes, as well as defining and setting policies for all BGP speakers within an organization.</dd>
 
+                <dt>Originating a Prefix:</dt>
+                <dd>Advertising a prefix with an empty AS-Path.</dd>
+
                 <dt>Peer:</dt>
                 <dd>Two directly connected ASes who only advertise routes they originate or learned from their downstreams to each other. (See: <xref target="RFC9234" format="default"/>)</dd>
-
-                <dt>Mutual Upstream:</dt>
-                <dd>When two directly connected ASes both advertise a BGP fulltable to each other. (See: <xref target="I-D.ietf-sidrops-aspa-verification" format="default"/>)</dd>
 
                 <dt>Providing Transit:</dt>
                 <dd>Forwarding packets destined for addresses in an advertised prefix.</dd>
