@@ -504,7 +504,7 @@
                         As objects in IRRs may frequently vary over time, it is important that prefix filters computed using this mechanism are refreshed regularly.
                         Refreshing the filters on a daily basis <bcp14>SHOULD</bcp14> be considered because routing changes must sometimes be done in an emergency and registries may be updated at the very last moment.
                         Note that this approach significantly increases the complexity of the router configurations, as it can quickly add tens of thousands of configuration lines for some important neighbors, e.g., large peers or downstreams.
-                        To manage this complexity, operators could use, for example, IRRToolSet <xref target="IRRToolSet" format="default"/>, a set of tools making it possible to simplify the creation of automated filter configuration from policies stored in an IRR.
+                        To manage this complexity, operators could use, for example, bgpq4 <xref target="bgpq4" format="default"/>, a set of tools making it possible to simplify the creation of automated filter configuration from policies stored in an IRR.
                     </t>
                 </section>
             </section>
@@ -1818,12 +1818,12 @@
                        </author>
                      </front>
                    </reference>
-                <reference anchor="IRRToolSet" target="http://irrtoolset.isc.org">
+                <reference anchor="bgpq4" target="https://github.com/bgp/bgpq4">
                      <front>
-                       <title>IRRToolSet project page</title>
-                       <author>
-                         <organization>ISC</organization>
-                       </author>
+                       <title>bgpq4 Git Repository</title>
+                         <author initials="J." surname="Snijders" fullname="Job Snijders">
+                            <organization>Fastly</organization>
+                         </author>
                      </front>
                    </reference>
                 <reference anchor="hotRPKI" target="https://dl.acm.org/doi/pdf/10.1145/2535771.2535787">
