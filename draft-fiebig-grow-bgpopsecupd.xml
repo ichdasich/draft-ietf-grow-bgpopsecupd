@@ -322,7 +322,7 @@
                     While it is in general sensible to not accept routing table prefixes that are not allocated by IANA and/or RIRs, it is important to understand that filtering unallocated prefixes requires constant updates, as prefixes are continually allocated.
                     Therefore, automation of such prefix filters is key for the success of this approach.
                     Operators <bcp14>SHOULD NOT</bcp14> consider solutions described in this section if they are not capable of maintaining updated prefix filters: the damage would probably be worse than the intended security policy.
-                    In this section we focus on IP adress space allocated to RIRs by IANA.
+                    In this section we focus on IP address space allocated to RIRs by IANA.
                     Allocations by RIRs are generally more dynamic.
                     Therefore, we will discuss using RIR level data in <xref target="sec-rir-allocated-prefix-filters" format="default"/>.
                 </t>
@@ -443,12 +443,12 @@
                         Please note that different IRR may provide conflicting data, especially on AS-SETs.
                         Recently, an attack was observed where a malicious party created an empty AS-SET for a large transit provider (see <xref target="NLNOG-22" format="default"/>).
                         As it was created in an RIR database often taking precedent over other IRR sources, several ASes imported this empty AS-SET, and hence filtered all prefixes advertised by this transit provider.
-                        To mitigate this issue, hierachical AS-SETs reside in the IRR of the RIR and explicitly list the ASN to which they pertain, e.g., AS65536:AS-EXAMPLE.
+                        To mitigate this issue, hierarchical AS-SETs reside in the IRR of the RIR and explicitly list the ASN to which they pertain, e.g., AS65536:AS-EXAMPLE.
                         Additionally, the IRR source may also be referenced: RIPE::AS65536:AS-EXAMPLE.
                     </t>
                     <t>
-                        Operators <bcp14>SHOULD</bcp14> create a hierachical AS-SET representing their cone.
-                        If AS-SETs are included in another AS-SET, they <bcp14>SHOULD</bcp14> be hierachical.
+                        Operators <bcp14>SHOULD</bcp14> create a hierarchical AS-SET representing their cone.
+                        If AS-SETs are included in another AS-SET, they <bcp14>SHOULD</bcp14> be hierarchical.
                     </t>
                 </section>
 
@@ -461,7 +461,7 @@
                     </t>
                     <t>
                         The macro-algorithm for the script is as follows.
-                        For the neighbor that is considered, the distant operator has provided the AS and may be able to provide a hierachically named AS-SET object (aka AS-MACRO).
+                        For the neighbor that is considered, the distant operator has provided the AS and may be able to provide a hierarchically named AS-SET object (aka AS-MACRO).
                         With these two mechanisms, a script can build, for a given neighbor, that lists allowed prefixes and the AS number from which they should be originated.
                         One could decide not to use the origin information and only build monolithic prefix filters from fetched data combining prefixes a neighbor is authorized to transit and originate.
                     </t>
