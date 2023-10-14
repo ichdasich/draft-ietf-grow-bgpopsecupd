@@ -1826,9 +1826,9 @@
         </references>
         <section anchor="acknowledgements" numbered="false" toc="default">
             <name>Acknowledgements</name>
-			<t>
-				This document is based on <xref target="RFC7545" format="default"/> and we thank the original authors for their work.
-			</t>
+            <t>
+                This document is based on <xref target="RFC7454" format="default"/> and we thank the original authors for their work.
+            </t>
         </section>
     </back>
 </rfc>
