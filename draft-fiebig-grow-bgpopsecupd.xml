@@ -7,10 +7,10 @@
         <!ENTITY wj     "&#8288;">
 ]>
 <rfc xmlns:xi="http://www.w3.org/2001/XInclude"
-     ipr="trust200902" submissionType="IETF" category="bcp" version="3" docName="draft-fiebig-opsec-bgpopsecupd-latest">
+     ipr="trust200902" submissionType="IETF" category="bcp" version="3" docName="draft-fiebig-grow-bgpopsecupd-latest">
     <front>
         <title abbrev="BGP OPSEC">Updated BGP Operations and Security</title>
-        <seriesInfo name="Internet-Draft" status="standard" value="draft-fiebig-opsec-bgpopsecupd-latest"/>
+        <seriesInfo name="Internet-Draft" status="standard" value="draft-fiebig-grow-bgpopsecupd-latest"/>
         <author fullname="Tobias Fiebig" initials="T." surname="Fiebig">
             <organization abbrev="MPI-INF">Max-Planck-Institut fuer Informatik</organization>
             <address>
@@ -22,33 +22,6 @@
                 </postal>
                 <phone>+49 681 9325 3527</phone>
                 <email>tfiebig@mpi-inf.mpg.de</email>
-            </address>
-        </author>
-        <author fullname="Carlos M. Martinez" initials="C." surname="Martinez">
-            <organization abbrev="LACNIC">Latin American and Caribbean Internet Address Registry</organization>
-            <address>
-                <postal>
-                    <street>Rambla Mexico 6125</street>
-                    <city>Montevideo</city>
-                    <code>11400</code>
-                    <country>Uruguay</country>
-                </postal>
-                <phone>+598 2604 2222</phone>
-                <email>carlos@lacnic.net</email>
-            </address>
-        </author>
-        <author fullname="Q Misell" initials="Q" surname="Misell">
-            <organization abbrev="AS207960">AS207960 Cyfyngedig</organization>
-            <address>
-                <postal>
-                    <street>13 Pen-y-lan Terrace</street>
-                    <city>Caerdydd</city>
-                    <code>CF23 9EU</code>
-                    <country>United Kingdom</country>
-                </postal>
-                <email>q@as207970.net</email>
-                <email>q@magicalcodewit.ch</email>
-                <uri>https://magicalcodewit.ch</uri>
             </address>
         </author>
         <area>ops</area>
