@@ -32,10 +32,18 @@
                 The Border Gateway Protocol (BGP) is the protocol almost exclusively used in the Internet to exchange routing information between network domains.
                 Due to this central nature, it is important to understand the security and reliability measures that can and should be deployed to prevent accidental or intentional routing disturbances.
             </t>
+            <t>
+                Previously, security considerations for BGP have been described in <xref target="RFC7454" format="default"/>.
+                Since the publications of <xref target="RFC7454" format="default"/>, several developments and changes in operational practice took place that warrant an update of these best current practices.
+            </t>
 
             <t>
-                This document describes measures to protect the BGP sessions itself such as Time to Live (TTL), the TCP Authentication Option (TCP-AO), and control-plane filtering.
+                This document updates <xref target="RFC7454" format="default"/>, reiterating the best practices for BGP security from that document and adding new practices and recommendations that emerged since the publication of <xref target="RFC7454" format="default"/>.
+                In the current version, this document covers practices to protect the BGP sessions itself such as Time to Live (TTL), the TCP Authentication Option (TCP-AO), and control-plane filtering.
                 It also describes measures to better control the flow of routing information, using prefix filtering and automation of prefix filters, max-prefix filtering, Autonomous System(AS) path filtering, route flap dampening, and BGP community scrubbing.
+            </t>
+            <t>
+                Newly added information and improvements include a unification of terminology, orienting it in <xref target="RFC9234" format="default"/>, changing recommendations regarding IXP LAN prefixes to align with operational practice, discussing ASPA and BGP roles, expanding on community scrubbing, filter generation and evaluation practices to limit performance overhead, expanding on outbound and internal filtering for defense in depth, global prefix limits, and community based filtering for downstream prefixes.
             </t>
         </abstract>
     </front>
