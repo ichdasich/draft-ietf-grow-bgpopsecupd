@@ -17,10 +17,10 @@ BCP 78, 79, the TLP, and the TLP rules regarding code components (e.g. being
 subject to a Simplified BSD License) in Contributions.
 ## Working Group Information
 
-Discussion of this work occurs on the [Operational Security Capabilities for IP Network Infrastructure
-Working Group mailing list](mailto:opsec@ietf.org)
-([archive](https://mailarchive.ietf.org/arch/browse/opsec/),
-[subscribe](https://www.ietf.org/mailman/listinfo/opsec)).
+Discussion of this work occurs on the [Global Routing Operations
+Working Group mailing list](mailto:grow@ietf.org)
+([archive](https://mailarchive.ietf.org/arch/browse/grow/),
+[subscribe](https://www.ietf.org/mailman/listinfo/grow)).
 In addition to contributions in GitHub, you are encouraged to participate in
 discussions there.
 
@@ -28,4 +28,4 @@ discussions there.
 technical issues needs to occur on the mailing list.
 
 You might also like to familiarize yourself with other
-[Working Group documents](https://datatracker.ietf.org/wg/opsec/documents/).
+[Working Group documents](https://datatracker.ietf.org/wg/grow/documents/).

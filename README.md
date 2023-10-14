@@ -2,16 +2,16 @@
 
 This is the working area for the individual Internet-Draft, "Updated BGP Operations and Security".
 
-* [Editor's Copy](https://ichdasich.github.io/draft-fiebig-opsec-bgpopsecupd/#go.draft-fiebig-opsec-bgpopsecupd.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-fiebig-opsec-bgpopsecupd)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-fiebig-opsec-bgpopsecupd)
-* [Compare Editor's Copy to Individual Draft](https://ichdasich.github.io/draft-fiebig-opsec-bgpopsecupd/#go.draft-fiebig-opsec-bgpopsecupd.diff)
+* [Editor's Copy](https://ichdasich.github.io/draft-fiebig-grow-bgpopsecupd/#go.draft-fiebig-grow-bgpopsecupd.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-fiebig-grow-bgpopsecupd)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-fiebig-grow-bgpopsecupd)
+* [Compare Editor's Copy to Individual Draft](https://ichdasich.github.io/draft-fiebig-grow-bgpopsecupd/#go.draft-fiebig-grow-bgpopsecupd.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/ichdasich/draft-fiebig-opsec-bgpopsecupd/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/ichdasich/draft-fiebig-grow-bgpopsecupd/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.
