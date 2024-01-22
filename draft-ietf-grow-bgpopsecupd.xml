@@ -7,10 +7,10 @@
         <!ENTITY wj     "&#8288;">
 ]>
 <rfc xmlns:xi="http://www.w3.org/2001/XInclude"
-     ipr="trust200902" submissionType="IETF" category="bcp" version="3" docName="draft-fiebig-grow-bgpopsecupd-latest">
+     ipr="trust200902" submissionType="IETF" category="bcp" version="3" docName="draft-ietf-grow-bgpopsecupd-latest">
     <front>
         <title abbrev="BGP OPSEC">Updated BGP Operations and Security</title>
-        <seriesInfo name="Internet-Draft" status="standard" value="draft-fiebig-grow-bgpopsecupd-latest"/>
+        <seriesInfo name="Internet-Draft" status="standard" value="draft-ietf-grow-bgpopsecupd-latest"/>
         <author fullname="Tobias Fiebig" initials="T." surname="Fiebig">
             <organization abbrev="MPI-INF">Max-Planck-Institut fuer Informatik</organization>
             <address>
