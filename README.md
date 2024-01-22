@@ -1,17 +1,17 @@
 # Updated BGP Operations and Security
 
-This is the working area for the individual Internet-Draft, "Updated BGP Operations and Security".
+This is the working area for the IETF [GROW Working Group](https://datatracker.ietf.org/wg/grow/documents/) Internet-Draft, "Updated BGP Operations and Security".
 
-* [Editor's Copy](https://ichdasich.github.io/draft-fiebig-grow-bgpopsecupd/#go.draft-fiebig-grow-bgpopsecupd.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-fiebig-grow-bgpopsecupd)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-fiebig-grow-bgpopsecupd)
-* [Compare Editor's Copy to Individual Draft](https://ichdasich.github.io/draft-fiebig-grow-bgpopsecupd/#go.draft-fiebig-grow-bgpopsecupd.diff)
+* [Editor's Copy](https://ichdasich.github.io/draft-ietf-grow-bgpopsecupd/#go.draft-ietf-grow-bgpopsecupd.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-grow-bgpopsecupd)
+* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-grow-bgpopsecupd)
+* [Compare Editor's Copy to Working Group Draft](https://ichdasich.github.io/draft-ietf-grow-bgpopsecupd/#go.draft-ietf-grow-bgpopsecupd.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/ichdasich/draft-fiebig-grow-bgpopsecupd/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.
