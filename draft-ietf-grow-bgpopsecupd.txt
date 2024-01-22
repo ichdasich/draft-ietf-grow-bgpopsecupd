@@ -4,12 +4,12 @@
 
 Operational Security Capabilities for IP Network InfrastructureT. Fiebig
 Internet-Draft                                                   MPI-INF
-Intended status: Best Current Practice                   14 October 2023
-Expires: 16 April 2024
+Intended status: Best Current Practice                   22 January 2024
+Expires: 25 July 2024
 
 
                   Updated BGP Operations and Security
-                  draft-fiebig-grow-bgpopsecupd-latest
+                   draft-ietf-grow-bgpopsecupd-latest
 
 Abstract
 
@@ -59,11 +59,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 April 2024.
+   This Internet-Draft will expire on 25 July 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal

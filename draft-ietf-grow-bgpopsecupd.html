@@ -24,25 +24,25 @@
                 Newly added information and improvements include a unification of terminology, orienting it in  , changing recommendations regarding IXP LAN prefixes to align with operational practice, discussing ASPA and BGP roles, expanding on community scrubbing, filter generation and evaluation practices to limit performance overhead, expanding on outbound and internal filtering for defense in depth, global prefix limits, and community based filtering for downstream prefixes.
        
     " name="description">
-<meta content="xml2rfc 3.18.1" name="generator">
-<meta content="draft-fiebig-grow-bgpopsecupd-latest" name="ietf.draft">
+<meta content="xml2rfc 3.19.1" name="generator">
+<meta content="draft-ietf-grow-bgpopsecupd-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.18.1
-    Python 3.11.5
-    ConfigArgParse 1.5.3
+  xml2rfc 3.19.1
+    Python 3.11.6
+    ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.11.0
+    platformdirs 4.1.0
     pycountry 22.3.5
-    PyYAML 6.0
+    PyYAML 6.0.1
     requests 2.31.0
-    setuptools 67.7.2
+    setuptools 68.2.2
     six 1.16.0
-    wcwidth 0.2.8
+    wcwidth 0.2.13
 -->
-<link href="draft-fiebig-grow-bgpopsecupd.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-ietf-grow-bgpopsecupd.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">@font-face {
   font-family: 'Lora';
@@ -1039,11 +1039,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">BGP OPSEC</td>
-<td class="right">October 2023</td>
+<td class="right">January 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Fiebig</td>
-<td class="center">Expires 16 April 2024</td>
+<td class="center">Expires 25 July 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1053,15 +1053,15 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">Operational Security Capabilities for IP Network Infrastructure</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-fiebig-grow-bgpopsecupd-latest</dd>
+<dd class="internet-draft">draft-ietf-grow-bgpopsecupd-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-10-14" class="published">14 October 2023</time>
+<time datetime="2024-01-22" class="published">22 January 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Best Current Practice</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-04-16">16 April 2024</time></dd>
+<dd class="expires"><time datetime="2024-07-25">25 July 2024</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1106,7 +1106,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 April 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 25 July 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1115,7 +1115,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2023 IETF Trust and the persons identified as the
+            Copyright (c) 2024 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
