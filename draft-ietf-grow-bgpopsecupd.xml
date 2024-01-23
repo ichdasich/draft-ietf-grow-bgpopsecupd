@@ -288,7 +288,8 @@
                         This is feasible, as even on multi-hop sessions, the path MTU should be known to the operators, meaning that it can be statically and consistently configured for both speakers involved in a session to prevent the need for fragmentation.
                         Hence, operators <bcp14>SHOULD</bcp14> ensure that fragmentation is neither allowed nor necessary for BGP packets between two BGP speakers.
                         If this is not possible, a strict lower limit for the MTU <bcp14>SHOULD</bcp14> be configured.
-                        Given that IPv6 requires an MTU of at least 1280b, this value is the <bcp14>RECOMMENDED</bcp14> minimum.
+                        This is usually done for TCP packets like those for a BGP session using MSS (Maximum Segment Size) clamping.
+                        Given that IPv6 requires an MTU of at least 1280b <xref target="RFC8200" format="default"/>, and to keep clamping consistent between IPv4 and IPv6, an MTU of 1280b, i.e., an MSS of 1240b for IPv4 and 1220b for IPv6, is the <bcp14>RECOMMENDED</bcp14> minimum.
                     </t>
                 </section>
             </section>
@@ -1501,6 +1502,7 @@
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7115.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7196.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8092.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8200.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8201.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8704.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9234.xml"/>
