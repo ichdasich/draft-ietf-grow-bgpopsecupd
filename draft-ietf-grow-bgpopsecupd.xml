@@ -274,6 +274,9 @@
                         This protects the TCP session used by Internal BGP (iBGP) from attackers outside the Autonomous System.
                         Similarly, the considerations for using non globally reachable addresses for links handling BGP sessions from <xref target="sec-protection-of-the-bgp-speaker-net" format="default"/> apply accordingly.
                     </t>
+                    <t>
+                        Furthermore, as an additional security measure, iBGP sessions SHOULD also be protected using the authentication mechanisms discussed above.
+                    </t>
                 </section>
                 <section  anchor="sec-protection-of-tcp-sessions-used-by-bgp-pmtud">
                     <name>Defending Against PMTUD Related Attacks</name>
