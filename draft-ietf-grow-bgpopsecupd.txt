@@ -2,10 +2,10 @@
 
 
 
-Operational Security Capabilities for IP Network InfrastructureT. Fiebig
+Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
-Intended status: Best Current Practice                   22 January 2024
-Expires: 25 July 2024
+Intended status: Best Current Practice                   23 January 2024
+Expires: 26 July 2024
 
 
                   Updated BGP Operations and Security
@@ -59,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 July 2024.
+   This Internet-Draft will expire on 26 July 2024.
 
 Copyright Notice
 
@@ -122,16 +122,22 @@ Table of Contents
      8.2.  Maximum Prefixes
        8.2.1.  Maximum Prefixes on a Single Session
        8.2.2.  Maximum Prefixes per Neighboring AS
-     8.3.  AS Path Filtering
+     8.3.  AS_PATH Handling
+       8.3.1.  AS_PATH Filtering
+       8.3.2.  AS_PATH Manipulation
      8.4.  Next-Hop Filtering
      8.5.  BGP Community Scrubbing
+       8.5.1.  Inbound BGP Community Scrubbing
+       8.5.2.  Outbound BGP Community Scrubbing
      8.6.  BGP Attribute Scrubbing
+     8.7.  BGP Attribute Header Correction
    9.  Prefix Filtering Recommendations
      9.1.  Prefix Filter Implementation Considerations
-       9.1.1.  Order of Prefixfilters
-       9.1.2.  Ensuring Consistency when Changing Prefixfilters
-       9.1.3.  Ruleset Size Considerations
-       9.1.4.  Ruleset Generation Failure
+       9.1.1.  Implicit Policies and Default Behavior
+       9.1.2.  Order of Prefixfilters
+       9.1.3.  Ensuring Consistency when Changing Prefixfilters
+       9.1.4.  Ruleset Size Considerations
+       9.1.5.  Ruleset Generation Failure
      9.2.  Prefix Filtering Recommendations in Full Routing Networks
        9.2.1.  Filters with Internet Peers
        9.2.2.  Filters with Customers
@@ -155,9 +161,12 @@ Table of Contents
    protocol used in the Internet to exchange routing information between
    network domains.  BGP does not directly include mechanisms that
    control whether the routes exchanged conform to the various
-   guidelines defined by the Internet community.  This document intends
-   to both summarize common existing guidelines and help operators apply
-   coherent BGP policies.
+   guidelines defined by the Internet community.  Besides, BGP itself,
+   by its design, does not have any direct way to protect itself against
+   possible security-related threats.  This document intends to both
+   summarize common existing guidelines and help operators apply
+   coherent BGP policies and recommended security guidelines to their
+   BGP-speaking routers.
 
 1.1.  Requirements Language
 
@@ -340,21 +349,20 @@ Table of Contents
 
 4.2.  BGP Speaker Management Interface Protection
 
-   Usually, a BGP speaker's management interface is also reachable via
-   the default routing domain / VRF (Virtual Routing Fabric) of the
-   control plane.  Hence, if an operator or an attacker brings down a
-   router by overloading one of the other protocols remotely, BGP is
-   harmed as well.  To make it easier to separate BGP and management
-   related control plane traffic, management traffic SHOULD be handled
-   via a dedicated routing domain / VRF.  This routing domain / VRF
-   should be protected from unauthorized connections by ACLs not handled
-   on the BGP speaker itself to ensure that the control plane cannot be
-   overloaded by attacks on the management interfaces of the BGP
-   speaker.
+   Usually, a BGP speaker's management interface is also reachable in-
+   band, i.e., via the default routing domain / VRF (Virtual Routing
+   Fabric) of the control plane.  To make it easier to separate BGP and
+   management related control plane traffic, management traffic SHOULD
+   be exclusively handled via dedicated out-of-band management.  This
+   network SHOULD be protected from unauthorized connections by ACLs not
+   handled on the BGP speaker itself to ensure that the control plane
+   cannot be overloaded by attacks on the management interfaces of the
+   BGP speaker.
 
-   In general, filtering and rate-limiting of control-plane traffic is a
-   wider topic than "just for BGP".  For further recommendations on how
-   to protect the router's control plane, see [RFC6192] )
+   Please note that, in general, filtering and rate-limiting of control-
+   plane traffic is a wider topic than "just for BGP".  For further
+   recommendations on how to protect the router's control plane, see
+   [RFC6192] )
 
 5.  Protection of the BGP Sessions
 
@@ -383,18 +391,36 @@ Table of Contents
    equipment, TCP-AO SHOULD be preferred when implemented by both sides
    of a session.
 
-   IPsec could also be used for session protection.  At the time of
-   publication, there has been no wide-spread adoption of using IPsec
-   for BGP sessions, and further analysis is required to define
-   guidelines.
+   Optionally, if TCP-AO is not supported, while both sides of the BGP
+   session can support a stronger authentication algorithm than MD5,
+   such as SHA-1 or SHA-256, using the stronger method SHOULD be
+   considered.  Aside from that, using keychain-based cryptographic keys
+   lifecycle management, as suggested in [RFC6518] is highly
+   RECOMMENDED.
+
+   Additionally, IPsec could also be used for session protection.  At
+   the time of publication, there has been no wide-spread adoption of
+   using IPsec for BGP sessions, and further analysis is required to
+   define guidelines.
 
    The drawback of TCP session protection is additional configuration
    and management overhead for the maintenance of authentication
-   information (for example, MD5 passwords).  Protection of TCP sessions
-   used by BGP hence MAY be enabled even when BGP sessions are
-   established over shared networks where spoofing can be done (like
-   IXPs), but operators are RECOMMENDED to consider the trade-offs and
-   to apply TCP session protection where appropriate.
+   information (for example, MD5 passwords).  In either case, protection
+   of TCP sessions used by BGP SHOULD be enabled when BGP sessions are
+   established over shared networks where the risk of spoofing is high
+   (like IXPs).  Operators are also RECOMMENDED to consider the trade-
+   offs and apply BGP session protection on all other external BGP
+   sessions as well.
+
+   Aside of this, most vendors use simple, reverse-decryptable password
+   hash algorithm to store shared secrets keys for BGP (and other
+   routing protocols) in devices' configuration files.  While this
+   practice simplifies password management tasks, since the passwords
+   can always easily be deciphered, it carries the risk of leaking this
+   information if a configuration is shared, e.g., with a vendor for a
+   support case, or if the device is decomissioned and later resold
+   without having been wiped.  Hence, if a device offers more secure
+   storage mechanisms for secrets, these SHOULD be used.
 
    Furthermore, operators SHOULD block spoofed packets (packets with a
    source IP address not belonging to their IP address space) at all
@@ -403,6 +429,10 @@ Table of Contents
    the Autonomous System.  Similarly, the considerations for using non
    globally reachable addresses for links handling BGP sessions from
    Section 4.1 apply accordingly.
+
+   Furthermore, as an additional security measure, iBGP sessions SHOULD
+   also be protected using the authentication mechanisms discussed
+   above.
 
 5.1.2.  Defending Against PMTUD Related Attacks
 
@@ -422,9 +452,12 @@ Table of Contents
    a session to prevent the need for fragmentation.  Hence, operators
    SHOULD ensure that fragmentation is neither allowed nor necessary for
    BGP packets between two BGP speakers.  If this is not possible, a
-   strict lower limit for the MTU SHOULD be configured.  Given that IPv6
-   requires an MTU of at least 1280b, this value is the RECOMMENDED
-   minimum.
+   strict lower limit for the MTU SHOULD be configured.  This is usually
+   done for TCP packets like those for a BGP session using MSS (Maximum
+   Segment Size) clamping.  Given that IPv6 requires an MTU of at least
+   1280b [RFC8200], and to keep clamping consistent between IPv4 and
+   IPv6, an MTU of 1280b, i.e., an MSS of 1240b for IPv4 and 1220b for
+   IPv6, is the RECOMMENDED minimum.
 
 5.2.  BGP TTL Security (GTSM)
 
@@ -975,6 +1008,8 @@ Table of Contents
    the ASes cone, and not a full-table or default-route.  This reduces
    the chance of accidental route leaks and prevents other IXP members
    from pointing default routes via the IXP LAN to such a router.
+   Alternative, MAY use a separate routing context (e.g.  VRF) for IXP
+   peerings, which only containins routes form the local AS cone.
 
 7.6.3.  PMTUD and the Loose uRPF Problem
 
@@ -1089,26 +1124,31 @@ Table of Contents
    limits, these SHOULD be sensible and regularly updated in
    coordination with operators from neighboring ASes.
 
-8.3.  AS Path Filtering
+8.3.  AS_PATH Handling
 
-   This section lists the RECOMMENDED practices when processing BGP AS
-   paths in addition the considerations from Section 7.
+   This section discusses filtering AS_PATHs, as well as recommendations
+   for AS_PATH manipulation, and which practices to avoid there.
+
+8.3.1.  AS_PATH Filtering
+
+   This section lists the RECOMMENDED practices when processing BGP
+   AS_PATHs in addition the considerations from Section 7.
 
    *  Operators SHOULD should follow Section 7.1 to only accept 2-byte
-      or 4-byte AS paths from customers containing ASNs belonging to (or
+      or 4-byte AS_PATHs from customers containing ASNs belonging to (or
       authorized to transit through) the customer.  If operators cannot
       build and generate filtering expressions to implement this, they
       SHOULD consider accepting only path lengths relevant to the type
       of customer they have (as in, if these customers are a leaf or
       have customers of their own) and SHOULD try to discourage
       excessive prepending in such paths.  This loose policy SHOULD be
-      combined with filters for specific 2-byte or 4-byte AS paths that
+      combined with filters for specific 2-byte or 4-byte AS_PATHs that
       must not be accepted if advertised by the customer, such as
       upstream transit providers or peer ASNs.
 
    *  Operators SHOULD NOT accept prefixes with private AS numbers in
-      the AS path unless the prefixes are from customers.  In any case,
-      operators SHOULD NOT re-export prefixes with AS paths containing
+      the AS_PATH unless the prefixes are from customers.  In any case,
+      operators SHOULD NOT re-export prefixes with AS_PATHs containing
       private AS numbers.  An exception could occur when an upstream is
       offering some particular service like black-hole origination based
       on a private AS number: in that case, prefixes SHOULD be accepted.
@@ -1116,19 +1156,19 @@ Table of Contents
       place ad hoc policy to use such services.
 
    *  Operators SHOULD NOT accept prefixes when the first AS number in
-      the AS path is not the one of the neighbor unless the BGP session
+      the AS_PATH is not the one of the neighbor unless the BGP session
       is setup towards a BGP route server [RFC7947] (for example, on an
-      IXP) with transparent AS path handling.  In that case, this
+      IXP) with transparent AS_PATH handling.  In that case, this
       verification needs to be deactivated, as the first AS number will
       be the one of an IXP member, whereas the neighbor's AS number will
       be the one of the BGP route server.
 
-   *  Operators SHOULD NOT advertise prefixes with a nonempty AS path
+   *  Operators SHOULD NOT advertise prefixes with a nonempty AS_PATH
       unless they are either announcing prefixes from the GRT to
-      downstreams, or if the whole AS path is within their cone.
+      downstreams, or if the whole AS_PATH is within their cone.
 
    *  Operators SHOULD NOT advertise prefixes with upstream AS numbers
-      in the AS path to any AS except to those to which they provide
+      in the AS_PATH to any AS except to those to which they provide
       upstream transit.
 
    *  Private AS numbers are conventionally used in contexts that are
@@ -1137,31 +1177,57 @@ Table of Contents
       they SHOULD be stripped when received from BGP neighbors that are
       not party to such private arrangements.  Additionally, operators
       MAY decide to not accept prefixes with private AS numbers in their
-      AS path at all.
+      AS_PATH at all.
 
-   *  Operators SHOULD NOT accept their own AS number in the AS path by
+   *  Operators SHOULD NOT accept their own AS number in the AS_PATH by
       overriding BGP's default behavior.  When considering an exception,
       the impact (which may be severe on routing) should be evaluated
       carefully.
 
-   *  Overly long AS path, i.e., longer than 64 entries, may cause
+   *  Overly long AS_PATH, i.e., longer than 64 entries, may cause
       issues for some older routing hardware.  Hence, operators SHOULD
       NOT use excessive prepending when advertising prefixes.  Excessive
-      prepending is defined as any prepending that leads to an AS path
+      prepending is defined as any prepending that leads to an AS_PATH
       exceeding 64 entries across the GRT.  Additionally, it is
-      RECOMMENDED that operators filter any prefix advertised with an AS
-      path of more than 64 entries.
+      RECOMMENDED that operators filter any prefix advertised with an
+      AS_PATH of more than 64 entries.
 
-   AS path filtering should be further analyzed when ASN renumbering is
+8.3.2.  AS_PATH Manipulation
+
+   This section lists the RECOMMENDED practices when manipulating BGP
+   AS_PATHs, to limit chances of accidentally producing AS_PATHs that
+   would have to be filtered by neighbors according to Section 8.3.1.
+
+   Some BGP implementations offer various advanced AS_PATH manipulation
+   features, such as overriding or rewriting a part of the AS_PATH.  For
+   instance, a very commonly used mechanism is the so-called "AS
+   Override" feature, primarily intended for use in MPLS L3 VPNs, where
+   the customer's AS number is overriden with the provider's AS number,
+   to allow site-to-site communication where both customer sites use the
+   same AS number.  Some vendors went even further, offering a
+   possibility to fully rewrite or even delete the AS_PATH Attribute
+   from incoming or outgoing BGP Update messages.
+
+   Furthermore, AS_PATH filtering is an option when ASN renumbering is
    done.  Such an operation is common, and mechanisms exist to allow
    smooth ASN migration [RFC7705].  The usual migration technique, local
-   to a router, consists in modifying the AS path so it is presented to
+   to a router, consists of modifying the AS_PATH so it is presented to
    a neighbor with the previous ASN, as if no renumbering was done.
    This makes it possible to change the ASN of a router without
    reconfiguring all eBGP neighbors at the same time (as that operation
    would require synchronization with all neighbors attached to that
    router).  During this renumbering operation, the rules described
    above may be adjusted.
+
+   In principle, use of any AS_PATH modification mechanism except
+   AS_PATH prepend in the public Internet SHOULD be avoided at all.
+   Also, as discussed already, AS_PATH prepends SHOULD NOT be excessive.
+   Operators are RECOMMENDED to not prepend more than five times.  The
+   "AS Override" feature MAY still be used in closed environments, such
+   as VPNs not directly exchanging any NLRIs with the Internet.  AS_PATH
+   rewriting/deleting SHOULD be avoided.  Especially the practice of
+   providing upstream to customers using a private ASN and then using
+   rewriting on either side is strongly NOT RECOMMENDED.
 
 8.4.  Next-Hop Filtering
 
@@ -1210,25 +1276,98 @@ Table of Contents
 
 8.5.  BGP Community Scrubbing
 
-   Optionally, we can consider the following rules on received NLRI:
+   For BGP, communities [RFC1997], extended communities [RFC4360], and
+   large communities [RFC8092] have been defined for additional inband
+   signaling.  Communities are useful in iBGP and eBGP alike.  For
+   example, communities and large-communities are often used by
+   operators to allow neighbors to signal additional traffic engineering
+   requirements, e.g., asking an upstream not to announce a specific
+   NLRI to one of its neighbors.  Similarly, communities are essential
+   for proper filtering of downstreams' prefixes in the absence of ASPA/
+   OTC.  While usually more focused on L2VPN and L3VPN scenarios,
+   extended communities may also find specific use when interacting with
+   external neighbors, see, e.g., [RFC4364], Inter-AS VPN Option B.
 
-   *  Operators SHOULD scrub inbound communities with their ASN in the
-      high-order bits, unless they have been documented and communicated
-      to neighbors to be used as a signaling mechanism.  Operators
-      SHOULD scrub inbound large-communities with their ASN in the high-
-      order bits, unless they have been documented and communicated to
-      neighbors to be used as a signaling mechanism.
+   However, as they may carry instructive information, external
+   unauthorized neighbors should not be allowed to send NLRI with AS
+   specific communities.  Similarly, internally used communities may
+   reveal non-public information or cause disturbance in misconfigured
+   networks.  The in- and outbound filtering rules for all forms of BGP
+   communities in Section 8.5.1 and Section 8.5.2 are RECOMMENDED
+
+   However, please note the following general recommendations for
+   community scrubbing:
 
    *  Networks administrators SHOULD NOT remove other communities
       applied on received routes (communities not removed after
       application of the previous statement).  In particular, they
       SHOULD keep original communities when they apply a community.
-      Customers might need them to communicate with upstream providers.
-      In particular, operators SHOULD NOT (generally) remove the no-
-      export community, as it is usually announced by their neighbor for
-      a certain purpose.  Similarly, network operators should not remove
-      RTBH related communities if send by the customer for a prefix of
-      routable size.
+
+   *  Operators SHOULD NOT remove the no-export community, as it is
+      usually announced by their neighbor for a certain purpose.
+
+   *  Network operators SHOULD NOT remove RTBH related communities if
+      sent by the customer for a prefix of routable size.
+
+   *  In case where communities / extended communities / large
+      communities specific to the own AS are not scrubbed, it is
+      strongly RECOMMENDED to maintain a strict allow-list of
+      permissible BGP communities, and still scrub those communities not
+      contained in that list, even if these communities are not in use.
+
+8.5.1.  Inbound BGP Community Scrubbing
+
+   *  Operators SHOULD scrub inbound communities with their ASN in the
+      high-order bits, unless they have been documented and communicated
+      to neighbors to be used as a signaling mechanism.
+
+   *  Operators SHOULD scrub inbound large-communities with their ASN in
+      the high-order bits, unless they have been documented and
+      communicated to neighbors to be used as a signaling mechanism.
+
+   *  Extended BGP communities (see [RFC4360]) received from external
+      neighbors SHOULD be scrubbed.  However, there are operational
+      circumstances where it MAY be reasonable to accept extended BGP
+      communities from neighbors, see, e.g., [RFC4364], Inter-AS VPN
+      Option B.
+
+   *  When known, BGP communities and large-communities used to signal
+      RPKI ROV validation state (see Section 7.2.1) received from eBGP
+      neighbors MUST be scrubbed.  This is done to prevent BGP update
+      storms in case a neighbor looses the connection to its validator,
+      changing the validation state of previously valid NLRI, and
+      thereby the applied community for those NLRI, triggering an update
+      message.  For further details on why communities and large-
+      communities MUST NOT be used to signal RPKI ROV validation state,
+      please see [TBD].
+
+8.5.2.  Outbound BGP Community Scrubbing
+
+   *  Operators SHOULD scrub outbound communities with their ASN in the
+      high-order bits, unless their semantics have been documented and
+      communicated to neighbors.
+
+   *  Operators SHOULD scrub outbound large-communities with their ASN
+      in the high-order bits, unless their semantics have been
+      documented and communicated to neighbors.
+
+   *  Extended BGP communities (see [RFC4360]) SHOULD NOT be sent to
+      eBGP neighbors.  However, there are operational circumstances
+      where it MAY be reasonable to send extended BGP communities to
+      neighbors, see, e.g., [RFC4364], Inter-AS VPN Option B.
+
+   *  Operators MUST NOT use BGP communities or large-communities to
+      signal RPKI ROV validation state, see [TBD].  If an operator is
+      still in a migration phase discontinuing this practice, they MUST
+      scrub any such community they use for signaling RPKI-ROV
+      validation state before sending NLRI to their external neighbors.
+      This is done to prevent the propagation of BGP update storms in
+      case one of their BGP speakers looses the connection to its
+      validator, changing the validation state of previously valid NLRI,
+      and thereby the applied community for those NLRI, triggering an
+      update message.  For further details on why communities and large-
+      communities MUST NOT be used to signal RPKI ROV validation state,
+      please see [TBD].
 
 8.6.  BGP Attribute Scrubbing
 
@@ -1236,6 +1375,37 @@ Table of Contents
    routers being unable to process specific BGP attributes were
    encountered.  As such, operators MAY opt to scrub all BGP attributes
    known to cause service disruptions on their infrastructure.
+
+   However, while being a very useful tool, BGP attribute scrubbing
+   features MAY cause undesired effects and sometimes even large-scale
+   outages as well.  Therefore, they MUST NOT be used as a permanent
+   solution, but only as a last-resort temporary workaround.
+   Furthermore, removing mandatory BGP attributes and optional
+   attributes commonly used in the Internet, such as AS_PATH,
+   Communities, MED etc. may have a significant negative impact beyond
+   an operator's own AS.  Hence, it is RECOMMENDED that such attributes
+   are never removed.
+
+8.7.  BGP Attribute Header Correction
+
+   BGP attributes are stored within BGP UPDATE messages as a vector of
+   Type-Length-Value (TLV) fields.  The Attribute Type field contains a
+   set of control bits, such as the Optional Bit (set to 1 for Optional
+   Attributes and 0 for Well-Known), the Transitive Bit (specifying
+   whether the attribute is Transitive, i.e., should be propagated
+   outside the local AS or, Non-Transitive, i.e., should not be
+   propagated outside the local AS) etc.  Initially, [RFC4271] mandated
+   that a BGP speaker tears down a BGP session when receiving even a
+   single UPDATE message containing a malformed combination of Attribute
+   TLV headers.  However, [RFC7606] allows BGP implementors to
+   optionally add features providing self-correction of malformed
+   attributes in a limited number of cases.
+
+   Operators MAY use such, self-correcting mechanisms for BGP Attribute
+   TLV headers.  However, they SHOULD consider the operational impact
+   such features have, SHOULD monitor for cases where such self-
+   correction is necessary, and SHOULD follow up on such cases to ensure
+   that root-causes are identified and addressed.
 
 9.  Prefix Filtering Recommendations
 
@@ -1245,23 +1415,55 @@ Table of Contents
    relationships these should be applied, the way how these can be
    implemented needs to be considered.
 
-9.1.1.  Order of Prefixfilters
+9.1.1.  Implicit Policies and Default Behavior
 
-   Most vendors apply filters and changes (route maps, prefix filters,
-   and other actions) to imported and exported NLRIs following a pre-
-   defined sequence, while allowing redirection to other rules.  This
-   means that the application of prefix filters and other rules must
-   avoid computationally expensive setups, or setups of rules that apply
-   computation to NLRI that will subsequently be discarded.
+   Almost all BGP implementations have specific default behavior,
+   including behavior when reaching the end of a policy, behavior when
+   no policy is defined (even though [RFC8212] now requires a default-
+   deny in the absence of policy), etc.  However, default behavior and
+   matching characteristics may differ between vendors and
+   implementations.  Implicitly relying on vendor-specific default
+   behavior can pose issues if a network operator migrates from one
+   vendor to the other, or when operating a mixed-vendor environment.
+   Furthermore, implicit defaults may change, requiring intervention by
+   operators.  Therefore, it is RECOMMENDED that operators create
+   explicit policy statements, even for behavior covered by defaults.
+   Such a practice helps simplifying automation of router
+   configurations, and prevents incidents due to changing or differing
+   implicit defaults, especially when migrating between vendors and in
+   interoperability scenarios.
 
-   Below, you can find an (incomplete) example for a simple inbound
-   filter for a session with a neighbor in a peer relationship who has
-   60 prefixes in its cone creating additional load.  We assume that,
-   accidentally, an IPv4 fulltable of 1,000,000 entries is being sent.
-   2,500 NLRI contain unregistered/private AS numbers, 500 NLRI relate
-   to bogon prefixes, and 5,000 NLRI are RPKI invalid, with none of the
-   routes in the neigbor's cone falling in any of these categories.  The
-   number of operations per line are given in parentheses.
+9.1.2.  Order of Prefixfilters
+
+   BGP is a policy-based routing protocol with import/export policies
+   controlling advertisements/acceptance of NLRI (see [RFC4272] Sec.
+   9.1), and BGP sessions without policy being applied should default to
+   a deny-all stance (see [RFC8212]).  The specific implementation of
+   import/export policies varies between vendors in terms of complexity
+   and naming, from basic prefix-based / AS_PATH-based filters, to
+   complex IF-THEN-like policy structures (typical names are: "route
+   maps", "route policies", "policy statements").
+
+   Independent of the implementation, all BGP policies consist of one or
+   more rule sets, that are executed in a sequence, one after another.
+   The first rule set will scan the complete content of Adj-RIBs-in or
+   Adj-RIBs-out; NLRIs permitted by a rule set will be passed to
+   subsequent rule sets, while denied prefixes are discarded.
+
+   Policies SHOULD avoid computationally expensive setups, or setups of
+   rules that apply computation to NLRI that will subsequently be
+   discarded.  Hence, the more prefixes a rule is likely to discard, the
+   earlier it SHOULD be evaluated.
+
+   To further illustrate this, you can find an (incomplete) example for
+   a simple inbound filter for a session with a neighbor in a peer
+   relationship who has 60 prefixes in its cone creating additional
+   load.  We assume that, accidentally, an IPv4 fulltable of 1,000,000
+   entries is being sent.  2,500 NLRI contain unregistered/private AS
+   numbers, 500 NLRI relate to bogon prefixes, and 5,000 NLRI are RPKI
+   invalid, with none of the routes in the neigbor's cone falling in any
+   of these categories.  The number of operations per line are given in
+   parentheses.
 
    *  1.  Add community imported from peer (1,000,000)
 
@@ -1311,9 +1513,9 @@ Table of Contents
    can occur when not filtering on, e.g., the OTC attribute first when
    sending prefixes to customers.
 
-9.1.2.  Ensuring Consistency when Changing Prefixfilters
+9.1.3.  Ensuring Consistency when Changing Prefixfilters
 
-   As discussed in Section 9.1.1, many BGP implementations use a
+   As discussed in Section 9.1.2, many BGP implementations use a
    sequential order for applying different prefix filters to ingested
    routes.  However, at the same time, several implementations do not
    perform atomic operations when applying rules.  This means that,
@@ -1363,7 +1565,7 @@ Table of Contents
    Naturally, after the new rule-set has been activated, the old rule-
    set should be deleted.
 
-9.1.3.  Ruleset Size Considerations
+9.1.4.  Ruleset Size Considerations
 
    Some BGP speaker implementations, and especially older BGP speakers,
    are restrained in terms of the number of prefixes and rules they can
@@ -1386,7 +1588,7 @@ Table of Contents
    accepted, and may be unsuitable for, e.g., DDoS defense services, it
    can also reduce the size of prefix lists significantly.
 
-9.1.4.  Ruleset Generation Failure
+9.1.5.  Ruleset Generation Failure
 
    As noted in Section 7.1.3, the creation and application of filter
    rules should be automated to reduce the margin for error and
@@ -1456,10 +1658,10 @@ Table of Contents
    *  4.  Prefixes with an invalid AS path (ASPA) (Section 7.2.2)
 
    *  5.  Prefixes with an invalid AS path (longer than 64 entries)
-      (Section 8.3)
+      (Section 8.3.1)
 
    *  6.  Prefixes with an invalid AS path (containing private or
-      reserved AS numbers) (Section 8.3)
+      reserved AS numbers) (Section 8.3.1)
 
    *  7.  Prefixes belonging to the local AS (Section 7.3)
 
@@ -1513,10 +1715,10 @@ Table of Contents
    *  5.  Prefixes with an invalid AS path (ASPA) (Section 7.2.2)
 
    *  6.  Prefixes with an invalid AS path (longer than 64 entries)
-      (Section 8.3)
+      (Section 8.3.1)
 
    *  7.  Prefixes with an invalid AS path (containing private or
-      reserved AS numbers) (Section 8.3)
+      reserved AS numbers) (Section 8.3.1)
 
    *  8.  Prefixes that are not globally routable (Section 6.1)
 
@@ -1566,10 +1768,10 @@ Table of Contents
    *  4.  Prefixes with an invalid AS path (ASPA) (Section 7.2.2)
 
    *  5.  Prefixes with an invalid AS path (longer than 64 entries)
-      (Section 8.3)
+      (Section 8.3.1)
 
    *  6.  Prefixes with an invalid AS path (containing private or
-      reserved AS numbers) (Section 8.3)
+      reserved AS numbers) (Section 8.3.1)
 
    *  7.  Prefixes belonging to the local AS (Section 7.3)
 
@@ -1590,7 +1792,7 @@ Table of Contents
    accepted prefixes can be manually specified, after having verified
    that they are valid.  This validation can be done with the
    appropriate IP address management authorities.  For larger
-   downstreams, an approach as documented in Section 9.1.3 MAY also be
+   downstreams, an approach as documented in Section 9.1.4 MAY also be
    suitable.
 
    Additionally, Rule 11 MUST NOT be set in the rare case of an IXP
@@ -1616,10 +1818,10 @@ Table of Contents
    *  3.  Prefixes with an invalid AS path (ASPA) (Section 7.2.2)
 
    *  4.  Prefixes with an invalid AS path (longer than 64 entries)
-      (Section 8.3)
+      (Section 8.3.1)
 
    *  5.  Prefixes with an invalid AS path (containing private or
-      reserved AS numbers) (Section 8.3)
+      reserved AS numbers) (Section 8.3.1)
 
    *  6.  Prefixes that are not globally routable (Section 6.1)
 
@@ -1664,10 +1866,10 @@ Table of Contents
    *  3.  Prefixes with an invalid AS path (ASPA) (Section 7.2.2)
 
    *  4.  Prefixes with an invalid AS path (longer than 64 entries)
-      (Section 8.3)
+      (Section 8.3.1)
 
    *  5.  Prefixes with an invalid AS path (containing private or
-      reserved AS numbers) (Section 8.3)
+      reserved AS numbers) (Section 8.3.1)
 
    *  6.  Prefixes belonging to the local AS (Section 7.3)
 
@@ -1774,10 +1976,10 @@ Table of Contents
    *  4.  Prefixes with an invalid AS path (ASPA) (Section 7.2.2)
 
    *  5.  Prefixes with an invalid AS path (longer than 64 entries)
-      (Section 8.3)
+      (Section 8.3.1)
 
    *  6.  Prefixes with an invalid AS path (containing private or
-      reserved AS numbers) (Section 8.3)
+      reserved AS numbers) (Section 8.3.1)
 
    *  7.  Prefixes that are not globally routable (Section 6.1)
 
@@ -1834,6 +2036,10 @@ Table of Contents
               DOI 10.17487/RFC4271, January 2006,
               <https://www.rfc-editor.org/info/rfc4271>.
 
+   [RFC4272]  Murphy, S., "BGP Security Vulnerabilities Analysis",
+              RFC 4272, DOI 10.17487/RFC4272, January 2006,
+              <https://www.rfc-editor.org/info/rfc4272>.
+
    [RFC5082]  Gill, V., Heasley, J., Meyer, D., Savola, P., Ed., and C.
               Pignataro, "The Generalized TTL Security Mechanism
               (GTSM)", RFC 5082, DOI 10.17487/RFC5082, October 2007,
@@ -1847,6 +2053,11 @@ Table of Contents
               Austein, "BGP Prefix Origin Validation", RFC 6811,
               DOI 10.17487/RFC6811, January 2013,
               <https://www.rfc-editor.org/info/rfc6811>.
+
+   [RFC7606]  Chen, E., Ed., Scudder, J., Ed., Mohapatra, P., and K.
+              Patel, "Revised Error Handling for BGP UPDATE Messages",
+              RFC 7606, DOI 10.17487/RFC7606, August 2015,
+              <https://www.rfc-editor.org/info/rfc7606>.
 
    [RFC7115]  Bush, R., "Origin Validation Operation Based on the
               Resource Public Key Infrastructure (RPKI)", BCP 185,
@@ -1863,10 +2074,20 @@ Table of Contents
               RFC 8092, DOI 10.17487/RFC8092, February 2017,
               <https://www.rfc-editor.org/info/rfc8092>.
 
+   [RFC8200]  Deering, S. and R. Hinden, "Internet Protocol, Version 6
+              (IPv6) Specification", STD 86, RFC 8200,
+              DOI 10.17487/RFC8200, July 2017,
+              <https://www.rfc-editor.org/info/rfc8200>.
+
    [RFC8201]  McCann, J., Deering, S., Mogul, J., and R. Hinden, Ed.,
               "Path MTU Discovery for IP version 6", STD 87, RFC 8201,
               DOI 10.17487/RFC8201, July 2017,
               <https://www.rfc-editor.org/info/rfc8201>.
+
+   [RFC8212]  Mauch, J., Snijders, J., and G. Hankins, "Default External
+              BGP (EBGP) Route Propagation Behavior without Policies",
+              RFC 8212, DOI 10.17487/RFC8212, July 2017,
+              <https://www.rfc-editor.org/info/rfc8212>.
 
    [RFC8704]  Sriram, K., Montgomery, D., and J. Haas, "Enhanced
               Feasible-Path Unicast Reverse Path Forwarding", BCP 84,
@@ -1928,6 +2149,14 @@ Table of Contents
               (IBGP)", RFC 4456, DOI 10.17487/RFC4456, April 2006,
               <https://www.rfc-editor.org/info/rfc4456>.
 
+   [RFC4360]  Sangli, S., Tappan, D., and Y. Rekhter, "BGP Extended
+              Communities Attribute", RFC 4360, DOI 10.17487/RFC4360,
+              February 2006, <https://www.rfc-editor.org/info/rfc4360>.
+
+   [RFC4364]  Rosen, E. and Y. Rekhter, "BGP/MPLS IP Virtual Private
+              Networks (VPNs)", RFC 4364, DOI 10.17487/RFC4364, February
+              2006, <https://www.rfc-editor.org/info/rfc4364>.
+
    [RFC6192]  Dugal, D., Pignataro, C., and R. Dunn, "Protecting the
               Router Control Plane", RFC 6192, DOI 10.17487/RFC6192,
               March 2011, <https://www.rfc-editor.org/info/rfc6192>.
@@ -1935,6 +2164,11 @@ Table of Contents
    [RFC6480]  Lepinski, M. and S. Kent, "An Infrastructure to Support
               Secure Internet Routing", RFC 6480, DOI 10.17487/RFC6480,
               February 2012, <https://www.rfc-editor.org/info/rfc6480>.
+
+   [RFC6518]  Lebovitz, G. and M. Bhatia, "Keying and Authentication for
+              Routing Protocols (KARP) Design Guidelines", RFC 6518,
+              DOI 10.17487/RFC6518, February 2012,
+              <https://www.rfc-editor.org/info/rfc6518>.
 
    [RFC6666]  Hilliard, N. and D. Freedman, "A Discard Prefix for IPv6",
               RFC 6666, DOI 10.17487/RFC6666, August 2012,
