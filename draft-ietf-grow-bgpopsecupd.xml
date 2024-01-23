@@ -722,6 +722,7 @@
                     <t>
                         It is suggested (see also <xref target="APNICTRN-17" format="default"/>), that operators dedicate routers for connections to an IXP that <bcp14>SHOULD</bcp14> only carry routes from the ASes cone, and not a full-table or default-route.
                         This reduces the chance of accidental route leaks and prevents other IXP members from pointing default routes via the IXP LAN to such a router.
+                        Alternative, <bcp14>MAY</bcp14> use a separate routing context (e.g. VRF) for IXP peerings, which only containins routes form the local AS cone.
                     </t>
                 </section>
                 <section  anchor="sec-pmtud-and-the-loose-urpf-problem">
