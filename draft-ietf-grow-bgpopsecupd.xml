@@ -261,7 +261,13 @@
                     </t>
                     <t>
                         The drawback of TCP session protection is additional configuration and management overhead for the maintenance of authentication information (for example, MD5 passwords).
-                        Protection of TCP sessions used by BGP hence <bcp14>MAY</bcp14> be enabled even when BGP sessions are established over shared networks where spoofing can be done (like IXPs), but operators are <bcp14>RECOMMENDED</bcp14> to consider the trade-offs and to apply TCP session protection where appropriate.
+                        In either case, protection of TCP sessions used by BGP <bcp14>SHOULD</bcp14> be enabled when BGP sessions are established over shared networks where the risk of spoofing is high (like IXPs).
+                        Operators are also <bcp14>RECOMMENDED</bcp14> to consider the trade-offs and apply BGP session protection on all other external BGP sessions as well.
+                    </t>
+                    <t>
+                        Aside of this, most vendors use simple, reverse-decryptable password hash algorithm to store shared secrets keys for BGP (and other routing protocols) in devices' configuration files.
+                        While this practice simplifies password management tasks, since the passwords can always easily be deciphered, it carries the risk of leaking this information if a configuration is shared, e.g., with a vendor for a support case, or if the device is decomissioned and later resold without having been wiped.
+                        Hence, if a device offers more secure storage mechanisms for secrets, these <bcp14>SHOULD</bcp14> be used.
                     </t>
                     <t>
                         Furthermore, operators <bcp14>SHOULD</bcp14> block spoofed packets (packets with a source IP address not belonging to their IP address space) at all edges of their network (see <xref target="RFC2827" format="default"/>  and <xref target="RFC3704" format="default"/> ).
