@@ -252,7 +252,11 @@
                         While MD5 is still the most used mechanism due to its availability in vendors' equipment, TCP-AO <bcp14>SHOULD</bcp14> be preferred when implemented by both sides of a session.
                     </t>
                     <t>
-                        IPsec could also be used for session protection.
+                        Optionally, if TCP-AO is not supported, while both sides of the BGP session can support a stronger authentication algorithm than MD5, such as SHA-1 or SHA-256, using the stronger method <bcp14>SHOULD</bcp14> be considered.
+                        Aside from that, using keychain-based cryptographic keys lifecycle management, as suggested in <xref target="RFC6518" format="default"/> is highly <bcp14>RECOMMENDED</bcp14>.
+                    </t>
+                    <t>
+                        Additionally, IPsec could also be used for session protection.
                         At the time of publication, there has been no wide-spread adoption of using IPsec for BGP sessions, and further analysis is required to define guidelines.
                     </t>
                     <t>
@@ -1530,6 +1534,7 @@
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4456.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6192.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6480.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6518.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6666.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6952.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7132.xml"/>
