@@ -943,10 +943,23 @@
                     As such, operators <bcp14>MAY</bcp14> opt to scrub all BGP attributes known to cause service disruptions on their infrastructure.
                 </t>
                 <t>
-					However, while being a very useful tool, BGP attribute scrubbing features <bcp14>MAY</bcp14> cause undesired effects and sometimes even large-scale outages as well.
-					Therefore, they <bcp14>MUST NOT</bcp14> be used as a permanent solution, but only as a last-resort temporary workaround.
-					Furthermore, removing mandatory BGP attributes and optional attributes commonly used in the Internet, such as AS_PATH, Communities, MED etc. may have a significant negative impact beyond an operator's own AS.
-					Hence, it is <bcp14>RECOMMENDED</bcp14> that such attributes are never removed.
+                    However, while being a very useful tool, BGP attribute scrubbing features <bcp14>MAY</bcp14> cause undesired effects and sometimes even large-scale outages as well.
+                    Therefore, they <bcp14>MUST NOT</bcp14> be used as a permanent solution, but only as a last-resort temporary workaround.
+                    Furthermore, removing mandatory BGP attributes and optional attributes commonly used in the Internet, such as AS_PATH, Communities, MED etc. may have a significant negative impact beyond an operator's own AS.
+                    Hence, it is <bcp14>RECOMMENDED</bcp14> that such attributes are never removed.
+                </t>
+            </section>
+            <section  anchor="sec-bgp-attribute-header-correction">
+                <name>BGP Attribute Header Correction</name>
+                <t>
+					BGP attributes are stored within BGP UPDATE messages as a vector of Type-Length-Value (TLV) fields.
+					The Attribute Type field contains a set of control bits, such as the Optional Bit (set to 1 for Optional Attributes and 0 for Well-Known), the Transitive Bit (specifying whether the attribute is Transitive, i.e., should be propagated outside the local AS or, Non-Transitive, i.e., should not be propagated outside the local AS) etc.
+					Initially, <xref target="RFC4271" format="default"/> mandated that a BGP speaker tears down a BGP session when receiving even a single UPDATE message containing a malformed combination of Attribute TLV headers.
+					However, <xref target="RFC7606" format="default"/> allows BGP implementors to optionally add features providing self-correction of malformed attributes in a limited number of cases.
+                </t>
+                <t>
+					Operators <bcp14>MAY</bcp14> use such, self-correcting mechanisms for BGP Attribute TLV headers.
+					However, they <bcp14>SHOULD</bcp14> consider the operational impact such features have, <bcp14>SHOULD</bcp14> monitor for cases where such self-correction is necessary, and <bcp14>SHOULD</bcp14> follow up on such cases to ensure that root-causes are identified and addressed.
                 </t>
             </section>
         </section>
@@ -1541,6 +1554,7 @@
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5082.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5925.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6811.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7606.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7115.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7196.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8092.xml"/>
