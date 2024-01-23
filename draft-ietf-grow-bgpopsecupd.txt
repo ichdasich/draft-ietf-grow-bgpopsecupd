@@ -1295,7 +1295,7 @@ Table of Contents
    networks.  The in- and outbound filtering rules for all forms of BGP
    communities in Section 8.5.1 and Section 8.5.2 are RECOMMENDED
 
-   However, please note the following general recommendations for
+   Additionally, please note the following general recommendations for
    community scrubbing:
 
    *  Networks administrators SHOULD NOT remove other communities
@@ -1332,14 +1332,13 @@ Table of Contents
       Option B.
 
    *  When known, BGP communities and large-communities used to signal
-      RPKI ROV validation state (see Section 7.2.1) received from eBGP
-      neighbors MUST be scrubbed.  This is done to prevent BGP update
-      storms in case a neighbor looses the connection to its validator,
-      changing the validation state of previously valid NLRI, and
-      thereby the applied community for those NLRI, triggering an update
-      message.  For further details on why communities and large-
-      communities MUST NOT be used to signal RPKI ROV validation state,
-      please see [TBD].
+      RPKI ROV state (see Section 7.2.1) received from eBGP neighbors
+      MUST be scrubbed.  This is done to prevent BGP update storms in
+      case a neighbor looses the connection to its validator, changing
+      the validation state of previously valid NLRI, and thereby the
+      applied community for those NLRI, triggering an update message.
+      For further details on why communities and large-communities MUST
+      NOT be used to signal RPKI ROV state, please see [TBD].
 
 8.5.2.  Outbound BGP Community Scrubbing
 
@@ -1357,17 +1356,16 @@ Table of Contents
       neighbors, see, e.g., [RFC4364], Inter-AS VPN Option B.
 
    *  Operators MUST NOT use BGP communities or large-communities to
-      signal RPKI ROV validation state, see [TBD].  If an operator is
-      still in a migration phase discontinuing this practice, they MUST
-      scrub any such community they use for signaling RPKI-ROV
-      validation state before sending NLRI to their external neighbors.
-      This is done to prevent the propagation of BGP update storms in
-      case one of their BGP speakers looses the connection to its
-      validator, changing the validation state of previously valid NLRI,
-      and thereby the applied community for those NLRI, triggering an
-      update message.  For further details on why communities and large-
-      communities MUST NOT be used to signal RPKI ROV validation state,
-      please see [TBD].
+      signal RPKI ROV state, see [TBD].  If an operator is still in a
+      migration phase discontinuing this practice, they MUST scrub any
+      such community they use for signaling RPKI-ROV state before
+      sending NLRI to their external neighbors.  This is done to prevent
+      the propagation of BGP update storms in case one of their BGP
+      speakers looses the connection to its validator, changing the
+      validation state of previously valid NLRI, and thereby the applied
+      community for those NLRI, triggering an update message.  For
+      further details on why communities and large-communities MUST NOT
+      be used to signal RPKI ROV state, please see [TBD].
 
 8.6.  BGP Attribute Scrubbing
 
