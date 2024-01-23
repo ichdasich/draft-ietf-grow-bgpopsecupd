@@ -910,31 +910,76 @@
             <section  anchor="sec-bgp-community-scrubbing">
                 <name>BGP Community Scrubbing</name>
                 <t>
-                    Optionally, we can consider the following rules on received NLRI:
+                    For BGP, communities <xref target="RFC1997" format="default"/>, extended communities <xref target="RFC4360" format="default"/>, and large communities <xref target="RFC8092" format="default"/> have been defined for additional inband signaling.
+                    Communities are useful in iBGP and eBGP alike.
+                    For example, communities and large-communities are often used by operators to allow neighbors to signal additional traffic engineering requirements, e.g., asking an upstream not to announce a specific NLRI to one of its neighbors.
+                    Similarly, communities are essential for proper filtering of downstreams' prefixes in the absence of ASPA/OTC.
+                    While usually more focused on L2VPN and L3VPN scenarios, extended communities may also find specific use when interacting with external neighbors, see, e.g., <xref target="RFC4364" format="default"/>, Inter-AS VPN Option B.
+                </t>
+                <t>
+                    However, as they may carry instructive information, external unauthorized neighbors should not be allowed to send NLRI with AS specific communities.
+                    Similarly, internally used communities may reveal non-public information or cause disturbance in misconfigured networks.
+                    The in- and outbound filtering rules for all forms of BGP communities in <xref target="sec-bgp-community-scrubbing-in" format="default"/> and <xref target="sec-bgp-community-scrubbing-out" format="default"/> are <bcp14>RECOMMENDED</bcp14>
+                </t>
+                <t>
+                    However, please note the following general recommendations for community scrubbing:
                 </t>
                 <ul spacing="normal">
                     <li>
-                        Operators <bcp14>SHOULD</bcp14> scrub inbound communities with their ASN in the high-order bits, unless they have been documented and communicated to neighbors to be used as a signaling mechanism.
-                    </li>
-                    <li>
-                        Operators <bcp14>SHOULD</bcp14> scrub inbound large-communities with their ASN in the high-order bits, unless they have been documented and communicated to neighbors to be used as a signaling mechanism.
-                    </li>
-                    <li>
-                        Extended BGP communities (see <xref target="RFC4360" format="default"/>) received from external neighbors <bcp14>SHOULD</bcp14> in principle be scrubbed.
-                        In the outbound direction, Extended BGP communities <bcp14>SHOULD</bcp14> be scrubbed.
-                        However, there are operational circumstances where it <bcp14>MAY</bcp14> be reasonable to accept extended BGP communities from neighbors, see, e.g., <xref target="RFC4364" format="default"/>, Inter-AS VPN Option B.
-                    </li>
-                    <li>
-                        In case where communities / large communities specific to the own AS, or extended communities in general are not scrubbed as per the reasons above, it is strongly <bcp14>RECOMMENDED</bcp14> to maintain a strict allow-list of permissible BGP communities, and still scub those communities not contained in that list.
-                    </li>
-                    <li>
                         Networks administrators <bcp14>SHOULD NOT</bcp14> remove other communities applied on received routes (communities not removed after application of the previous statement).
                         In particular, they <bcp14>SHOULD</bcp14> keep original communities when they apply a community.
-                        Customers might need them to communicate with upstream providers.
-                        In particular, operators <bcp14>SHOULD NOT</bcp14> (generally) remove the no-export community, as it is usually announced by their neighbor for a certain purpose.
-                        Similarly, network operators should not remove RTBH related communities if sent by the customer for a prefix of routable size.
+                    </li>
+                    <li>
+                        Operators <bcp14>SHOULD NOT</bcp14> remove the no-export community, as it is usually announced by their neighbor for a certain purpose.
+                    </li>
+                    <li>
+                        Network operators <bcp14>SHOULD NOT</bcp14> remove RTBH related communities if sent by the customer for a prefix of routable size.
+                    </li>
+                    <li>
+                        In case where communities / extended communities / large communities specific to the own AS are not scrubbed, it is strongly <bcp14>RECOMMENDED</bcp14> to maintain a strict allow-list of permissible BGP communities, and still scrub those communities not contained in that list, even if these communities are not in use.
                     </li>
                 </ul>
+                <section  anchor="sec-bgp-community-scrubbing-in">
+                    <name>Inbound BGP Community Scrubbing</name>
+                    <ul spacing="normal">
+                        <li>
+                            Operators <bcp14>SHOULD</bcp14> scrub inbound communities with their ASN in the high-order bits, unless they have been documented and communicated to neighbors to be used as a signaling mechanism.
+                        </li>
+                        <li>
+                            Operators <bcp14>SHOULD</bcp14> scrub inbound large-communities with their ASN in the high-order bits, unless they have been documented and communicated to neighbors to be used as a signaling mechanism.
+                        </li>
+                        <li>
+                            Extended BGP communities (see <xref target="RFC4360" format="default"/>) received from external neighbors <bcp14>SHOULD</bcp14> be scrubbed.
+                            However, there are operational circumstances where it <bcp14>MAY</bcp14> be reasonable to accept extended BGP communities from neighbors, see, e.g., <xref target="RFC4364" format="default"/>, Inter-AS VPN Option B.
+                        </li>
+                        <li>
+                            When known, BGP communities and large-communities used to signal RPKI ROV validation state (see <xref target="sec-sidr-rov" format="default"/>) received from eBGP neighbors <bcp14>MUST</bcp14> be scrubbed.
+                            This is done to prevent BGP update storms in case a neighbor looses the connection to its validator, changing the validation state of previously valid NLRI, and thereby the applied community for those NLRI, triggering an update message.
+                            For further details on why communities and large-communities <bcp14>MUST NOT</bcp14> be used to signal RPKI ROV validation state, please see <xref target="TBD" format="default"/>.
+                        </li>
+                    </ul>
+                </section>
+                <section  anchor="sec-bgp-community-scrubbing-out">
+                    <name>Outbound BGP Community Scrubbing</name>
+                    <ul spacing="normal">
+                        <li>
+                            Operators <bcp14>SHOULD</bcp14> scrub outbound communities with their ASN in the high-order bits, unless their semantics have been documented and communicated to neighbors.
+                        </li>
+                        <li>
+                            Operators <bcp14>SHOULD</bcp14> scrub outbound large-communities with their ASN in the high-order bits, unless their semantics have been documented and communicated to neighbors.
+                        </li>
+                        <li>
+                            Extended BGP communities (see <xref target="RFC4360" format="default"/>) <bcp14>SHOULD NOT</bcp14> be sent to eBGP neighbors.
+                            However, there are operational circumstances where it <bcp14>MAY</bcp14> be reasonable to send extended BGP communities to neighbors, see, e.g., <xref target="RFC4364" format="default"/>, Inter-AS VPN Option B.
+                        </li>
+                        <li>
+                            Operators <bcp14>MUST NOT</bcp14> use BGP communities or large-communities to signal RPKI ROV validation state, see <xref target="TBD" format="default"/>.
+                            If an operator is still in a migration phase discontinuing this practice, they <bcp14>MUST</bcp14> scrub any such community they use for signaling RPKI-ROV validation state before sending NLRI to their external neighbors.
+                            This is done to prevent the propagation of BGP update storms in case one of their BGP speakers looses the connection to its validator, changing the validation state of previously valid NLRI, and thereby the applied community for those NLRI, triggering an update message.
+                            For further details on why communities and large-communities <bcp14>MUST NOT</bcp14> be used to signal RPKI ROV validation state, please see <xref target="TBD" format="default"/>.
+                        </li>
+                    </ul>
+                </section>
             </section>
             <section  anchor="sec-bgp-attribute-scrubbing">
                 <name>BGP Attribute Scrubbing</name>
