@@ -214,14 +214,13 @@
                 <name>BGP Speaker Management Interface Protection</name>
 
                 <t>
-                    Usually, a BGP speaker's management interface is also reachable via the default routing domain / VRF (Virtual Routing Fabric) of the control plane.
-                    Hence, if an operator or an attacker brings down a router by overloading one of the other protocols remotely, BGP is harmed as well.
-                    To make it easier to separate BGP and management related control plane traffic, management traffic <bcp14>SHOULD</bcp14> be handled via a dedicated routing domain / VRF.
-                    This routing domain / VRF should be protected from unauthorized connections by ACLs not handled on the BGP speaker itself to ensure that the control plane cannot be overloaded by attacks on the management interfaces of the BGP speaker.
+                    Usually, a BGP speaker's management interface is also reachable in-band, i.e., via the default routing domain / VRF (Virtual Routing Fabric) of the control plane.
+                    To make it easier to separate BGP and management related control plane traffic, management traffic <bcp14>SHOULD</bcp14> be exclusively handled via dedicated out-of-band management.
+                    This network <bcp14>SHOULD</bcp14> be protected from unauthorized connections by ACLs not handled on the BGP speaker itself to ensure that the control plane cannot be overloaded by attacks on the management interfaces of the BGP speaker.
                 </t>
 
                 <t>
-                    In general, filtering and rate-limiting of control-plane traffic is a wider topic than "just for BGP".
+                    Please note that, in general, filtering and rate-limiting of control-plane traffic is a wider topic than "just for BGP".
                     For further recommendations on how to protect the router's control plane, see <xref target="RFC6192" format="default"/> )
                 </t>
 
