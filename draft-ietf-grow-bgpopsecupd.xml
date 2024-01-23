@@ -970,6 +970,18 @@
                 <t>
                     Besides the overall generation of prefix filters and to which relationships these should be applied, the way how these can be implemented needs to be considered.
                 </t>
+                <section  anchor="sec-prefix-filtering-considerations-defaults">
+                    <name>Implicit Policies and Default Behavior</name>
+                    <t>
+                        Almost all BGP implementations have specific default behavior, including behavior when reaching the end of a policy, behavior when no policy is defined (even though <xref target="RFC8212" format="default"/> now requires a default-deny in the absence of policy), etc.
+                        However, default behavior and matching characteristics may differ between vendors and implementations.
+                        Implicitly relying on vendor-specific default behavior can pose issues if a network operator migrates from one vendor to the other, or when operating a mixed-vendor environment.
+                        Furthermore, implicit defaults may change, requiring intervention by operators.
+
+                        Therefore, it is <bcp14>RECOMMENDED</bcp14> that operators create explicit policy statements, even for behavior covered by defaults.
+                        Such a practice helps simplifying automation of router configurations, and prevents incidents due to changing or differing implicit defaults, especially when migrating between vendors and in interoperability scenarios.
+                    </t>
+                </section>
                 <section  anchor="sec-prefix-filtering-considerations-order">
                     <name>Order of Prefixfilters</name>
                     <t>
@@ -1560,6 +1572,7 @@
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8092.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8200.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8201.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8212.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8704.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9234.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9319.xml"/>
