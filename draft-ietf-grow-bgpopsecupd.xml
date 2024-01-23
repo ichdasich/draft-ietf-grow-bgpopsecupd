@@ -952,14 +952,14 @@
             <section  anchor="sec-bgp-attribute-header-correction">
                 <name>BGP Attribute Header Correction</name>
                 <t>
-					BGP attributes are stored within BGP UPDATE messages as a vector of Type-Length-Value (TLV) fields.
-					The Attribute Type field contains a set of control bits, such as the Optional Bit (set to 1 for Optional Attributes and 0 for Well-Known), the Transitive Bit (specifying whether the attribute is Transitive, i.e., should be propagated outside the local AS or, Non-Transitive, i.e., should not be propagated outside the local AS) etc.
-					Initially, <xref target="RFC4271" format="default"/> mandated that a BGP speaker tears down a BGP session when receiving even a single UPDATE message containing a malformed combination of Attribute TLV headers.
-					However, <xref target="RFC7606" format="default"/> allows BGP implementors to optionally add features providing self-correction of malformed attributes in a limited number of cases.
+                    BGP attributes are stored within BGP UPDATE messages as a vector of Type-Length-Value (TLV) fields.
+                    The Attribute Type field contains a set of control bits, such as the Optional Bit (set to 1 for Optional Attributes and 0 for Well-Known), the Transitive Bit (specifying whether the attribute is Transitive, i.e., should be propagated outside the local AS or, Non-Transitive, i.e., should not be propagated outside the local AS) etc.
+                    Initially, <xref target="RFC4271" format="default"/> mandated that a BGP speaker tears down a BGP session when receiving even a single UPDATE message containing a malformed combination of Attribute TLV headers.
+                    However, <xref target="RFC7606" format="default"/> allows BGP implementors to optionally add features providing self-correction of malformed attributes in a limited number of cases.
                 </t>
                 <t>
-					Operators <bcp14>MAY</bcp14> use such, self-correcting mechanisms for BGP Attribute TLV headers.
-					However, they <bcp14>SHOULD</bcp14> consider the operational impact such features have, <bcp14>SHOULD</bcp14> monitor for cases where such self-correction is necessary, and <bcp14>SHOULD</bcp14> follow up on such cases to ensure that root-causes are identified and addressed.
+                    Operators <bcp14>MAY</bcp14> use such, self-correcting mechanisms for BGP Attribute TLV headers.
+                    However, they <bcp14>SHOULD</bcp14> consider the operational impact such features have, <bcp14>SHOULD</bcp14> monitor for cases where such self-correction is necessary, and <bcp14>SHOULD</bcp14> follow up on such cases to ensure that root-causes are identified and addressed.
                 </t>
             </section>
         </section>
