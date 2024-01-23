@@ -922,7 +922,7 @@
                     The in- and outbound filtering rules for all forms of BGP communities in <xref target="sec-bgp-community-scrubbing-in" format="default"/> and <xref target="sec-bgp-community-scrubbing-out" format="default"/> are <bcp14>RECOMMENDED</bcp14>
                 </t>
                 <t>
-                    However, please note the following general recommendations for community scrubbing:
+                    Additionally, please note the following general recommendations for community scrubbing:
                 </t>
                 <ul spacing="normal">
                     <li>
@@ -953,9 +953,9 @@
                             However, there are operational circumstances where it <bcp14>MAY</bcp14> be reasonable to accept extended BGP communities from neighbors, see, e.g., <xref target="RFC4364" format="default"/>, Inter-AS VPN Option B.
                         </li>
                         <li>
-                            When known, BGP communities and large-communities used to signal RPKI ROV validation state (see <xref target="sec-sidr-rov" format="default"/>) received from eBGP neighbors <bcp14>MUST</bcp14> be scrubbed.
+                            When known, BGP communities and large-communities used to signal RPKI ROV state (see <xref target="sec-sidr-rov" format="default"/>) received from eBGP neighbors <bcp14>MUST</bcp14> be scrubbed.
                             This is done to prevent BGP update storms in case a neighbor looses the connection to its validator, changing the validation state of previously valid NLRI, and thereby the applied community for those NLRI, triggering an update message.
-                            For further details on why communities and large-communities <bcp14>MUST NOT</bcp14> be used to signal RPKI ROV validation state, please see <xref target="TBD" format="default"/>.
+                            For further details on why communities and large-communities <bcp14>MUST NOT</bcp14> be used to signal RPKI ROV state, please see <xref target="TBD" format="default"/>.
                         </li>
                     </ul>
                 </section>
@@ -973,10 +973,10 @@
                             However, there are operational circumstances where it <bcp14>MAY</bcp14> be reasonable to send extended BGP communities to neighbors, see, e.g., <xref target="RFC4364" format="default"/>, Inter-AS VPN Option B.
                         </li>
                         <li>
-                            Operators <bcp14>MUST NOT</bcp14> use BGP communities or large-communities to signal RPKI ROV validation state, see <xref target="TBD" format="default"/>.
-                            If an operator is still in a migration phase discontinuing this practice, they <bcp14>MUST</bcp14> scrub any such community they use for signaling RPKI-ROV validation state before sending NLRI to their external neighbors.
+                            Operators <bcp14>MUST NOT</bcp14> use BGP communities or large-communities to signal RPKI ROV state, see <xref target="TBD" format="default"/>.
+                            If an operator is still in a migration phase discontinuing this practice, they <bcp14>MUST</bcp14> scrub any such community they use for signaling RPKI-ROV state before sending NLRI to their external neighbors.
                             This is done to prevent the propagation of BGP update storms in case one of their BGP speakers looses the connection to its validator, changing the validation state of previously valid NLRI, and thereby the applied community for those NLRI, triggering an update message.
-                            For further details on why communities and large-communities <bcp14>MUST NOT</bcp14> be used to signal RPKI ROV validation state, please see <xref target="TBD" format="default"/>.
+                            For further details on why communities and large-communities <bcp14>MUST NOT</bcp14> be used to signal RPKI ROV state, please see <xref target="TBD" format="default"/>.
                         </li>
                     </ul>
                 </section>
