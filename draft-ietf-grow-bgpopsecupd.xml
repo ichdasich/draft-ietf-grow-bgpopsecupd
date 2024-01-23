@@ -985,11 +985,22 @@
                 <section  anchor="sec-prefix-filtering-considerations-order">
                     <name>Order of Prefixfilters</name>
                     <t>
-                        Most vendors apply filters and changes (route maps, prefix filters, and other actions) to imported and exported NLRIs following a pre-defined sequence, while allowing redirection to other rules.
-                        This means that the application of prefix filters and other rules must avoid computationally expensive setups, or setups of rules that apply computation to NLRI that will subsequently be discarded.
+                        BGP is a policy-based routing protocol with import/export policies controlling advertisements/acceptance of NLRI (see <xref target="RFC4272" format="default"/> Sec. 9.1), and BGP sessions without policy being applied should default to a deny-all stance (see <xref target="RFC8212" format="default"/>).
+                        The specific implementation of import/export policies varies between vendors in terms of complexity and naming, from basic prefix-based / AS_PATH-based filters, to complex IF-THEN-like policy structures (typical names are: "route maps", "route policies", "policy statements").
+                    </t>
+
+                    <t>
+                        Independent of the implementation, all BGP policies consist of one or more rule sets, that are executed in a sequence, one after another.
+                        The first rule set will scan the complete content of Adj-RIBs-in or Adj-RIBs-out;
+                        NLRIs permitted by a rule set will be passed to subsequent rule sets, while denied prefixes are discarded.
+                    </t>
+
+                    <t>
+                        Policies <bcp14>SHOULD</bcp14> avoid computationally expensive setups, or setups of rules that apply computation to NLRI that will subsequently be discarded.
+                        Hence, the more prefixes a rule is likely to discard, the earlier it <bcp14>SHOULD</bcp14> be evaluated.
                     </t>
                     <t>
-                        Below, you can find an (incomplete) example for a simple inbound filter for a session with a neighbor in a peer relationship who has 60 prefixes in its cone creating additional load.
+                        To further illustrate this, you can find an (incomplete) example for a simple inbound filter for a session with a neighbor in a peer relationship who has 60 prefixes in its cone creating additional load.
                         We assume that, accidentally, an IPv4 fulltable of 1,000,000 entries is being sent.
                         2,500 NLRI contain unregistered/private AS numbers, 500 NLRI relate to bogon prefixes, and 5,000 NLRI are RPKI invalid, with none of the routes in the neigbor's cone falling in any of these categories.
                         The number of operations per line are given in parentheses.
@@ -1563,6 +1574,7 @@
                 <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
                 <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4271.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4272.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5082.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5925.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6811.xml"/>
