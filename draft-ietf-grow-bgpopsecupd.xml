@@ -915,14 +915,24 @@
                 <ul spacing="normal">
                     <li>
                         Operators <bcp14>SHOULD</bcp14> scrub inbound communities with their ASN in the high-order bits, unless they have been documented and communicated to neighbors to be used as a signaling mechanism.
+                    </li>
+                    <li>
                         Operators <bcp14>SHOULD</bcp14> scrub inbound large-communities with their ASN in the high-order bits, unless they have been documented and communicated to neighbors to be used as a signaling mechanism.
+                    </li>
+                    <li>
+                        Extended BGP communities (see <xref target="RFC4360" format="default"/>) received from external neighbors <bcp14>SHOULD</bcp14> in principle be scrubbed.
+                        In the outbound direction, Extended BGP communities <bcp14>SHOULD</bcp14> be scrubbed.
+                        However, there are operational circumstances where it <bcp14>MAY</bcp14> be reasonable to accept extended BGP communities from neighbors, see, e.g., <xref target="RFC4364" format="default"/>, Inter-AS VPN Option B.
+                    </li>
+                    <li>
+                        In case where communities / large communities specific to the own AS, or extended communities in general are not scrubbed as per the reasons above, it is strongly <bcp14>RECOMMENDED</bcp14> to maintain a strict allow-list of permissible BGP communities, and still scub those communities not contained in that list.
                     </li>
                     <li>
                         Networks administrators <bcp14>SHOULD NOT</bcp14> remove other communities applied on received routes (communities not removed after application of the previous statement).
                         In particular, they <bcp14>SHOULD</bcp14> keep original communities when they apply a community.
                         Customers might need them to communicate with upstream providers.
                         In particular, operators <bcp14>SHOULD NOT</bcp14> (generally) remove the no-export community, as it is usually announced by their neighbor for a certain purpose.
-                        Similarly, network operators should not remove RTBH related communities if send by the customer for a prefix of routable size.
+                        Similarly, network operators should not remove RTBH related communities if sent by the customer for a prefix of routable size.
                     </li>
                 </ul>
             </section>
@@ -1569,6 +1579,8 @@
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3704.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4012.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4456.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4360.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4364.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6192.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6480.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6518.xml"/>
