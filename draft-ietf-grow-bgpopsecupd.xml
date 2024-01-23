@@ -803,66 +803,81 @@
                     </t>
                 </section>
             </section>
-            <section  anchor="sec-as-path-filtering">
-                <name>AS_PATH Filtering</name>
+            <section  anchor="sec-as-path-handling">
+                <name>AS_PATH Handling</name>
                 <t>
-                    This section lists the <bcp14>RECOMMENDED</bcp14> practices when processing BGP AS_PATHs in addition the considerations from <xref target="sec-prefix-filtering" format="default"/>.
+                    This section discusses filtering AS_PATHs, as well as recommendations for AS_PATH manipulation, and which practices to avoid there.
                 </t>
-                <ul spacing="normal">
-                    <li>
-                        Operators <bcp14>SHOULD</bcp14> should follow <xref target="sec-rir-allocated-prefix-filters" format="default"/> to only accept 2-byte or 4-byte AS_PATHs from customers containing ASNs belonging to (or authorized to transit through) the customer.
-                        If operators cannot build and generate filtering expressions to implement this, they <bcp14>SHOULD</bcp14> consider accepting only path lengths relevant to the type of customer they have (as in, if these customers are a leaf or have customers of their own) and <bcp14>SHOULD</bcp14> try to discourage excessive prepending in such paths.
-                        This loose policy <bcp14>SHOULD</bcp14> be combined with filters for specific 2-byte or 4-byte AS_PATHs that must not be accepted if advertised by the customer, such as upstream transit providers or peer ASNs.
-                    </li>
-                    <li>
-                        Operators <bcp14>SHOULD NOT</bcp14> accept prefixes with private AS numbers in the AS_PATH unless the prefixes are from customers.
-                        In any case, operators <bcp14>SHOULD NOT</bcp14> re-export prefixes with AS_PATHs containing private AS numbers.
-                        An exception could occur when an upstream is offering some particular service like black-hole origination based on a private AS number:
-                        in that case, prefixes <bcp14>SHOULD</bcp14> be accepted.
-                        Customers should be informed by their upstream in order to put in place ad hoc policy to use such services.
-                    </li>
-                    <li>
-                        Operators <bcp14>SHOULD NOT</bcp14> accept prefixes when the first AS number in the AS_PATH is not the one of the neighbor unless the BGP session is setup towards a BGP route server <xref target="RFC7947" format="default"/>  (for example, on an IXP) with transparent AS_PATH handling.
-                        In that case, this verification needs to be deactivated, as the first AS number will be the one of an IXP member, whereas the neighbor's AS number will be the one of the BGP route server.
-                    </li>
-                    <li>
-                        Operators <bcp14>SHOULD NOT</bcp14> advertise prefixes with a nonempty AS_PATH unless they are either announcing prefixes from the GRT to downstreams, or if the whole AS_PATH is within their cone.
-                    </li>
-                    <li>
-                        Operators <bcp14>SHOULD NOT</bcp14> advertise prefixes with upstream AS numbers in the AS_PATH to any AS except to those to which they provide upstream transit.
-                    </li>
-                    <li>
-                        Private AS numbers are conventionally used in contexts that are "private" and <bcp14>SHOULD NOT</bcp14> be used in advertisements to BGP neighbors that are not party to such private arrangements, and they <bcp14>SHOULD</bcp14> be stripped when received from BGP neighbors that are not party to such private arrangements.
-                        Additionally, operators <bcp14>MAY</bcp14> decide to not accept prefixes with private AS numbers in their AS_PATH at all.
-                    </li>
-                    <li>
-                        Operators <bcp14>SHOULD NOT</bcp14> accept their own AS number in the AS_PATH by overriding BGP's default behavior.
-                        When considering an exception, the impact (which may be severe on routing) should be evaluated carefully.
-                    </li>
-                    <li>
-                        Overly long AS_PATH, i.e., longer than 64 entries, may cause issues for some older routing hardware.
-                        Hence, operators <bcp14>SHOULD NOT</bcp14> use excessive prepending when advertising prefixes.
-                        Excessive prepending is defined as any prepending that leads to an AS_PATH exceeding 64 entries across the GRT.
-                        Additionally, it is <bcp14>RECOMMENDED</bcp14> that operators filter any prefix advertised with an AS_PATH of more than 64 entries.
-                    </li>
-                </ul>
+                <section  anchor="sec-as-path-filtering">
+                    <name>AS_PATH Filtering</name>
+                    <t>
+                        This section lists the <bcp14>RECOMMENDED</bcp14> practices when processing BGP AS_PATHs in addition the considerations from <xref target="sec-prefix-filtering" format="default"/>.
+                    </t>
+                    <ul spacing="normal">
+                        <li>
+                            Operators <bcp14>SHOULD</bcp14> should follow <xref target="sec-rir-allocated-prefix-filters" format="default"/> to only accept 2-byte or 4-byte AS_PATHs from customers containing ASNs belonging to (or authorized to transit through) the customer.
+                            If operators cannot build and generate filtering expressions to implement this, they <bcp14>SHOULD</bcp14> consider accepting only path lengths relevant to the type of customer they have (as in, if these customers are a leaf or have customers of their own) and <bcp14>SHOULD</bcp14> try to discourage excessive prepending in such paths.
+                            This loose policy <bcp14>SHOULD</bcp14> be combined with filters for specific 2-byte or 4-byte AS_PATHs that must not be accepted if advertised by the customer, such as upstream transit providers or peer ASNs.
+                        </li>
+                        <li>
+                            Operators <bcp14>SHOULD NOT</bcp14> accept prefixes with private AS numbers in the AS_PATH unless the prefixes are from customers.
+                            In any case, operators <bcp14>SHOULD NOT</bcp14> re-export prefixes with AS_PATHs containing private AS numbers.
+                            An exception could occur when an upstream is offering some particular service like black-hole origination based on a private AS number:
+                            in that case, prefixes <bcp14>SHOULD</bcp14> be accepted.
+                            Customers should be informed by their upstream in order to put in place ad hoc policy to use such services.
+                        </li>
+                        <li>
+                            Operators <bcp14>SHOULD NOT</bcp14> accept prefixes when the first AS number in the AS_PATH is not the one of the neighbor unless the BGP session is setup towards a BGP route server <xref target="RFC7947" format="default"/>  (for example, on an IXP) with transparent AS_PATH handling.
+                            In that case, this verification needs to be deactivated, as the first AS number will be the one of an IXP member, whereas the neighbor's AS number will be the one of the BGP route server.
+                        </li>
+                        <li>
+                            Operators <bcp14>SHOULD NOT</bcp14> advertise prefixes with a nonempty AS_PATH unless they are either announcing prefixes from the GRT to downstreams, or if the whole AS_PATH is within their cone.
+                        </li>
+                        <li>
+                            Operators <bcp14>SHOULD NOT</bcp14> advertise prefixes with upstream AS numbers in the AS_PATH to any AS except to those to which they provide upstream transit.
+                        </li>
+                        <li>
+                            Private AS numbers are conventionally used in contexts that are "private" and <bcp14>SHOULD NOT</bcp14> be used in advertisements to BGP neighbors that are not party to such private arrangements, and they <bcp14>SHOULD</bcp14> be stripped when received from BGP neighbors that are not party to such private arrangements.
+                            Additionally, operators <bcp14>MAY</bcp14> decide to not accept prefixes with private AS numbers in their AS_PATH at all.
+                        </li>
+                        <li>
+                            Operators <bcp14>SHOULD NOT</bcp14> accept their own AS number in the AS_PATH by overriding BGP's default behavior.
+                            When considering an exception, the impact (which may be severe on routing) should be evaluated carefully.
+                        </li>
+                        <li>
+                            Overly long AS_PATH, i.e., longer than 64 entries, may cause issues for some older routing hardware.
+                            Hence, operators <bcp14>SHOULD NOT</bcp14> use excessive prepending when advertising prefixes.
+                            Excessive prepending is defined as any prepending that leads to an AS_PATH exceeding 64 entries across the GRT.
+                            Additionally, it is <bcp14>RECOMMENDED</bcp14> that operators filter any prefix advertised with an AS_PATH of more than 64 entries.
+                        </li>
+                    </ul>
+                </section>
+                <section  anchor="sec-as-path-manipulation">
+                    <name>AS_PATH Manipulation</name>
+                    <t>
+                        This section lists the <bcp14>RECOMMENDED</bcp14> practices when manipulating BGP AS_PATHs, to limit chances of accidentally producing AS_PATHs that would have to be filtered by neighbors according to <xref target="sec-as-path-filtering" format="default"/>.
+                    </t>
                 <t>
-                    AS_PATH filtering should be further analyzed when ASN renumbering is done.
+                    Some BGP implementations offer various advanced AS_PATH manipulation features, such as overriding or rewriting a part of the AS_PATH.
+                    For instance, a very commonly used mechanism is the so-called "AS Override" feature, primarily intended for use in MPLS L3 VPNs, where the customer's AS number is overriden with the provider's AS number, to allow site-to-site communication where both customer sites use the same AS number.
+                    Some vendors went even further, offering a possibility to fully rewrite or even delete the AS_PATH Attribute from incoming or outgoing BGP Update messages.
+                </t>
+                <t>
+                    Furthermore, AS_PATH filtering is an option when ASN renumbering is done.
                     Such an operation is common, and mechanisms exist to allow smooth ASN migration <xref target="RFC7705" format="default"/>.
-                    The usual migration technique, local to a router, consists in modifying the AS_PATH so it is presented to a neighbor with the previous ASN, as if no renumbering was done.
+                    The usual migration technique, local to a router, consists of modifying the AS_PATH so it is presented to a neighbor with the previous ASN, as if no renumbering was done.
                     This makes it possible to change the ASN of a router without reconfiguring all eBGP neighbors at the same time (as that operation would require synchronization with all neighbors attached to that router).
                     During this renumbering operation, the rules described above may be adjusted.
                 </t>
                 <t>
-					Some BGP implementations offer various advanced AS_PATH manipulation features, such as overriding or rewriting a part of the AS_PATH.
-					For instance, a very commonly used mechanism is the so-called "AS Override" feature, primarily intended for use in MPLS L3 VPNs, where the customer's AS number is overriden with the provider's AS number, to allow site-to-site communication where both customer sites use the same AS number.
-					Some vendors went even further, offering a possibility to fully rewrite or even delete the AS_PATH Attribute from incoming or outgoing BGP Update messages.
-					In principle, use of any AS_PATH modification mechanism except AS_PATH prepend in the public Internet <bcp14>SHOULD</bcp14> be avoided at all.
-					Also, as discussed already, AS_PATH prepends <bcp14>SHOULD NOT</bcp14> be excessive.
-					Operators are <bcp14>RECOMMENDED</bcp14> to not prepend more than five times.
-					The "AS Override" feature <bcp14>MAY</bcp14> still be used in closed environments, such as VPNs not directly exchanging any NLRIs with the Internet.
-					AS_PATH rewriting/deleting <bcp14>SHOULD</bcp14> be avoided.
+                    In principle, use of any AS_PATH modification mechanism except AS_PATH prepend in the public Internet <bcp14>SHOULD</bcp14> be avoided at all.
+                    Also, as discussed already, AS_PATH prepends <bcp14>SHOULD NOT</bcp14> be excessive.
+                    Operators are <bcp14>RECOMMENDED</bcp14> to not prepend more than five times.
+                    The "AS Override" feature <bcp14>MAY</bcp14> still be used in closed environments, such as VPNs not directly exchanging any NLRIs with the Internet.
+                    AS_PATH rewriting/deleting <bcp14>SHOULD</bcp14> be avoided.
+                    Especially the practice of providing upstream to customers using a private ASN and then using rewriting on either side is strongly <bcp14>NOT RECOMMENDED</bcp14>.
                 </t>
+                </section>
             </section>
             <section  anchor="sec-next-hop-filtering">
                 <name>Next-Hop Filtering</name>
