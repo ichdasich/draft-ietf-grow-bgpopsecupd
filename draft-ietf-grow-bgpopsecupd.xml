@@ -1011,6 +1011,17 @@
                     However, they <bcp14>SHOULD</bcp14> consider the operational impact such features have, <bcp14>SHOULD</bcp14> monitor for cases where such self-correction is necessary, and <bcp14>SHOULD</bcp14> follow up on such cases to ensure that root-causes are identified and addressed.
                 </t>
             </section>
+            <section  anchor="sec-bgp-med-oscilation">
+                <name>Preventing MED Oscilation</name>
+                <t>
+                    As documented in <xref target="RFC3345" format="default"/>, the use of BGP Route Reflection <xref target="RFC4456" format="default"/> and BGP Confederation <xref target="RFC5065" format="default"/> can lead to route oscilation, especially in conjunction with the MULTI_EXIT_DISC (MED) attribute (see <xref target="RFC4271" format="default"/>).
+                    If BGP route oscilation occurs, routes may be blackholed if dampening is implemented by neighbors, or individual BGP speakers may become overloaded, further aggrevating the oscilation issue.
+                </t>
+                <t>
+                    Hence, operators <bcp14>SHOULD</bcp14> familiarize themselves with <xref target="RFC7964" format="default"/>, which describes methods and approaches to counteract MED related route-oscilation.
+                    Operators <bcp14>SHOULD</bcp14> carefully evaluate their network's requirements and implement the practices documented in <xref target="RFC7964" format="default"/> as appropriate.
+                </t>
+            </section>
             <section  anchor="sec-bgp-ixp-behavior">
                 <name>Behavior Connection via an IXP</name>
                 <t>
@@ -1675,12 +1686,15 @@
                 <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4271.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4272.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4456.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5065.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5082.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5925.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6811.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7606.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7115.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7196.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7964.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8092.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8200.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8201.xml"/>
@@ -1722,9 +1736,9 @@
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1918.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1997.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2827.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3345.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3704.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4012.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4456.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4360.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4364.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6192.xml"/>
