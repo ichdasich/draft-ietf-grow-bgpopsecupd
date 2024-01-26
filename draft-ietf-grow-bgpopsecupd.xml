@@ -986,10 +986,11 @@
                 <name>BGP Attribute Scrubbing</name>
                 <t>
                     Over the past years several instances of network disruptions due to routers being unable to process specific BGP attributes were encountered.
-                    As such, operators <bcp14>MAY</bcp14> opt to scrub all BGP attributes known to cause service disruptions on their infrastructure.
+                    As such, operators <bcp14>MAY</bcp14> opt to temporarily scrub specific BGP attributes known to cause service disruptions on their infrastructure.
+                    Operators <bcp14>SHOULD NOT</bcp14> scrub unknown transitive attributes in general.
                 </t>
                 <t>
-                    However, while being a very useful tool, BGP attribute scrubbing features <bcp14>MAY</bcp14> cause undesired effects and sometimes even large-scale outages as well.
+                    However, while being a very useful tool, BGP attribute scrubbing features may cause undesired effects and sometimes even large-scale outages as well.
                     Therefore, they <bcp14>MUST NOT</bcp14> be used as a permanent solution, but only as a last-resort temporary workaround.
                     Furthermore, removing mandatory BGP attributes and optional attributes commonly used in the Internet, such as AS_PATH, Communities, MED etc. may have a significant negative impact beyond an operator's own AS.
                     Hence, it is <bcp14>RECOMMENDED</bcp14> that such attributes are never removed.
