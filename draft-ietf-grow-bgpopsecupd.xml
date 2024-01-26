@@ -42,7 +42,7 @@
                 It specifically does not cover other uses of BGP, e.g., in a datacenter context.
             </t>
             <t>
-                While the recommendations in this document are, in general, best practices, operators are still need to carefully weigh individual measures vs. their local network requirements before implementing them.
+                While the recommendations in this document are, in general, best practices, operators still need to carefully weigh individual measures vs. their local network requirements before implementing them.
                 Also, as with BCP194, best practices outlined in this document may have changed since its publication.
             </t>
         </abstract>
