@@ -144,7 +144,7 @@
                 <dt>Network edge:</dt>
                 <dd>Last routers under the control of an operator.</dd>
 
-                <dt>Mutual Upstream:</dt>
+                <dt>Mutual Transit:</dt>
                 <dd>When two directly connected ASes both advertise a BGP fulltable to each other. (See: <xref target="I-D.ietf-sidrops-aspa-verification" format="default"/>)</dd>
 
                 <dt>Upstream:</dt>
@@ -160,10 +160,10 @@
                 <dd>Two directly connected ASes who only advertise routes they originate or learned from their downstreams to each other. (See: <xref target="RFC9234" format="default"/>)</dd>
 
                 <dt>Providing Transit:</dt>
-                <dd>Forwarding packets destined for addresses in an advertised prefix.</dd>
+                <dd>Forwarding packets destined for addresses in an advertised prefix, while advertising a full BGP table or default route to the neighbor.</dd>
 
                 <dt>Providing Upstream:</dt>
-                <dd>Providing transit while advertising a full BGP table or default route to the neighbor.</dd>
+                <dd>See: Providing Transit</dd>
 
                 <dt>Router:</dt>
                 <dd>In this document, router always refers to a BGP speaker.</dd>
