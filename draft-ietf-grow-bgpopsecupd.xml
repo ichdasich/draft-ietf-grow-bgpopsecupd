@@ -1011,6 +1011,45 @@
                     However, they <bcp14>SHOULD</bcp14> consider the operational impact such features have, <bcp14>SHOULD</bcp14> monitor for cases where such self-correction is necessary, and <bcp14>SHOULD</bcp14> follow up on such cases to ensure that root-causes are identified and addressed.
                 </t>
             </section>
+            <section  anchor="sec-bgp-ixp-behavior">
+                <name>Behavior Connection via an IXP</name>
+                <t>
+                    IXPs are an essential aspect of the modern Internet, and contribute to keeping local traffic local.
+                    As such, IXP fabrics often handle a significant amount of traffic, providing challenges for traffic engineering.
+                    Hence, this section documents best practices when connecting to an IXP that inflict on the reliability of the global routing ecosystem.
+                </t>
+                <section  anchor="sec-bgp-ixp-lpref">
+                    <name>Not Setting a Higher LOCAL_PREF for NLRI received via an IXP</name>
+                    <t>
+                        Given that traffic forwarded via an IXP can be more cost-efficient than sending that same traffic via an upstream, many operators set a higher LOCAL_PREF for NLRI received via an IXP.
+                        This means that all traffic from the AS and all members of its cone routing via this AS will preferentially be routed via these paths (see <xref target="RFC4271" format="default"/>), effectively overriding the effect of AS_PATH prepending, see also <xref target="I-D.ietf-grow-as-path-prepending" format="default"/>.
+                    </t>
+                    <t>
+                        As noted in <xref target="I-D.ietf-grow-as-path-prepending" format="default"/>, setting a higher LOCAL_PREF on IXP links means that neighbors on the IXP can no longer use AS_PATH prepending for, e.g., traffic engineering.
+                        More crucially, it prevents operators from draining traffic flowing via an IXP when necessary, e.g., prior to a scheduled maintenance.
+                        Especially when NLRI are exchanged via an RS, simply terminating the session is usually not possible without also impacting other neighbors.
+                    </t>
+                    <t>
+                        Hence, operators <bcp14>SHOULD NOT</bcp14> set a higher local preference for NLRI received via an IXP RS.
+                        Instead, other non-transitive methods, e.g., setting a corresponding MED on imported routes, should be preferred.
+                    </t>
+                    <t>
+                        If, when trying to drain traffic on an IXP link via AS_PATH prepending of NLRI sent to the RS, an operator encounters an IXP member ignoring these prepends, they may be able to selectively widthdraw routes from being announced to that member by using communities documented by the IXP to prevent the RS from exporting their NLRI to that specific IXP member.
+                    </t>
+                </section>
+                <section  anchor="sec-bgp-ixp-gshut">
+                    <name>Not Setting a Higher LOCAL_PREF for NLRI received via an IXP</name>
+                    <t>
+                        Graceful BGP Session Shutdown (GSHUT) as defined in <xref target="RFC8326" format="default"/> is a formalized method for draining traffic from sessions gracefully before, e.g., maintenance.
+                        However, while AS_PATH prepending does not have to be supported by two neighbors, GSHUT requires all neighbors to implement it by implementing a policy that assigns a lower LOCAL_PREF to NLRI mathing the GRACEFUL_SHUTDOWN BGP community.
+                    </t>
+                    <t>
+                        GSHUT is a more effective method of traffic draining than, e.g., AS_PATH prepending.
+                        Hence, GSHUT <bcp14>SHOULD</bcp14> be supported on all eBGP sessions.
+                        Furthermore, when ignoring the previous recommendation and setting a higher LOCAL_PREF for sessions via an IXP LAN, GSHUT <bcp14>MUST</bcp14> be supported.
+                    </t>
+                </section>
+            </section>
         </section>
         <section  anchor="sec-prefix-filtering-rec">
             <name>Prefix Filtering Recommendations</name>
@@ -1634,6 +1673,7 @@
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8200.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8201.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8212.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8326.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8704.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9234.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9319.xml"/>
@@ -1983,6 +2023,69 @@
                        <date month="November" year="2013"/>
                      </front>
                    </reference>
+                <reference anchor="I-D.ietf-grow-as-path-prepending" target="https://datatracker.ietf.org/doc/html/draft-ietf-grow-as-path-prepending-10">
+                    <front>
+                        <title>AS Path Prepending</title>
+                        <author fullname="Mike McBride" initials="M" surname="McBride">
+                            <organization>Futurewei</organization>
+                            <address>
+                                <email>michael.mcbride@futurewei.com</email>
+                            </address>
+                        </author>
+                        <author fullname="Doug Madory" initials="D" surname="Madory">
+                            <organization>Kentik</organization>
+                            <address>
+                                <email>dmadory@kentik.com</email>
+                            </address>
+                        </author>
+                        <author fullname="Jeff Tantsura" initials="J" surname="Tantsura">
+                            <organization>Nvidia</organization>
+                            <address>
+                                <email>jefftant.ietf@gmail.com</email>
+                            </address>
+                        </author>
+                        <author fullname='Robert Raszuk' initials='R' surname='Raszuk'>
+                            <organization>NTT Network Innovations</organization>
+                            <address>
+                                <postal>
+                                    <street>940 Stewart Dr</street>
+                                    <city>Sunnyvale</city>
+                                    <region>CA</region>
+                                    <code>94085</code>
+                                    <country>USA</country>
+                                </postal>
+                                <email>robert@raszuk.net</email>
+                            </address>
+                        </author>
+                        <author fullname="Hongwei Li" initials="H." surname="Li">
+                            <organization>HPE</organization>
+                            <address>
+                                <email>flycoolman@gmail.com</email>
+                            </address>
+                        </author>
+                        <author fullname="Jakob Heitz" initials="J. " surname="Heitz">
+                            <organization>Cisco</organization>
+                            <address>
+                                <postal>
+                                    <street>170 West Tasman Drive</street>
+                                    <city>San Jose</city>
+                                    <region>CA</region>
+                                    <code>95134</code>
+                                    <country>USA</country>
+                                </postal>
+                                <email>jheitz@cisco.com</email>
+                            </address>
+                        </author>
+                        <author fullname="Gyan Mishra" initials="G. " surname="Mishra">
+                            <organization>Verizon Inc.</organization>
+                            <address>
+                                <email>gyan.s.mishra@verizon.com</email>
+                            </address>
+                        </author>
+                        <date day="16" month="January" year="2024"/>
+                    </front>
+                    <seriesInfo name="Internet-Draft" value="draft-ietf-grow-as-path-prepending-10"/>
+                </reference>
             </references>
         </references>
         <section anchor="acknowledgements" numbered="false" toc="default">
