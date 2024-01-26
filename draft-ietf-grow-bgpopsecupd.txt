@@ -4,8 +4,8 @@
 
 Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
-Intended status: Best Current Practice                   23 January 2024
-Expires: 26 July 2024
+Intended status: Best Current Practice                   26 January 2024
+Expires: 29 July 2024
 
 
                   Updated BGP Operations and Security
@@ -59,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 July 2024.
+   This Internet-Draft will expire on 29 July 2024.
 
 Copyright Notice
 
@@ -131,6 +131,11 @@ Table of Contents
        8.5.2.  Outbound BGP Community Scrubbing
      8.6.  BGP Attribute Scrubbing
      8.7.  BGP Attribute Header Correction
+     8.8.  Behavior Connection via an IXP
+       8.8.1.  Not Setting a Higher LOCAL_PREF for NLRI received via
+               an IXP
+       8.8.2.  Not Setting a Higher LOCAL_PREF for NLRI received via
+               an IXP
    9.  Prefix Filtering Recommendations
      9.1.  Prefix Filter Implementation Considerations
        9.1.1.  Implicit Policies and Default Behavior
@@ -762,7 +767,7 @@ Table of Contents
       Authorization) [I-D.ietf-sidrops-aspa-verification] objects, see
       also Section 7.2.2, is likely to be more relevant within the
       context of BGP.  Even though the draft on ASPA has not been
-      finalized, first adoption of ASPA can be observed, first
+      finalized, first adoption of ASPA can be observed, and first
       implementations started to support it, following the development
       of [I-D.ietf-sidrops-aspa-verification], see [OpenBGPd] and
       [rpki-client].
@@ -912,6 +917,7 @@ Table of Contents
    To ensure that no prefixes leak via AS relationships (routes learned
    from peers or upstreams to other peers or upstreams), [RFC9234]
    introduces BGP roles and the BGP Only to Customer (OTC) attribute.
+   The OTC attribute forms a tandem with ASPA, see Section 7.2.2.
    Operators SHOULD configure appropriate roles according to Section 3
    of [RFC9234] to enable prefix filtering based on BGP relationships.
    Furthermore, for prefixes imported from upstreams, the OTC attribute
@@ -1276,54 +1282,61 @@ Table of Contents
 
 8.5.  BGP Community Scrubbing
 
-   For BGP, communities [RFC1997], extended communities [RFC4360], and
-   large communities [RFC8092] have been defined for additional inband
-   signaling.  Communities are useful in iBGP and eBGP alike.  For
-   example, communities and large-communities are often used by
-   operators to allow neighbors to signal additional traffic engineering
-   requirements, e.g., asking an upstream not to announce a specific
-   NLRI to one of its neighbors.  Similarly, communities are essential
-   for proper filtering of downstreams' prefixes in the absence of ASPA/
-   OTC.  While usually more focused on L2VPN and L3VPN scenarios,
-   extended communities may also find specific use when interacting with
-   external neighbors, see, e.g., [RFC4364], Inter-AS VPN Option B.
+   For BGP, BGP communities [RFC1997], extended BGP communities
+   [RFC4360], and BGP large-communities [RFC8092] have been defined for
+   additional inband signaling.  In the remainder of this section, we
+   use the term 'BGP communities' to mean [RFC1997] and [RFC8092] BGP
+   communities alike, while we explicitly refer to [RFC4360] as
+   'extended BGP communities'.
+
+   Communities are useful in iBGP and eBGP alike.  For example, BGP
+   communities are often used by operators to allow neighbors to signal
+   additional traffic engineering requirements, e.g., asking an upstream
+   not to announce a specific NLRI to one of its neighbors.  Similarly,
+   BGP communities are essential for proper filtering of downstreams'
+   prefixes in the absence of ASPA/OTC.  While usually more focused on
+   L2VPN and L3VPN scenarios, extended BGP communities may also find
+   specific use when interacting with external neighbors, see, e.g.,
+   [RFC4364], Inter-AS VPN Option B.
 
    However, as they may carry instructive information, external
    unauthorized neighbors should not be allowed to send NLRI with AS
-   specific communities.  Similarly, internally used communities may
-   reveal non-public information or cause disturbance in misconfigured
-   networks.  The in- and outbound filtering rules for all forms of BGP
-   communities in Section 8.5.1 and Section 8.5.2 are RECOMMENDED
+   specific BGP communities.  Similarly, internally used BGP communities
+   may reveal non-public information or cause disturbance in
+   misconfigured networks.  The in- and outbound filtering rules for all
+   forms of BGP communities in Section 8.5.1 and Section 8.5.2 are
+   RECOMMENDED
 
    Additionally, please note the following general recommendations for
    community scrubbing:
 
-   *  Networks administrators SHOULD NOT remove other communities
-      applied on received routes (communities not removed after
+   *  Networks administrators SHOULD NOT remove other BGP communities
+      applied on received routes (BGP communities not removed after
       application of the previous statement).  In particular, they
-      SHOULD keep original communities when they apply a community.
+      SHOULD keep original BGP communities when they apply a community.
 
    *  Operators SHOULD NOT remove the no-export community, as it is
       usually announced by their neighbor for a certain purpose.
 
-   *  Network operators SHOULD NOT remove RTBH related communities if
-      sent by the customer for a prefix of routable size.
+   *  Network operators SHOULD NOT remove RTBH related BGP communities
+      if sent by the customer for a prefix of routable size.
 
-   *  In case where communities / extended communities / large
-      communities specific to the own AS are not scrubbed, it is
+   *  In case where BGP communities / extended BGP communities / BGP
+      large-communities specific to the own AS are not scrubbed, it is
       strongly RECOMMENDED to maintain a strict allow-list of
-      permissible BGP communities, and still scrub those communities not
-      contained in that list, even if these communities are not in use.
+      permissible BGP communities, and still scrub those BGP communities
+      not contained in that list, even if these BGP communities are not
+      in use.
 
 8.5.1.  Inbound BGP Community Scrubbing
 
-   *  Operators SHOULD scrub inbound communities with their ASN in the
-      high-order bits, unless they have been documented and communicated
-      to neighbors to be used as a signaling mechanism.
-
-   *  Operators SHOULD scrub inbound large-communities with their ASN in
+   *  Operators SHOULD scrub inbound BGP communities with their ASN in
       the high-order bits, unless they have been documented and
-      communicated to neighbors to be used as a signaling mechanism.
+      communicated to neighbors to be used as a signaling mechanism.  If
+      a received NLRI contains an excessive amount of BGP communities,
+      i.e., more than 100, operators MAY truncate the list of BGP
+      communities.  When truncating BGP communities, operators SHOULD
+      prioritize retaining BGP communities of their neighbors.
 
    *  Extended BGP communities (see [RFC4360]) received from external
       neighbors SHOULD be scrubbed.  However, there are operational
@@ -1331,51 +1344,59 @@ Table of Contents
       communities from neighbors, see, e.g., [RFC4364], Inter-AS VPN
       Option B.
 
-   *  When known, BGP communities and large-communities used to signal
-      RPKI ROV state (see Section 7.2.1) received from eBGP neighbors
-      MUST be scrubbed.  This is done to prevent BGP update storms in
-      case a neighbor looses the connection to its validator, changing
-      the validation state of previously valid NLRI, and thereby the
-      applied community for those NLRI, triggering an update message.
-      For further details on why communities and large-communities MUST
-      NOT be used to signal RPKI ROV state, please see [TBD].
+   *  When known, BGP communities used to signal RPKI ROV state (see
+      Section 7.2.1) received from eBGP neighbors MUST be scrubbed.
+      This is done to prevent BGP update storms in case a neighbor
+      looses the connection to its validator, changing the validation
+      state of previously valid NLRI, and thereby the applied community
+      for those NLRI, triggering an update message.  For further details
+      on why BGP communities MUST NOT be used to signal RPKI ROV state,
+      please see [TBD].
 
 8.5.2.  Outbound BGP Community Scrubbing
 
-   *  Operators SHOULD scrub outbound communities with their ASN in the
-      high-order bits, unless their semantics have been documented and
-      communicated to neighbors.
-
-   *  Operators SHOULD scrub outbound large-communities with their ASN
-      in the high-order bits, unless their semantics have been
-      documented and communicated to neighbors.
+   *  Operators SHOULD scrub outbound BGP communities with their ASN in
+      the high-order bits, unless their semantics have been documented
+      and communicated to neighbors.  Even if the semantics of BGP
+      communities has been documented, operators SHOULD be mindful of
+      the number of BGP communities they add to NLRI.  When sending NLRI
+      to neighbors, operators SHOULD limit the number of BGP communities
+      they communicate to the outside, i.e., not overload NLRI with an
+      excessive amount of BGP communities by outbound filtering all non-
+      externally useful BGP communities they added for use within their
+      own network.  Furthermore, when defining BGP communities,
+      operators MUST be careful not to define redundant BGP communities
+      or using multiple BGP communities to express properties that could
+      sensibly be represented with a single community.
 
    *  Extended BGP communities (see [RFC4360]) SHOULD NOT be sent to
       eBGP neighbors.  However, there are operational circumstances
       where it MAY be reasonable to send extended BGP communities to
       neighbors, see, e.g., [RFC4364], Inter-AS VPN Option B.
 
-   *  Operators MUST NOT use BGP communities or large-communities to
-      signal RPKI ROV state, see [TBD].  If an operator is still in a
-      migration phase discontinuing this practice, they MUST scrub any
-      such community they use for signaling RPKI-ROV state before
-      sending NLRI to their external neighbors.  This is done to prevent
-      the propagation of BGP update storms in case one of their BGP
-      speakers looses the connection to its validator, changing the
-      validation state of previously valid NLRI, and thereby the applied
-      community for those NLRI, triggering an update message.  For
-      further details on why communities and large-communities MUST NOT
-      be used to signal RPKI ROV state, please see [TBD].
+   *  Operators MUST NOT use BGP communities to signal RPKI ROV state,
+      see [TBD].  If an operator is still in a migration phase
+      discontinuing this practice, they MUST scrub any such community
+      they use for signaling RPKI-ROV state before sending NLRI to their
+      external neighbors.  This is done to prevent the propagation of
+      BGP update storms in case one of their BGP speakers looses the
+      connection to its validator, changing the validation state of
+      previously valid NLRI, and thereby the applied community for those
+      NLRI, triggering an update message.  For further details on why
+      BGP communities MUST NOT be used to signal RPKI ROV state, please
+      see [TBD].
 
 8.6.  BGP Attribute Scrubbing
 
    Over the past years several instances of network disruptions due to
    routers being unable to process specific BGP attributes were
-   encountered.  As such, operators MAY opt to scrub all BGP attributes
-   known to cause service disruptions on their infrastructure.
+   encountered.  As such, operators MAY opt to temporarily scrub
+   specific BGP attributes known to cause service disruptions on their
+   infrastructure.  Operators SHOULD NOT scrub unknown transitive
+   attributes in general.
 
    However, while being a very useful tool, BGP attribute scrubbing
-   features MAY cause undesired effects and sometimes even large-scale
+   features may cause undesired effects and sometimes even large-scale
    outages as well.  Therefore, they MUST NOT be used as a permanent
    solution, but only as a last-resort temporary workaround.
    Furthermore, removing mandatory BGP attributes and optional
@@ -1404,6 +1425,60 @@ Table of Contents
    such features have, SHOULD monitor for cases where such self-
    correction is necessary, and SHOULD follow up on such cases to ensure
    that root-causes are identified and addressed.
+
+8.8.  Behavior Connection via an IXP
+
+   IXPs are an essential aspect of the modern Internet, and contribute
+   to keeping local traffic local.  As such, IXP fabrics often handle a
+   significant amount of traffic, providing challenges for traffic
+   engineering.  Hence, this section documents best practices when
+   connecting to an IXP that inflict on the reliability of the global
+   routing ecosystem.
+
+8.8.1.  Not Setting a Higher LOCAL_PREF for NLRI received via an IXP
+
+   Given that traffic forwarded via an IXP can be more cost-efficient
+   than sending that same traffic via an upstream, many operators set a
+   higher LOCAL_PREF for NLRI received via an IXP.  This means that all
+   traffic from the AS and all members of its cone routing via this AS
+   will preferentially be routed via these paths (see [RFC4271]),
+   effectively overriding the effect of AS_PATH prepending, see also
+   [I-D.ietf-grow-as-path-prepending].
+
+   As noted in [I-D.ietf-grow-as-path-prepending], setting a higher
+   LOCAL_PREF on IXP links means that neighbors on the IXP can no longer
+   use AS_PATH prepending for, e.g., traffic engineering.  More
+   crucially, it prevents operators from draining traffic flowing via an
+   IXP when necessary, e.g., prior to a scheduled maintenance.
+   Especially when NLRI are exchanged via an RS, simply terminating the
+   session is usually not possible without also impacting other
+   neighbors.
+
+   Hence, operators SHOULD NOT set a higher local preference for NLRI
+   received via an IXP RS.  Instead, other non-transitive methods, e.g.,
+   setting a corresponding MED on imported routes, should be preferred.
+
+   If, when trying to drain traffic on an IXP link via AS_PATH
+   prepending of NLRI sent to the RS, an operator encounters an IXP
+   member ignoring these prepends, they may be able to selectively
+   widthdraw routes from being announced to that member by using
+   communities documented by the IXP to prevent the RS from exporting
+   their NLRI to that specific IXP member.
+
+8.8.2.  Not Setting a Higher LOCAL_PREF for NLRI received via an IXP
+
+   Graceful BGP Session Shutdown (GSHUT) as defined in [RFC8326] is a
+   formalized method for draining traffic from sessions gracefully
+   before, e.g., maintenance.  However, while AS_PATH prepending does
+   not have to be supported by two neighbors, GSHUT requires all
+   neighbors to implement it by implementing a policy that assigns a
+   lower LOCAL_PREF to NLRI mathing the GRACEFUL_SHUTDOWN BGP community.
+
+   GSHUT is a more effective method of traffic draining than, e.g.,
+   AS_PATH prepending.  Hence, GSHUT SHOULD be supported on all eBGP
+   sessions.  Furthermore, when ignoring the previous recommendation and
+   setting a higher LOCAL_PREF for sessions via an IXP LAN, GSHUT MUST
+   be supported.
 
 9.  Prefix Filtering Recommendations
 
@@ -2087,6 +2162,11 @@ Table of Contents
               RFC 8212, DOI 10.17487/RFC8212, July 2017,
               <https://www.rfc-editor.org/info/rfc8212>.
 
+   [RFC8326]  Francois, P., Ed., Decraene, B., Ed., Pelsser, C., Patel,
+              K., and C. Filsfils, "Graceful BGP Session Shutdown",
+              RFC 8326, DOI 10.17487/RFC8326, March 2018,
+              <https://www.rfc-editor.org/info/rfc8326>.
+
    [RFC8704]  Sriram, K., Montgomery, D., and J. Haas, "Enhanced
               Feasible-Path Unicast Reverse Path Forwarding", BCP 84,
               RFC 8704, DOI 10.17487/RFC8704, February 2020,
@@ -2315,10 +2395,29 @@ Table of Contents
               Goldberg, "", DOI 10.1145/2535771.2535787, November 2013,
               <https://dl.acm.org/doi/pdf/10.1145/2535771.2535787>.
 
+   [I-D.ietf-grow-as-path-prepending]
+              McBride, M., Madory, D., Tantsura, J., Raszuk, R., Li, H.,
+              Heitz, J., and G. Mishra, "AS Path Prepending", Work in
+              Progress, Internet-Draft, draft-ietf-grow-as-path-
+              prepending-10, 16 January 2024,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-grow-as-
+              path-prepending-10>.
+
 Acknowledgements
 
    This document is based on [RFC7454] and we thank the original authors
    for their work.
+
+   We thank the following people for reviewing this draft and suggesting
+   changes:
+
+   *  Jeff Haas
+
+   *  Martin Pels
+
+   *  Job Snijders
+
+   *  Berislav Todorovic
 
 Author's Address
 
