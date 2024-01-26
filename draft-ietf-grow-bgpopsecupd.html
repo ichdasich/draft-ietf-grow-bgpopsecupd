@@ -21,7 +21,7 @@
                 It specifically does not cover other uses of BGP, e.g., in a datacenter context.
        
        
-                While the recommendations in this document are, in general, best practices, operators are still need to carefully weigh individual measures vs. their local network requirements before implementing them.
+                While the recommendations in this document are, in general, best practices, operators still need to carefully weigh individual measures vs. their local network requirements before implementing them.
                 Also, as with BCP194, best practices outlined in this document may have changed since its publication.
        
     " name="description">
@@ -1055,6 +1055,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="workgroup">Global Routing Operations</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
 <dd class="internet-draft">draft-ietf-grow-bgpopsecupd-latest</dd>
+<dt class="label-obsoletes">Obsoletes:</dt>
+<dd class="obsoletes">
+<a href="https://www.rfc-editor.org/rfc/rfc7454" class="eref">7454</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
 <time datetime="2024-01-26" class="published">26 January 2024</time>
@@ -1086,7 +1089,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 This document provides a comprehensive list of Internet specific BGP security and reliability related best practices as of the time of publication.
                 It specifically does not cover other uses of BGP, e.g., in a datacenter context.<a href="#section-abstract-3" class="pilcrow">¶</a></p>
 <p id="section-abstract-4">
-                While the recommendations in this document are, in general, best practices, operators are still need to carefully weigh individual measures vs. their local network requirements before implementing them.
+                While the recommendations in this document are, in general, best practices, operators still need to carefully weigh individual measures vs. their local network requirements before implementing them.
                 Also, as with BCP194, best practices outlined in this document may have changed since its publication.<a href="#section-abstract-4" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
@@ -1683,7 +1686,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         Operators are also <span class="bcp14">RECOMMENDED</span> to consider the trade-offs and apply BGP session protection on all other external BGP sessions as well.<a href="#section-5.1.1-4" class="pilcrow">¶</a></p>
 <p id="section-5.1.1-5">
                         Aside of this, most vendors use simple, reverse-decryptable password hash algorithm to store shared secrets keys for BGP (and other routing protocols) in devices' configuration files.
-                        While this practice simplifies password management tasks, since the passwords can always easily be deciphered, it carries the risk of leaking this information if a configuration is shared, e.g., with a vendor for a support case, or if the device is decomissioned and later resold without having been wiped.
+                        While this practice simplifies password management tasks, since the passwords can always easily be deciphered, it carries the risk of leaking this information if a configuration is shared, e.g., with a vendor for a support case, or if the device is decommissioned and later resold without having been wiped.
                         Hence, if a device offers more secure storage mechanisms for secrets, these <span class="bcp14">SHOULD</span> be used.<a href="#section-5.1.1-5" class="pilcrow">¶</a></p>
 <p id="section-5.1.1-6">
                         Furthermore, operators <span class="bcp14">SHOULD</span> block spoofed packets (packets with a source IP address not belonging to their IP address space) at all edges of their network (see <span>[<a href="#RFC2827" class="cite xref">RFC2827</a>]</span>  and <span>[<a href="#RFC3704" class="cite xref">RFC3704</a>]</span> ).
@@ -2355,7 +2358,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         This section lists the <span class="bcp14">RECOMMENDED</span> practices when manipulating BGP AS_PATHs, to limit chances of accidentally producing AS_PATHs that would have to be filtered by neighbors according to <a href="#sec-as-path-filtering" class="auto internal xref">Section 8.3.1</a>.<a href="#section-8.3.2-1" class="pilcrow">¶</a></p>
 <p id="section-8.3.2-2">
                     Some BGP implementations offer various advanced AS_PATH manipulation features, such as overriding or rewriting a part of the AS_PATH.
-                    For instance, a very commonly used mechanism is the so-called "AS Override" feature, primarily intended for use in MPLS L3 VPNs, where the customer's AS number is overriden with the provider's AS number, to allow site-to-site communication where both customer sites use the same AS number.
+                    For instance, a very commonly used mechanism is the so-called "AS Override" feature, primarily intended for use in MPLS L3 VPNs, where the customer's AS number is overridden with the provider's AS number, to allow site-to-site communication where both customer sites use the same AS number.
                     Some vendors went even further, offering a possibility to fully rewrite or even delete the AS_PATH Attribute from incoming or outgoing BGP Update messages.<a href="#section-8.3.2-2" class="pilcrow">¶</a></p>
 <p id="section-8.3.2-3">
                     Furthermore, AS_PATH filtering is an option when ASN renumbering is done.
@@ -2524,7 +2527,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         BGP attributes are stored within BGP UPDATE messages as a vector of Type-Length-Value (TLV) fields.
                         The Attribute Type field contains a set of control bits, such as the Optional Bit (set to 1 for Optional Attributes and 0 for Well-Known), the Transitive Bit (specifying whether the attribute is Transitive, i.e., should be propagated outside the local AS or, Non-Transitive, i.e., should not be propagated outside the local AS) etc.
                         Initially, <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> mandated that a BGP speaker tears down a BGP session when receiving even a single UPDATE message containing a malformed combination of Attribute TLV headers.
-                        However, <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span> allows BGP implementors to optionally add features providing self-correction of malformed attributes in a limited number of cases.<a href="#section-8.6.2-1" class="pilcrow">¶</a></p>
+                        However, <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span> allows BGP implementers to optionally add features providing self-correction of malformed attributes in a limited number of cases.<a href="#section-8.6.2-1" class="pilcrow">¶</a></p>
 <p id="section-8.6.2-2">
                         Operators <span class="bcp14">MAY</span> use such, self-correcting mechanisms for BGP Attribute TLV headers.
                         However, they <span class="bcp14">SHOULD</span> consider the operational impact such features have, <span class="bcp14">SHOULD</span> monitor for cases where such self-correction is necessary, and <span class="bcp14">SHOULD</span> follow up on such cases to ensure that root-causes are identified and addressed.<a href="#section-8.6.2-2" class="pilcrow">¶</a></p>
@@ -2539,7 +2542,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         </h3>
 <p id="section-8.7-1">
                     As documented in <span>[<a href="#RFC3345" class="cite xref">RFC3345</a>]</span>, the use of BGP Route Reflection <span>[<a href="#RFC4456" class="cite xref">RFC4456</a>]</span> and BGP Confederation <span>[<a href="#RFC5065" class="cite xref">RFC5065</a>]</span> can lead to route oscilation, especially in conjunction with the MULTI_EXIT_DISC (MED) attribute (see <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>).
-                    If BGP route oscilation occurs, routes may be blackholed if dampening is implemented by neighbors, or individual BGP speakers may become overloaded, further aggrevating the oscilation issue.<a href="#section-8.7-1" class="pilcrow">¶</a></p>
+                    If BGP route oscilation occurs, routes may be blackholed if dampening is implemented by neighbors, or individual BGP speakers may become overloaded, further aggravating the oscilation issue.<a href="#section-8.7-1" class="pilcrow">¶</a></p>
 <p id="section-8.7-2">
                     Hence, operators <span class="bcp14">SHOULD</span> familiarize themselves with <span>[<a href="#RFC7964" class="cite xref">RFC7964</a>]</span>, which describes methods and approaches to counteract MED related route-oscilation.
                     Operators <span class="bcp14">SHOULD</span> carefully evaluate their network's requirements and implement the practices documented in <span>[<a href="#RFC7964" class="cite xref">RFC7964</a>]</span> as appropriate.<a href="#section-8.7-2" class="pilcrow">¶</a></p>
@@ -2580,7 +2583,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
           </h4>
 <p id="section-8.8.2-1">
                         Graceful BGP Session Shutdown (GSHUT) as defined in <span>[<a href="#RFC8326" class="cite xref">RFC8326</a>]</span> is a formalized method for draining traffic from sessions gracefully before, e.g., maintenance.
-                        However, while AS_PATH prepending does not have to be supported by two neighbors, GSHUT requires all neighbors to implement it by implementing a policy that assigns a lower LOCAL_PREF to NLRI mathing the GRACEFUL_SHUTDOWN BGP community.<a href="#section-8.8.2-1" class="pilcrow">¶</a></p>
+                        However, while AS_PATH prepending does not have to be supported by two neighbors, GSHUT requires all neighbors to implement it by implementing a policy that assigns a lower LOCAL_PREF to NLRI matching the GRACEFUL_SHUTDOWN BGP community.<a href="#section-8.8.2-1" class="pilcrow">¶</a></p>
 <p id="section-8.8.2-2">
                         GSHUT is a more effective method of traffic draining than, e.g., AS_PATH prepending.
                         Hence, in general, GSHUT <span class="bcp14">SHOULD</span> be supported on all eBGP sessions.
@@ -3267,10 +3270,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
         <dd>
 <span class="refAuthor">Rekhter, Y., Ed.</span>, <span class="refAuthor">Li, T., Ed.</span>, and <span class="refAuthor">S. Hares, Ed.</span>, <span class="refTitle">"A Border Gateway Protocol 4 (BGP-4)"</span>, <span class="seriesInfo">RFC 4271</span>, <span class="seriesInfo">DOI 10.17487/RFC4271</span>, <time datetime="2006-01" class="refDate">January 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4271">https://www.rfc-editor.org/info/rfc4271</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC4272">[RFC4272]</dt>
-        <dd>
-<span class="refAuthor">Murphy, S.</span>, <span class="refTitle">"BGP Security Vulnerabilities Analysis"</span>, <span class="seriesInfo">RFC 4272</span>, <span class="seriesInfo">DOI 10.17487/RFC4272</span>, <time datetime="2006-01" class="refDate">January 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4272">https://www.rfc-editor.org/info/rfc4272</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC4456">[RFC4456]</dt>
         <dd>
 <span class="refAuthor">Bates, T.</span>, <span class="refAuthor">Chen, E.</span>, and <span class="refAuthor">R. Chandra</span>, <span class="refTitle">"BGP Route Reflection: An Alternative to Full Mesh Internal BGP (IBGP)"</span>, <span class="seriesInfo">RFC 4456</span>, <span class="seriesInfo">DOI 10.17487/RFC4456</span>, <time datetime="2006-04" class="refDate">April 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4456">https://www.rfc-editor.org/info/rfc4456</a>&gt;</span>. </dd>
@@ -3377,6 +3376,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dt id="RFC4012">[RFC4012]</dt>
         <dd>
 <span class="refAuthor">Blunk, L.</span>, <span class="refAuthor">Damas, J.</span>, <span class="refAuthor">Parent, F.</span>, and <span class="refAuthor">A. Robachevsky</span>, <span class="refTitle">"Routing Policy Specification Language next generation (RPSLng)"</span>, <span class="seriesInfo">RFC 4012</span>, <span class="seriesInfo">DOI 10.17487/RFC4012</span>, <time datetime="2005-03" class="refDate">March 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4012">https://www.rfc-editor.org/info/rfc4012</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4272">[RFC4272]</dt>
+        <dd>
+<span class="refAuthor">Murphy, S.</span>, <span class="refTitle">"BGP Security Vulnerabilities Analysis"</span>, <span class="seriesInfo">RFC 4272</span>, <span class="seriesInfo">DOI 10.17487/RFC4272</span>, <time datetime="2006-01" class="refDate">January 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4272">https://www.rfc-editor.org/info/rfc4272</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC4360">[RFC4360]</dt>
         <dd>

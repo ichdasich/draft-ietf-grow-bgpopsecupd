@@ -4,7 +4,8 @@
 
 Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
-Intended status: Best Current Practice                   26 January 2024
+Obsoletes: 7454 (if approved)                            26 January 2024
+Intended status: Best Current Practice                                  
 Expires: 29 July 2024
 
 
@@ -33,7 +34,7 @@ Abstract
    in a datacenter context.
 
    While the recommendations in this document are, in general, best
-   practices, operators are still need to carefully weigh individual
+   practices, operators still need to carefully weigh individual
    measures vs. their local network requirements before implementing
    them.  Also, as with BCP194, best practices outlined in this document
    may have changed since its publication.
@@ -422,7 +423,7 @@ Table of Contents
    practice simplifies password management tasks, since the passwords
    can always easily be deciphered, it carries the risk of leaking this
    information if a configuration is shared, e.g., with a vendor for a
-   support case, or if the device is decomissioned and later resold
+   support case, or if the device is decommissioned and later resold
    without having been wiped.  Hence, if a device offers more secure
    storage mechanisms for secrets, these SHOULD be used.
 
@@ -1209,7 +1210,7 @@ Table of Contents
    features, such as overriding or rewriting a part of the AS_PATH.  For
    instance, a very commonly used mechanism is the so-called "AS
    Override" feature, primarily intended for use in MPLS L3 VPNs, where
-   the customer's AS number is overriden with the provider's AS number,
+   the customer's AS number is overridden with the provider's AS number,
    to allow site-to-site communication where both customer sites use the
    same AS number.  Some vendors went even further, offering a
    possibility to fully rewrite or even delete the AS_PATH Attribute
@@ -1437,7 +1438,7 @@ Table of Contents
    propagated outside the local AS) etc.  Initially, [RFC4271] mandated
    that a BGP speaker tears down a BGP session when receiving even a
    single UPDATE message containing a malformed combination of Attribute
-   TLV headers.  However, [RFC7606] allows BGP implementors to
+   TLV headers.  However, [RFC7606] allows BGP implementers to
    optionally add features providing self-correction of malformed
    attributes in a limited number of cases.
 
@@ -1454,7 +1455,7 @@ Table of Contents
    especially in conjunction with the MULTI_EXIT_DISC (MED) attribute
    (see [RFC4271]).  If BGP route oscilation occurs, routes may be
    blackholed if dampening is implemented by neighbors, or individual
-   BGP speakers may become overloaded, further aggrevating the
+   BGP speakers may become overloaded, further aggravating the
    oscilation issue.
 
    Hence, operators SHOULD familiarize themselves with [RFC7964], which
@@ -1509,7 +1510,8 @@ Table of Contents
    before, e.g., maintenance.  However, while AS_PATH prepending does
    not have to be supported by two neighbors, GSHUT requires all
    neighbors to implement it by implementing a policy that assigns a
-   lower LOCAL_PREF to NLRI mathing the GRACEFUL_SHUTDOWN BGP community.
+   lower LOCAL_PREF to NLRI matching the GRACEFUL_SHUTDOWN BGP
+   community.
 
    GSHUT is a more effective method of traffic draining than, e.g.,
    AS_PATH prepending.  Hence, in general, GSHUT SHOULD be supported on
@@ -2162,10 +2164,6 @@ Table of Contents
               DOI 10.17487/RFC4271, January 2006,
               <https://www.rfc-editor.org/info/rfc4271>.
 
-   [RFC4272]  Murphy, S., "BGP Security Vulnerabilities Analysis",
-              RFC 4272, DOI 10.17487/RFC4272, January 2006,
-              <https://www.rfc-editor.org/info/rfc4272>.
-
    [RFC4456]  Bates, T., Chen, E., and R. Chandra, "BGP Route
               Reflection: An Alternative to Full Mesh Internal BGP
               (IBGP)", RFC 4456, DOI 10.17487/RFC4456, April 2006,
@@ -2294,6 +2292,10 @@ Table of Contents
               "Routing Policy Specification Language next generation
               (RPSLng)", RFC 4012, DOI 10.17487/RFC4012, March 2005,
               <https://www.rfc-editor.org/info/rfc4012>.
+
+   [RFC4272]  Murphy, S., "BGP Security Vulnerabilities Analysis",
+              RFC 4272, DOI 10.17487/RFC4272, January 2006,
+              <https://www.rfc-editor.org/info/rfc4272>.
 
    [RFC4360]  Sangli, S., Tappan, D., and Y. Rekhter, "BGP Extended
               Communities Attribute", RFC 4360, DOI 10.17487/RFC4360,
