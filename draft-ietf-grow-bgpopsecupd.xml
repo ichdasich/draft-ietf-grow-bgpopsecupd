@@ -72,6 +72,7 @@
             <name>Scope of the Document</name>
             <t>
                 The guidelines defined in this document are intended for BGP sessions carrying generic Internet routing information within the DFZ.
+                It specifically does not cover other uses of BGP, e.g., when using BGP for NLRI exchange in a data-center context.
                 The nature of the Internet is such that Autonomous Systems can always agree on exceptions to a common framework for relevant local needs, and therefore configure a BGP session in a manner that may differ from the recommendations provided in this document.
                 While this is perfectly acceptable, every configured exception might have an impact on the entire inter-domain routing environment, and operators <bcp14>SHOULD</bcp14> carefully appraise this impact before implementation.
             </t>
