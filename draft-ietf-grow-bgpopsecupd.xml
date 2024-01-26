@@ -267,7 +267,7 @@
                     </t>
                     <t>
                         Aside of this, most vendors use simple, reverse-decryptable password hash algorithm to store shared secrets keys for BGP (and other routing protocols) in devices' configuration files.
-                        While this practice simplifies password management tasks, since the passwords can always easily be deciphered, it carries the risk of leaking this information if a configuration is shared, e.g., with a vendor for a support case, or if the device is decomissioned and later resold without having been wiped.
+                        While this practice simplifies password management tasks, since the passwords can always easily be deciphered, it carries the risk of leaking this information if a configuration is shared, e.g., with a vendor for a support case, or if the device is decommissioned and later resold without having been wiped.
                         Hence, if a device offers more secure storage mechanisms for secrets, these <bcp14>SHOULD</bcp14> be used.
                     </t>
                     <t>
@@ -861,7 +861,7 @@
                     </t>
                 <t>
                     Some BGP implementations offer various advanced AS_PATH manipulation features, such as overriding or rewriting a part of the AS_PATH.
-                    For instance, a very commonly used mechanism is the so-called "AS Override" feature, primarily intended for use in MPLS L3 VPNs, where the customer's AS number is overriden with the provider's AS number, to allow site-to-site communication where both customer sites use the same AS number.
+                    For instance, a very commonly used mechanism is the so-called "AS Override" feature, primarily intended for use in MPLS L3 VPNs, where the customer's AS number is overridden with the provider's AS number, to allow site-to-site communication where both customer sites use the same AS number.
                     Some vendors went even further, offering a possibility to fully rewrite or even delete the AS_PATH Attribute from incoming or outgoing BGP Update messages.
                 </t>
                 <t>
@@ -1021,7 +1021,7 @@
                         BGP attributes are stored within BGP UPDATE messages as a vector of Type-Length-Value (TLV) fields.
                         The Attribute Type field contains a set of control bits, such as the Optional Bit (set to 1 for Optional Attributes and 0 for Well-Known), the Transitive Bit (specifying whether the attribute is Transitive, i.e., should be propagated outside the local AS or, Non-Transitive, i.e., should not be propagated outside the local AS) etc.
                         Initially, <xref target="RFC4271" format="default"/> mandated that a BGP speaker tears down a BGP session when receiving even a single UPDATE message containing a malformed combination of Attribute TLV headers.
-                        However, <xref target="RFC7606" format="default"/> allows BGP implementors to optionally add features providing self-correction of malformed attributes in a limited number of cases.
+                        However, <xref target="RFC7606" format="default"/> allows BGP implementers to optionally add features providing self-correction of malformed attributes in a limited number of cases.
                     </t>
                     <t>
                         Operators <bcp14>MAY</bcp14> use such, self-correcting mechanisms for BGP Attribute TLV headers.
@@ -1033,7 +1033,7 @@
                 <name>Preventing MED Oscilation</name>
                 <t>
                     As documented in <xref target="RFC3345" format="default"/>, the use of BGP Route Reflection <xref target="RFC4456" format="default"/> and BGP Confederation <xref target="RFC5065" format="default"/> can lead to route oscilation, especially in conjunction with the MULTI_EXIT_DISC (MED) attribute (see <xref target="RFC4271" format="default"/>).
-                    If BGP route oscilation occurs, routes may be blackholed if dampening is implemented by neighbors, or individual BGP speakers may become overloaded, further aggrevating the oscilation issue.
+                    If BGP route oscilation occurs, routes may be blackholed if dampening is implemented by neighbors, or individual BGP speakers may become overloaded, further aggravating the oscilation issue.
                 </t>
                 <t>
                     Hence, operators <bcp14>SHOULD</bcp14> familiarize themselves with <xref target="RFC7964" format="default"/>, which describes methods and approaches to counteract MED related route-oscilation.
@@ -1070,7 +1070,7 @@
                     <name>Honoring GSHUT on an IXP</name>
                     <t>
                         Graceful BGP Session Shutdown (GSHUT) as defined in <xref target="RFC8326" format="default"/> is a formalized method for draining traffic from sessions gracefully before, e.g., maintenance.
-                        However, while AS_PATH prepending does not have to be supported by two neighbors, GSHUT requires all neighbors to implement it by implementing a policy that assigns a lower LOCAL_PREF to NLRI mathing the GRACEFUL_SHUTDOWN BGP community.
+                        However, while AS_PATH prepending does not have to be supported by two neighbors, GSHUT requires all neighbors to implement it by implementing a policy that assigns a lower LOCAL_PREF to NLRI matching the GRACEFUL_SHUTDOWN BGP community.
                     </t>
                     <t>
                         GSHUT is a more effective method of traffic draining than, e.g., AS_PATH prepending.
