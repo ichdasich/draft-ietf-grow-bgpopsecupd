@@ -524,7 +524,7 @@
                         Path validation provided by BGPsec <xref target="RFC7353" format="default"/>  seeks to make sure that no one announces fake/wrong BGP paths that would attract traffic for a given destination; see <xref target="RFC7132" format="default"/>.
                         Even though the work on BGPsec has been concluded, adoption is still limited.
                         Instead, the use of ASPA (Autonomous System Provider Authorization) <xref target="I-D.ietf-sidrops-aspa-verification" format="default"/> objects, see also <xref target="sec-sidr-aspa" format="default"/>, is likely to be more relevant within the context of BGP.
-                        Even though the draft on ASPA has not been finalized, first adoption of ASPA can be observed, first implementations started to support it, following the development of <xref target="I-D.ietf-sidrops-aspa-verification" format="default"/>, see <xref target="OpenBGPd" format="default"/> and <xref target="rpki-client" format="default"/>.
+                        Even though the draft on ASPA has not been finalized, first adoption of ASPA can be observed, and first implementations started to support it, following the development of <xref target="I-D.ietf-sidrops-aspa-verification" format="default"/>, see <xref target="OpenBGPd" format="default"/> and <xref target="rpki-client" format="default"/>.
                     </li>
                 </ul>
                 <t>
@@ -649,6 +649,7 @@
                     <name>Outbound Filtering Prefixes Using BGP Roles</name>
                     <t>
                         To ensure that no prefixes leak via AS relationships (routes learned from peers or upstreams to other peers or upstreams), <xref target="RFC9234" format="default"/> introduces BGP roles and the BGP Only to Customer (OTC) attribute.
+                        The OTC attribute forms a tandem with ASPA, see <xref target="sec-sidr-aspa" format="default"/>.
                         Operators <bcp14>SHOULD</bcp14> configure appropriate roles according to Section 3 of <xref target="RFC9234" format="default"/> to enable prefix filtering based on BGP relationships.
                         Furthermore, for prefixes imported from upstreams, the OTC attribute <bcp14>SHOULD</bcp14> be set and evaluated according to <xref target="RFC9234" format="default"/>, Section 5:
                     </t>
