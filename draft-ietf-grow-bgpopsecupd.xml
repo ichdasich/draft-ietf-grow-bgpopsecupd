@@ -1204,6 +1204,18 @@
                         Naturally, after the new rule-set has been activated, the old rule-set should be deleted.
                     </t>
                 </section>
+                <section  anchor="sec-prefix-filtering-considerations-idempotency">
+                    <name>Ensuring Idempotency for Prefixfilter Changes</name>
+                    <t>
+                        As prefix filters are changed regularly, idempotency is essential when issuing automated updates of prefix filters.
+                        Specifically, prefix filters <bcp14>SHOULD NOT</bcp14> be generated on routers itself.
+                    </t>
+                    <t>
+                        Instead, filter lists <bcp14>SHOULD</bcp14> be generated on dedicated systems.
+                        These systems <bcp14>SHOULD</bcp14> ensure the idempotency of changes to filters applied to routers, i.e., they should only deploy a policy, if the policy changed.
+                        This ensures no unnecessary regular load is placed on the control plane of BGP speakers.
+                    </t>
+                </section>
                 <section  anchor="sec-prefix-filtering-ruleset-size">
                     <name>Ruleset Size Considerations</name>
                     <t>
