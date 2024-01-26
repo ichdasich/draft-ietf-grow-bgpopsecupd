@@ -748,7 +748,7 @@
             <section  anchor="sec-bgp-route-flap-dampening">
                 <name>BGP Route Flap Dampening</name>
                 <t>
-                    The BGP route flap dampening mechanism makes it possible to give penalties to routes each time they change in the BGP routing table.
+                    The BGP route flap dampening mechanism makes it possible to give penalties to routes each time they change in the BGP routing table <xref target="RFC2439" format="default"/>.
                     Initially, this mechanism was created to protect the entire Internet from multiple events that impact a single network.
                     Studies have shown that implementations of BGP route flap dampening could cause more harm than benefit; therefore, in the past, the RIPE community has recommended against using BGP route flap dampening <xref target="RIPE-378" format="default"/>.
                     Later, studies were conducted to propose new route flap dampening thresholds in order to make the solution "usable"; see <xref target="RFC7196" format="default"/> and <xref target="RIPE-580" format="default"/>  (in which RIPE reviewed its recommendations).
@@ -1701,6 +1701,7 @@
                 <name>Normative References</name>
                 <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
                 <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2439.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4271.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4272.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4456.xml"/>
