@@ -1038,15 +1038,15 @@
                     </t>
                 </section>
                 <section  anchor="sec-bgp-ixp-gshut">
-                    <name>Not Setting a Higher LOCAL_PREF for NLRI received via an IXP</name>
+                    <name>Honoring GSHUT on an IXP</name>
                     <t>
                         Graceful BGP Session Shutdown (GSHUT) as defined in <xref target="RFC8326" format="default"/> is a formalized method for draining traffic from sessions gracefully before, e.g., maintenance.
                         However, while AS_PATH prepending does not have to be supported by two neighbors, GSHUT requires all neighbors to implement it by implementing a policy that assigns a lower LOCAL_PREF to NLRI mathing the GRACEFUL_SHUTDOWN BGP community.
                     </t>
                     <t>
                         GSHUT is a more effective method of traffic draining than, e.g., AS_PATH prepending.
-                        Hence, GSHUT <bcp14>SHOULD</bcp14> be supported on all eBGP sessions.
-                        Furthermore, when ignoring the previous recommendation and setting a higher LOCAL_PREF for sessions via an IXP LAN, GSHUT <bcp14>MUST</bcp14> be supported.
+                        Hence, in general, GSHUT <bcp14>SHOULD</bcp14> be supported on all eBGP sessions.
+                        However, as an IXP member, when ignoring the previous recommendation and setting a higher LOCAL_PREF for sessions via an IXP LAN, GSHUT <bcp14>MUST</bcp14> be supported.
                     </t>
                 </section>
             </section>
