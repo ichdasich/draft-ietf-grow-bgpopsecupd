@@ -1986,6 +1986,20 @@
             <t>
                 This document is based on <xref target="RFC7454" format="default"/> and we thank the original authors for their work.
             </t>
+            <t>
+                We thank the following people for reviewing this draft and suggesting changes:
+            </t>
+            <ul spacing="normal">
+                <li>
+                    Jeff Haas
+                </li>
+                <li>
+                    Job Snijders
+                </li>
+                <li>
+                    Berislav Todorovic
+                </li>
+            </ul>
         </section>
     </back>
 </rfc>
