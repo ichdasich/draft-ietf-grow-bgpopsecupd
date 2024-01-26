@@ -573,10 +573,10 @@
                     </t>
                     <ul spacing="normal">
                         <li>
-                            Section 6.1 for routes received from upstreams and lateral peers.
+                            Section 6.1 for routes received from customer, lateral peer, by an RS from an RS-client, or by an RS-client from an RS.
                         </li>
                         <li>
-                            Section 6.2 for routes received from downstreams and mutual-transits.
+                            Section 6.2 for routes received from an upstream or mutual-transit neighbor.
                         </li>
                     </ul>
                     <t>
