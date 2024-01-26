@@ -1355,10 +1355,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <p id="section-toc.1-1.9.2.1.2.3.1"><a href="#section-9.1.3" class="auto internal xref">9.1.3</a>.  <a href="#name-ensuring-consistency-when-c" class="internal xref">Ensuring Consistency when Changing Prefixfilters</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.4">
-                    <p id="section-toc.1-1.9.2.1.2.4.1"><a href="#section-9.1.4" class="auto internal xref">9.1.4</a>.  <a href="#name-ruleset-size-considerations" class="internal xref">Ruleset Size Considerations</a></p>
+                    <p id="section-toc.1-1.9.2.1.2.4.1"><a href="#section-9.1.4" class="auto internal xref">9.1.4</a>.  <a href="#name-ensuring-idempotency-for-pr" class="internal xref">Ensuring Idempotency for Prefixfilter Changes</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.5">
-                    <p id="section-toc.1-1.9.2.1.2.5.1"><a href="#section-9.1.5" class="auto internal xref">9.1.5</a>.  <a href="#name-ruleset-generation-failure" class="internal xref">Ruleset Generation Failure</a></p>
+                    <p id="section-toc.1-1.9.2.1.2.5.1"><a href="#section-9.1.5" class="auto internal xref">9.1.5</a>.  <a href="#name-ruleset-size-considerations" class="internal xref">Ruleset Size Considerations</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.6">
+                    <p id="section-toc.1-1.9.2.1.2.6.1"><a href="#section-9.1.6" class="auto internal xref">9.1.6</a>.  <a href="#name-ruleset-generation-failure" class="internal xref">Ruleset Generation Failure</a></p>
 </li>
                 </ul>
 </li>
@@ -2701,42 +2704,56 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         Naturally, after the new rule-set has been activated, the old rule-set should be deleted.<a href="#section-9.1.3-7" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="sec-prefix-filtering-ruleset-size">
+<div id="sec-prefix-filtering-considerations-idempotency">
 <section id="section-9.1.4">
-          <h4 id="name-ruleset-size-considerations">
-<a href="#section-9.1.4" class="section-number selfRef">9.1.4. </a><a href="#name-ruleset-size-considerations" class="section-name selfRef">Ruleset Size Considerations</a>
+          <h4 id="name-ensuring-idempotency-for-pr">
+<a href="#section-9.1.4" class="section-number selfRef">9.1.4. </a><a href="#name-ensuring-idempotency-for-pr" class="section-name selfRef">Ensuring Idempotency for Prefixfilter Changes</a>
           </h4>
 <p id="section-9.1.4-1">
+                        As prefix filters are changed regularly, idempotency is essential when issuing automated updates of prefix filters.
+                        Specifically, prefix filters <span class="bcp14">SHOULD NOT</span> be generated on routers itself.<a href="#section-9.1.4-1" class="pilcrow">¶</a></p>
+<p id="section-9.1.4-2">
+                        Instead, filter lists <span class="bcp14">SHOULD</span> be generated on dedicated systems.
+                        These systems <span class="bcp14">SHOULD</span> ensure the idempotency of changes to filters applied to routers, i.e., they should only deploy a policy, if the policy changed.
+                        This ensures no unnecessary regular load is placed on the control plane of BGP speakers.<a href="#section-9.1.4-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-prefix-filtering-ruleset-size">
+<section id="section-9.1.5">
+          <h4 id="name-ruleset-size-considerations">
+<a href="#section-9.1.5" class="section-number selfRef">9.1.5. </a><a href="#name-ruleset-size-considerations" class="section-name selfRef">Ruleset Size Considerations</a>
+          </h4>
+<p id="section-9.1.5-1">
                         Some BGP speaker implementations, and especially older BGP speakers, are restrained in terms of the number of prefixes and rules they can apply.
                         A common reaction of operators in such cases is reducing the number of filters applied on sessions.
-                        Even though it is <span class="bcp14">NOT RECOMMENDED</span> to aggregate prefix lists for filtering, operators <span class="bcp14">SHOULD</span> consider aggressive aggregation of prefix filter lists to restrict the perfixes accepted by neighbors if the alternative is not using filters at all.<a href="#section-9.1.4-1" class="pilcrow">¶</a></p>
-<p id="section-9.1.4-2">
+                        Even though it is <span class="bcp14">NOT RECOMMENDED</span> to aggregate prefix lists for filtering, operators <span class="bcp14">SHOULD</span> consider aggressive aggregation of prefix filter lists to restrict the perfixes accepted by neighbors if the alternative is not using filters at all.<a href="#section-9.1.5-1" class="pilcrow">¶</a></p>
+<p id="section-9.1.5-2">
                         Another approach that <span class="bcp14">MAY</span> be a suitable rule-set creation approach for downstreams and peers is offline validation.
                         In that case, a dedicated system regularly, e.g., every two hours, obtains the list of prefixes advertised by a given peer or downstream.
                         That list is then validated according to the applicable section below.
                         Subsequently, instead of using a full representation of the neighbors cone, a condensed prefix list matching the aggregate of the exact prefixes announced is generated and deployed to the BGP speaker.
-                        While this increases the timeframe for newly added prefixes to be accepted, and may be unsuitable for, e.g., DDoS defense services, it can also reduce the size of prefix lists significantly.<a href="#section-9.1.4-2" class="pilcrow">¶</a></p>
+                        While this increases the timeframe for newly added prefixes to be accepted, and may be unsuitable for, e.g., DDoS defense services, it can also reduce the size of prefix lists significantly.<a href="#section-9.1.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-prefix-filtering-ruleset-failure">
-<section id="section-9.1.5">
+<section id="section-9.1.6">
           <h4 id="name-ruleset-generation-failure">
-<a href="#section-9.1.5" class="section-number selfRef">9.1.5. </a><a href="#name-ruleset-generation-failure" class="section-name selfRef">Ruleset Generation Failure</a>
+<a href="#section-9.1.6" class="section-number selfRef">9.1.6. </a><a href="#name-ruleset-generation-failure" class="section-name selfRef">Ruleset Generation Failure</a>
           </h4>
-<p id="section-9.1.5-1">
+<p id="section-9.1.6-1">
                         As noted in <a href="#sec-prefix-filters-created-from-internet-routing-registries-irrs-creating-filters" class="auto internal xref">Section 7.1.3</a>, the creation and application of filter rules should be automated to reduce the margin for error and misconfigurations.
-                        Nevertheless, the regeneration of filter rules may fail.<a href="#section-9.1.5-1" class="pilcrow">¶</a></p>
-<p id="section-9.1.5-2">
+                        Nevertheless, the regeneration of filter rules may fail.<a href="#section-9.1.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.1.6-2">
                         Before applying a generated ruleset, an operator should check it for obvious errors and potentially require manual intervention to remediate the issue.
-                        Examples include a ruleset for a neighbor suddenly significantly increasing or decreasing in size, or being empty.<a href="#section-9.1.5-2" class="pilcrow">¶</a></p>
-<p id="section-9.1.5-3">
+                        Examples include a ruleset for a neighbor suddenly significantly increasing or decreasing in size, or being empty.<a href="#section-9.1.6-2" class="pilcrow">¶</a></p>
+<p id="section-9.1.6-3">
                         In case of such a failure, each administrator <span class="bcp14">MAY</span> decide which actions they will take.
                         Options include re-using the previously active rule set, or either accepting or rejecting all routes depending on routing policy.
                         Generally accepting all routes during that time frame could break BGP routing security.
                         However, rejecting them might re-route too much traffic towards upstreams, and could cause more harm than accepting invalid prefixes.
-                        Similarly, reusing the previously active rule set may lead to prefixes being wrongfully accepted or rejected, despite on a smaller scale than for a general accept or reject decision.<a href="#section-9.1.5-3" class="pilcrow">¶</a></p>
-<p id="section-9.1.5-4">
-                        Hence, to still provide sufficient protection for an individual AS experiencing issues with rule generation, and therefore deciding to deviate to more permissive inbound filters, it is strongly <span class="bcp14">RECOMMENDED</span> that all BGP speakers in general employ inbound and outbound filtering as described in this document.<a href="#section-9.1.5-4" class="pilcrow">¶</a></p>
+                        Similarly, reusing the previously active rule set may lead to prefixes being wrongfully accepted or rejected, despite on a smaller scale than for a general accept or reject decision.<a href="#section-9.1.6-3" class="pilcrow">¶</a></p>
+<p id="section-9.1.6-4">
+                        Hence, to still provide sufficient protection for an individual AS experiencing issues with rule generation, and therefore deciding to deviate to more permissive inbound filters, it is strongly <span class="bcp14">RECOMMENDED</span> that all BGP speakers in general employ inbound and outbound filtering as described in this document.<a href="#section-9.1.6-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2934,7 +2951,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                             Technically, the inbound policy with end customers is pretty straightforward: only customer prefixes <span class="bcp14">SHOULD</span> be accepted, all others <span class="bcp14">SHOULD</span> be discarded.
                             For smaller downstreams, the list of accepted prefixes can be manually specified, after having verified that they are valid.
                             This validation can be done with the appropriate IP address management authorities.
-                            For larger downstreams, an approach as documented in <a href="#sec-prefix-filtering-ruleset-size" class="auto internal xref">Section 9.1.4</a> <span class="bcp14">MAY</span> also be suitable.<a href="#section-9.2.2.1-3" class="pilcrow">¶</a></p>
+                            For larger downstreams, an approach as documented in <a href="#sec-prefix-filtering-ruleset-size" class="auto internal xref">Section 9.1.5</a> <span class="bcp14">MAY</span> also be suitable.<a href="#section-9.2.2.1-3" class="pilcrow">¶</a></p>
 <p id="section-9.2.2.1-4">
                             Additionally, Rule 11 <span class="bcp14">MUST NOT</span> be set in the rare case of an IXP routeserver providing upstream (see <span>[<a href="#CommunityIX" class="cite xref">CommunityIX</a>]</span>), while it <span class="bcp14">SHOULD</span> be set when providing upstream to a customer with a direct session via IXP LANs (see <a href="#sec-next-hop-filtering" class="auto internal xref">Section 8.4</a>).<a href="#section-9.2.2.1-4" class="pilcrow">¶</a></p>
 </section>
