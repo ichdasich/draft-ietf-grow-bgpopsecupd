@@ -33,17 +33,17 @@
                 Due to this central nature, it is important to understand the security and reliability measures that can and should be deployed to prevent accidental or intentional routing disturbances.
             </t>
             <t>
-                Previously, security considerations for BGP have been described in <xref target="RFC7454" format="default"/>.
-                Since the publications of <xref target="RFC7454" format="default"/>, several developments and changes in operational practice took place that warrant an update of these best current practices.
-            </t>
-
-            <t>
-                This document updates <xref target="RFC7454" format="default"/>, reiterating the best practices for BGP security from that document and adding new practices and recommendations that emerged since the publication of <xref target="RFC7454" format="default"/>.
-                In the current version, this document covers practices to protect the BGP sessions itself such as Time to Live (TTL), the TCP Authentication Option (TCP-AO), and control-plane filtering.
-                It also describes measures to better control the flow of routing information, using prefix filtering and automation of prefix filters, max-prefix filtering, Autonomous System(AS) path filtering, route flap dampening, and BGP community scrubbing.
+                Previously, security considerations for BGP have been described in RFC7454 / BCP194.
+                Since the publications of RFC7454 / BCP194, several developments and changes in operational practice took place that warrant an update of these best current practices.
+                This document replaces RFC7454 / BCP194, reiterating the best practices for BGP security from that document and adding new practices and recommendations that emerged since its publication.
             </t>
             <t>
-                Newly added information and improvements include a unification of terminology, orienting it in <xref target="RFC9234" format="default"/>, changing recommendations regarding IXP LAN prefixes to align with operational practice, discussing ASPA and BGP roles, expanding on community scrubbing, filter generation and evaluation practices to limit performance overhead, expanding on outbound and internal filtering for defense in depth, global prefix limits, and community based filtering for downstream prefixes.
+                This document provides a comprehensive list of Internet specific BGP security and reliability related best practices as of the time of publication.
+                It specifically does not cover other uses of BGP, e.g., in a datacenter context.
+            </t>
+            <t>
+                While the recommendations in this document are, in general, best practices, operators are still need to carefully weigh individual measures vs. their local network requirements before implementing them.
+                Also, as with BCP194, best practices outlined in this document may have changed since its publication.
             </t>
         </abstract>
     </front>
@@ -2141,6 +2141,9 @@
                 We thank the following people for reviewing this draft and suggesting changes:
             </t>
             <ul spacing="normal">
+                <li>
+                    Gert Doerring
+                </li>
                 <li>
                     Jeff Haas
                 </li>
