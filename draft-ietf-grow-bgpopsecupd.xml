@@ -1023,7 +1023,7 @@
                 </t>
             </section>
             <section  anchor="sec-bgp-ixp-behavior">
-                <name>Behavior Connection via an IXP</name>
+                <name>Behavior when Connecting via an IXP</name>
                 <t>
                     IXPs are an essential aspect of the modern Internet, and contribute to keeping local traffic local.
                     As such, IXP fabrics often handle a significant amount of traffic, providing challenges for traffic engineering.
