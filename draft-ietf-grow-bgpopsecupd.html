@@ -1321,19 +1321,27 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.6">
-                <p id="section-toc.1-1.8.2.6.1"><a href="#section-8.6" class="auto internal xref">8.6</a>.  <a href="#name-bgp-attribute-scrubbing" class="internal xref">BGP Attribute Scrubbing</a></p>
+                <p id="section-toc.1-1.8.2.6.1"><a href="#section-8.6" class="auto internal xref">8.6</a>.  <a href="#name-handling-bgp-attributes" class="internal xref">Handling BGP Attributes</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.6.2.1">
+                    <p id="section-toc.1-1.8.2.6.2.1.1"><a href="#section-8.6.1" class="auto internal xref">8.6.1</a>.  <a href="#name-bgp-attribute-scrubbing" class="internal xref">BGP Attribute Scrubbing</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.6.2.2">
+                    <p id="section-toc.1-1.8.2.6.2.2.1"><a href="#section-8.6.2" class="auto internal xref">8.6.2</a>.  <a href="#name-bgp-attribute-header-correc" class="internal xref">BGP Attribute Header Correction</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.7">
-                <p id="section-toc.1-1.8.2.7.1"><a href="#section-8.7" class="auto internal xref">8.7</a>.  <a href="#name-bgp-attribute-header-correc" class="internal xref">BGP Attribute Header Correction</a></p>
+                <p id="section-toc.1-1.8.2.7.1"><a href="#section-8.7" class="auto internal xref">8.7</a>.  <a href="#name-preventing-med-oscilation" class="internal xref">Preventing MED Oscilation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.8">
-                <p id="section-toc.1-1.8.2.8.1"><a href="#section-8.8" class="auto internal xref">8.8</a>.  <a href="#name-behavior-connection-via-an-" class="internal xref">Behavior Connection via an IXP</a></p>
+                <p id="section-toc.1-1.8.2.8.1"><a href="#section-8.8" class="auto internal xref">8.8</a>.  <a href="#name-behavior-when-connecting-vi" class="internal xref">Behavior when Connecting via an IXP</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.8.2.1">
                     <p id="section-toc.1-1.8.2.8.2.1.1"><a href="#section-8.8.1" class="auto internal xref">8.8.1</a>.  <a href="#name-not-setting-a-higher-local_" class="internal xref">Not Setting a Higher LOCAL_PREF for NLRI received via an IXP</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.8.2.2">
-                    <p id="section-toc.1-1.8.2.8.2.2.1"><a href="#section-8.8.2" class="auto internal xref">8.8.2</a>.  <a href="#name-not-setting-a-higher-local_p" class="internal xref">Not Setting a Higher LOCAL_PREF for NLRI received via an IXP</a></p>
+                    <p id="section-toc.1-1.8.2.8.2.2.1"><a href="#section-8.8.2" class="auto internal xref">8.8.2</a>.  <a href="#name-honoring-gshut-on-an-ixp" class="internal xref">Honoring GSHUT on an IXP</a></p>
 </li>
                 </ul>
 </li>
@@ -2218,7 +2226,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-bgp-route-flap-dampening" class="section-name selfRef">BGP Route Flap Dampening</a>
         </h3>
 <p id="section-8.1-1">
-                    The BGP route flap dampening mechanism makes it possible to give penalties to routes each time they change in the BGP routing table.
+                    The BGP route flap dampening mechanism makes it possible to give penalties to routes each time they change in the BGP routing table <span>[<a href="#RFC2439" class="cite xref">RFC2439</a>]</span>.
                     Initially, this mechanism was created to protect the entire Internet from multiple events that impact a single network.
                     Studies have shown that implementations of BGP route flap dampening could cause more harm than benefit; therefore, in the past, the RIPE community has recommended against using BGP route flap dampening <span>[<a href="#RIPE-378" class="cite xref">RIPE-378</a>]</span>.
                     Later, studies were conducted to propose new route flap dampening thresholds in order to make the solution "usable"; see <span>[<a href="#RFC7196" class="cite xref">RFC7196</a>]</span> and <span>[<a href="#RIPE-580" class="cite xref">RIPE-580</a>]</span>  (in which RIPE reviewed its recommendations).
@@ -2473,41 +2481,71 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 </section>
 </div>
-<div id="sec-bgp-attribute-scrubbing">
+<div id="sec-bgp-attributes">
 <section id="section-8.6">
-        <h3 id="name-bgp-attribute-scrubbing">
-<a href="#section-8.6" class="section-number selfRef">8.6. </a><a href="#name-bgp-attribute-scrubbing" class="section-name selfRef">BGP Attribute Scrubbing</a>
+        <h3 id="name-handling-bgp-attributes">
+<a href="#section-8.6" class="section-number selfRef">8.6. </a><a href="#name-handling-bgp-attributes" class="section-name selfRef">Handling BGP Attributes</a>
         </h3>
 <p id="section-8.6-1">
-                    Over the past years several instances of network disruptions due to routers being unable to process specific BGP attributes were encountered.
-                    As such, operators <span class="bcp14">MAY</span> opt to temporarily scrub specific BGP attributes known to cause service disruptions on their infrastructure.
-                    Operators <span class="bcp14">SHOULD NOT</span> scrub unknown transitive attributes in general.<a href="#section-8.6-1" class="pilcrow">¶</a></p>
+                    While there is a list of well-known and defined transitive BGP attributes, operators sometimes accidentally or intentionally use undocumented BGP attributes.
+                    Similarly, newly introduced attributes may not yet be known to a specific implementation.<a href="#section-8.6-1" class="pilcrow">¶</a></p>
 <p id="section-8.6-2">
-                    However, while being a very useful tool, BGP attribute scrubbing features may cause undesired effects and sometimes even large-scale outages as well.
-                    Therefore, they <span class="bcp14">MUST NOT</span> be used as a permanent solution, but only as a last-resort temporary workaround.
-                    Furthermore, removing mandatory BGP attributes and optional attributes commonly used in the Internet, such as AS_PATH, Communities, MED etc. may have a significant negative impact beyond an operator's own AS.
-                    Hence, it is <span class="bcp14">RECOMMENDED</span> that such attributes are never removed.<a href="#section-8.6-2" class="pilcrow">¶</a></p>
+                    In general, unknown transitive BGP attributes <span class="bcp14">SHOULD NOT</span> be filtered.
+                    However, sometimes bugs may occur in implementations that require filtering or correction of attributes on the border to protect BGP speakers before a patch for the implementation is available.<a href="#section-8.6-2" class="pilcrow">¶</a></p>
+<p id="section-8.6-3">
+                    This section documents practices for scrubbing and normalizing BGP attribute related data in received NLRI.<a href="#section-8.6-3" class="pilcrow">¶</a></p>
+<div id="sec-bgp-attribute-scrubbing">
+<section id="section-8.6.1">
+          <h4 id="name-bgp-attribute-scrubbing">
+<a href="#section-8.6.1" class="section-number selfRef">8.6.1. </a><a href="#name-bgp-attribute-scrubbing" class="section-name selfRef">BGP Attribute Scrubbing</a>
+          </h4>
+<p id="section-8.6.1-1">
+                        Over the past years several instances of network disruptions due to routers being unable to process specific BGP attributes were encountered.
+                        As such, operators <span class="bcp14">MAY</span> opt to temporarily scrub specific BGP attributes known to cause service disruptions on their infrastructure.
+                        Operators <span class="bcp14">SHOULD NOT</span> scrub unknown transitive attributes in general.<a href="#section-8.6.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.6.1-2">
+                        However, while being a very useful tool, BGP attribute scrubbing features may cause undesired effects and sometimes even large-scale outages as well.
+                        Therefore, they <span class="bcp14">MUST NOT</span> be used as a permanent solution, but only as a last-resort temporary workaround.
+                        Furthermore, removing mandatory BGP attributes and optional attributes commonly used in the Internet, such as AS_PATH, Communities, MED etc. may have a significant negative impact beyond an operator's own AS.
+                        Hence, it is <span class="bcp14">RECOMMENDED</span> that such attributes are never removed when importing NLRI.<a href="#section-8.6.1-2" class="pilcrow">¶</a></p>
+<p id="section-8.6.1-3">
+                        When sending NLRI to external neighbors, operators <span class="bcp14">SHOULD</span> avoid sending not yet standardized or only internally used attributes, i.e., scrub attributes they added which are not in public use before exporting NLRI.<a href="#section-8.6.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-bgp-attribute-header-correction">
+<section id="section-8.6.2">
+          <h4 id="name-bgp-attribute-header-correc">
+<a href="#section-8.6.2" class="section-number selfRef">8.6.2. </a><a href="#name-bgp-attribute-header-correc" class="section-name selfRef">BGP Attribute Header Correction</a>
+          </h4>
+<p id="section-8.6.2-1">
+                        BGP attributes are stored within BGP UPDATE messages as a vector of Type-Length-Value (TLV) fields.
+                        The Attribute Type field contains a set of control bits, such as the Optional Bit (set to 1 for Optional Attributes and 0 for Well-Known), the Transitive Bit (specifying whether the attribute is Transitive, i.e., should be propagated outside the local AS or, Non-Transitive, i.e., should not be propagated outside the local AS) etc.
+                        Initially, <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> mandated that a BGP speaker tears down a BGP session when receiving even a single UPDATE message containing a malformed combination of Attribute TLV headers.
+                        However, <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span> allows BGP implementors to optionally add features providing self-correction of malformed attributes in a limited number of cases.<a href="#section-8.6.2-1" class="pilcrow">¶</a></p>
+<p id="section-8.6.2-2">
+                        Operators <span class="bcp14">MAY</span> use such, self-correcting mechanisms for BGP Attribute TLV headers.
+                        However, they <span class="bcp14">SHOULD</span> consider the operational impact such features have, <span class="bcp14">SHOULD</span> monitor for cases where such self-correction is necessary, and <span class="bcp14">SHOULD</span> follow up on such cases to ensure that root-causes are identified and addressed.<a href="#section-8.6.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-bgp-med-oscilation">
 <section id="section-8.7">
-        <h3 id="name-bgp-attribute-header-correc">
-<a href="#section-8.7" class="section-number selfRef">8.7. </a><a href="#name-bgp-attribute-header-correc" class="section-name selfRef">BGP Attribute Header Correction</a>
+        <h3 id="name-preventing-med-oscilation">
+<a href="#section-8.7" class="section-number selfRef">8.7. </a><a href="#name-preventing-med-oscilation" class="section-name selfRef">Preventing MED Oscilation</a>
         </h3>
 <p id="section-8.7-1">
-                    BGP attributes are stored within BGP UPDATE messages as a vector of Type-Length-Value (TLV) fields.
-                    The Attribute Type field contains a set of control bits, such as the Optional Bit (set to 1 for Optional Attributes and 0 for Well-Known), the Transitive Bit (specifying whether the attribute is Transitive, i.e., should be propagated outside the local AS or, Non-Transitive, i.e., should not be propagated outside the local AS) etc.
-                    Initially, <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> mandated that a BGP speaker tears down a BGP session when receiving even a single UPDATE message containing a malformed combination of Attribute TLV headers.
-                    However, <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span> allows BGP implementors to optionally add features providing self-correction of malformed attributes in a limited number of cases.<a href="#section-8.7-1" class="pilcrow">¶</a></p>
+                    As documented in <span>[<a href="#RFC3345" class="cite xref">RFC3345</a>]</span>, the use of BGP Route Reflection <span>[<a href="#RFC4456" class="cite xref">RFC4456</a>]</span> and BGP Confederation <span>[<a href="#RFC5065" class="cite xref">RFC5065</a>]</span> can lead to route oscilation, especially in conjunction with the MULTI_EXIT_DISC (MED) attribute (see <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>).
+                    If BGP route oscilation occurs, routes may be blackholed if dampening is implemented by neighbors, or individual BGP speakers may become overloaded, further aggrevating the oscilation issue.<a href="#section-8.7-1" class="pilcrow">¶</a></p>
 <p id="section-8.7-2">
-                    Operators <span class="bcp14">MAY</span> use such, self-correcting mechanisms for BGP Attribute TLV headers.
-                    However, they <span class="bcp14">SHOULD</span> consider the operational impact such features have, <span class="bcp14">SHOULD</span> monitor for cases where such self-correction is necessary, and <span class="bcp14">SHOULD</span> follow up on such cases to ensure that root-causes are identified and addressed.<a href="#section-8.7-2" class="pilcrow">¶</a></p>
+                    Hence, operators <span class="bcp14">SHOULD</span> familiarize themselves with <span>[<a href="#RFC7964" class="cite xref">RFC7964</a>]</span>, which describes methods and approaches to counteract MED related route-oscilation.
+                    Operators <span class="bcp14">SHOULD</span> carefully evaluate their network's requirements and implement the practices documented in <span>[<a href="#RFC7964" class="cite xref">RFC7964</a>]</span> as appropriate.<a href="#section-8.7-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-bgp-ixp-behavior">
 <section id="section-8.8">
-        <h3 id="name-behavior-connection-via-an-">
-<a href="#section-8.8" class="section-number selfRef">8.8. </a><a href="#name-behavior-connection-via-an-" class="section-name selfRef">Behavior Connection via an IXP</a>
+        <h3 id="name-behavior-when-connecting-vi">
+<a href="#section-8.8" class="section-number selfRef">8.8. </a><a href="#name-behavior-when-connecting-vi" class="section-name selfRef">Behavior when Connecting via an IXP</a>
         </h3>
 <p id="section-8.8-1">
                     IXPs are an essential aspect of the modern Internet, and contribute to keeping local traffic local.
@@ -2534,16 +2572,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 <div id="sec-bgp-ixp-gshut">
 <section id="section-8.8.2">
-          <h4 id="name-not-setting-a-higher-local_p">
-<a href="#section-8.8.2" class="section-number selfRef">8.8.2. </a><a href="#name-not-setting-a-higher-local_p" class="section-name selfRef">Not Setting a Higher LOCAL_PREF for NLRI received via an IXP</a>
+          <h4 id="name-honoring-gshut-on-an-ixp">
+<a href="#section-8.8.2" class="section-number selfRef">8.8.2. </a><a href="#name-honoring-gshut-on-an-ixp" class="section-name selfRef">Honoring GSHUT on an IXP</a>
           </h4>
 <p id="section-8.8.2-1">
                         Graceful BGP Session Shutdown (GSHUT) as defined in <span>[<a href="#RFC8326" class="cite xref">RFC8326</a>]</span> is a formalized method for draining traffic from sessions gracefully before, e.g., maintenance.
                         However, while AS_PATH prepending does not have to be supported by two neighbors, GSHUT requires all neighbors to implement it by implementing a policy that assigns a lower LOCAL_PREF to NLRI mathing the GRACEFUL_SHUTDOWN BGP community.<a href="#section-8.8.2-1" class="pilcrow">¶</a></p>
 <p id="section-8.8.2-2">
                         GSHUT is a more effective method of traffic draining than, e.g., AS_PATH prepending.
-                        Hence, GSHUT <span class="bcp14">SHOULD</span> be supported on all eBGP sessions.
-                        Furthermore, when ignoring the previous recommendation and setting a higher LOCAL_PREF for sessions via an IXP LAN, GSHUT <span class="bcp14">MUST</span> be supported.<a href="#section-8.8.2-2" class="pilcrow">¶</a></p>
+                        Hence, in general, GSHUT <span class="bcp14">SHOULD</span> be supported on all eBGP sessions.
+                        However, as an IXP member, when ignoring the previous recommendation and setting a higher LOCAL_PREF for sessions via an IXP LAN, GSHUT <span class="bcp14">MUST</span> be supported.<a href="#section-8.8.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3218,6 +3256,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC2439">[RFC2439]</dt>
+        <dd>
+<span class="refAuthor">Villamizar, C.</span>, <span class="refAuthor">Chandra, R.</span>, and <span class="refAuthor">R. Govindan</span>, <span class="refTitle">"BGP Route Flap Damping"</span>, <span class="seriesInfo">RFC 2439</span>, <span class="seriesInfo">DOI 10.17487/RFC2439</span>, <time datetime="1998-11" class="refDate">November 1998</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2439">https://www.rfc-editor.org/info/rfc2439</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC4271">[RFC4271]</dt>
         <dd>
 <span class="refAuthor">Rekhter, Y., Ed.</span>, <span class="refAuthor">Li, T., Ed.</span>, and <span class="refAuthor">S. Hares, Ed.</span>, <span class="refTitle">"A Border Gateway Protocol 4 (BGP-4)"</span>, <span class="seriesInfo">RFC 4271</span>, <span class="seriesInfo">DOI 10.17487/RFC4271</span>, <time datetime="2006-01" class="refDate">January 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4271">https://www.rfc-editor.org/info/rfc4271</a>&gt;</span>. </dd>
@@ -3225,6 +3267,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dt id="RFC4272">[RFC4272]</dt>
         <dd>
 <span class="refAuthor">Murphy, S.</span>, <span class="refTitle">"BGP Security Vulnerabilities Analysis"</span>, <span class="seriesInfo">RFC 4272</span>, <span class="seriesInfo">DOI 10.17487/RFC4272</span>, <time datetime="2006-01" class="refDate">January 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4272">https://www.rfc-editor.org/info/rfc4272</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4456">[RFC4456]</dt>
+        <dd>
+<span class="refAuthor">Bates, T.</span>, <span class="refAuthor">Chen, E.</span>, and <span class="refAuthor">R. Chandra</span>, <span class="refTitle">"BGP Route Reflection: An Alternative to Full Mesh Internal BGP (IBGP)"</span>, <span class="seriesInfo">RFC 4456</span>, <span class="seriesInfo">DOI 10.17487/RFC4456</span>, <time datetime="2006-04" class="refDate">April 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4456">https://www.rfc-editor.org/info/rfc4456</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5065">[RFC5065]</dt>
+        <dd>
+<span class="refAuthor">Traina, P.</span>, <span class="refAuthor">McPherson, D.</span>, and <span class="refAuthor">J. Scudder</span>, <span class="refTitle">"Autonomous System Confederations for BGP"</span>, <span class="seriesInfo">RFC 5065</span>, <span class="seriesInfo">DOI 10.17487/RFC5065</span>, <time datetime="2007-08" class="refDate">August 2007</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5065">https://www.rfc-editor.org/info/rfc5065</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5082">[RFC5082]</dt>
         <dd>
@@ -3249,6 +3299,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dt id="RFC7196">[RFC7196]</dt>
         <dd>
 <span class="refAuthor">Pelsser, C.</span>, <span class="refAuthor">Bush, R.</span>, <span class="refAuthor">Patel, K.</span>, <span class="refAuthor">Mohapatra, P.</span>, and <span class="refAuthor">O. Maennel</span>, <span class="refTitle">"Making Route Flap Damping Usable"</span>, <span class="seriesInfo">RFC 7196</span>, <span class="seriesInfo">DOI 10.17487/RFC7196</span>, <time datetime="2014-05" class="refDate">May 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7196">https://www.rfc-editor.org/info/rfc7196</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7964">[RFC7964]</dt>
+        <dd>
+<span class="refAuthor">Walton, D.</span>, <span class="refAuthor">Retana, A.</span>, <span class="refAuthor">Chen, E.</span>, and <span class="refAuthor">J. Scudder</span>, <span class="refTitle">"Solutions for BGP Persistent Route Oscillation"</span>, <span class="seriesInfo">RFC 7964</span>, <span class="seriesInfo">DOI 10.17487/RFC7964</span>, <time datetime="2016-09" class="refDate">September 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7964">https://www.rfc-editor.org/info/rfc7964</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8092">[RFC8092]</dt>
         <dd>
@@ -3309,6 +3363,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
         <dd>
 <span class="refAuthor">Ferguson, P.</span> and <span class="refAuthor">D. Senie</span>, <span class="refTitle">"Network Ingress Filtering: Defeating Denial of Service Attacks which employ IP Source Address Spoofing"</span>, <span class="seriesInfo">BCP 38</span>, <span class="seriesInfo">RFC 2827</span>, <span class="seriesInfo">DOI 10.17487/RFC2827</span>, <time datetime="2000-05" class="refDate">May 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2827">https://www.rfc-editor.org/info/rfc2827</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC3345">[RFC3345]</dt>
+        <dd>
+<span class="refAuthor">McPherson, D.</span>, <span class="refAuthor">Gill, V.</span>, <span class="refAuthor">Walton, D.</span>, and <span class="refAuthor">A. Retana</span>, <span class="refTitle">"Border Gateway Protocol (BGP) Persistent Route Oscillation Condition"</span>, <span class="seriesInfo">RFC 3345</span>, <span class="seriesInfo">DOI 10.17487/RFC3345</span>, <time datetime="2002-08" class="refDate">August 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3345">https://www.rfc-editor.org/info/rfc3345</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC3704">[RFC3704]</dt>
         <dd>
 <span class="refAuthor">Baker, F.</span> and <span class="refAuthor">P. Savola</span>, <span class="refTitle">"Ingress Filtering for Multihomed Networks"</span>, <span class="seriesInfo">BCP 84</span>, <span class="seriesInfo">RFC 3704</span>, <span class="seriesInfo">DOI 10.17487/RFC3704</span>, <time datetime="2004-03" class="refDate">March 2004</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3704">https://www.rfc-editor.org/info/rfc3704</a>&gt;</span>. </dd>
@@ -3316,10 +3374,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dt id="RFC4012">[RFC4012]</dt>
         <dd>
 <span class="refAuthor">Blunk, L.</span>, <span class="refAuthor">Damas, J.</span>, <span class="refAuthor">Parent, F.</span>, and <span class="refAuthor">A. Robachevsky</span>, <span class="refTitle">"Routing Policy Specification Language next generation (RPSLng)"</span>, <span class="seriesInfo">RFC 4012</span>, <span class="seriesInfo">DOI 10.17487/RFC4012</span>, <time datetime="2005-03" class="refDate">March 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4012">https://www.rfc-editor.org/info/rfc4012</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC4456">[RFC4456]</dt>
-        <dd>
-<span class="refAuthor">Bates, T.</span>, <span class="refAuthor">Chen, E.</span>, and <span class="refAuthor">R. Chandra</span>, <span class="refTitle">"BGP Route Reflection: An Alternative to Full Mesh Internal BGP (IBGP)"</span>, <span class="seriesInfo">RFC 4456</span>, <span class="seriesInfo">DOI 10.17487/RFC4456</span>, <time datetime="2006-04" class="refDate">April 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4456">https://www.rfc-editor.org/info/rfc4456</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC4360">[RFC4360]</dt>
         <dd>

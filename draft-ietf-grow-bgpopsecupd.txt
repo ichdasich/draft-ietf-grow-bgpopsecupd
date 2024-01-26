@@ -129,13 +129,14 @@ Table of Contents
      8.5.  BGP Community Scrubbing
        8.5.1.  Inbound BGP Community Scrubbing
        8.5.2.  Outbound BGP Community Scrubbing
-     8.6.  BGP Attribute Scrubbing
-     8.7.  BGP Attribute Header Correction
-     8.8.  Behavior Connection via an IXP
+     8.6.  Handling BGP Attributes
+       8.6.1.  BGP Attribute Scrubbing
+       8.6.2.  BGP Attribute Header Correction
+     8.7.  Preventing MED Oscilation
+     8.8.  Behavior when Connecting via an IXP
        8.8.1.  Not Setting a Higher LOCAL_PREF for NLRI received via
                an IXP
-       8.8.2.  Not Setting a Higher LOCAL_PREF for NLRI received via
-               an IXP
+       8.8.2.  Honoring GSHUT on an IXP
    9.  Prefix Filtering Recommendations
      9.1.  Prefix Filter Implementation Considerations
        9.1.1.  Implicit Policies and Default Behavior
@@ -1047,17 +1048,18 @@ Table of Contents
 8.1.  BGP Route Flap Dampening
 
    The BGP route flap dampening mechanism makes it possible to give
-   penalties to routes each time they change in the BGP routing table.
-   Initially, this mechanism was created to protect the entire Internet
-   from multiple events that impact a single network.  Studies have
-   shown that implementations of BGP route flap dampening could cause
-   more harm than benefit; therefore, in the past, the RIPE community
-   has recommended against using BGP route flap dampening [RIPE-378].
-   Later, studies were conducted to propose new route flap dampening
-   thresholds in order to make the solution "usable"; see [RFC7196] and
-   [RIPE-580] (in which RIPE reviewed its recommendations).  Following
-   IETF and RIPE recommendations and using BGP route flap dampening with
-   the adjusted configured thresholds is RECOMMENDED.
+   penalties to routes each time they change in the BGP routing table
+   [RFC2439].  Initially, this mechanism was created to protect the
+   entire Internet from multiple events that impact a single network.
+   Studies have shown that implementations of BGP route flap dampening
+   could cause more harm than benefit; therefore, in the past, the RIPE
+   community has recommended against using BGP route flap dampening
+   [RIPE-378].  Later, studies were conducted to propose new route flap
+   dampening thresholds in order to make the solution "usable"; see
+   [RFC7196] and [RIPE-580] (in which RIPE reviewed its
+   recommendations).  Following IETF and RIPE recommendations and using
+   BGP route flap dampening with the adjusted configured thresholds is
+   RECOMMENDED.
 
 8.2.  Maximum Prefixes
 
@@ -1387,7 +1389,22 @@ Table of Contents
       BGP communities MUST NOT be used to signal RPKI ROV state, please
       see [TBD].
 
-8.6.  BGP Attribute Scrubbing
+8.6.  Handling BGP Attributes
+
+   While there is a list of well-known and defined transitive BGP
+   attributes, operators sometimes accidentally or intentionally use
+   undocumented BGP attributes.  Similarly, newly introduced attributes
+   may not yet be known to a specific implementation.
+
+   In general, unknown transitive BGP attributes SHOULD NOT be filtered.
+   However, sometimes bugs may occur in implementations that require
+   filtering or correction of attributes on the border to protect BGP
+   speakers before a patch for the implementation is available.
+
+   This section documents practices for scrubbing and normalizing BGP
+   attribute related data in received NLRI.
+
+8.6.1.  BGP Attribute Scrubbing
 
    Over the past years several instances of network disruptions due to
    routers being unable to process specific BGP attributes were
@@ -1404,9 +1421,14 @@ Table of Contents
    attributes commonly used in the Internet, such as AS_PATH,
    Communities, MED etc. may have a significant negative impact beyond
    an operator's own AS.  Hence, it is RECOMMENDED that such attributes
-   are never removed.
+   are never removed when importing NLRI.
 
-8.7.  BGP Attribute Header Correction
+   When sending NLRI to external neighbors, operators SHOULD avoid
+   sending not yet standardized or only internally used attributes,
+   i.e., scrub attributes they added which are not in public use before
+   exporting NLRI.
+
+8.6.2.  BGP Attribute Header Correction
 
    BGP attributes are stored within BGP UPDATE messages as a vector of
    Type-Length-Value (TLV) fields.  The Attribute Type field contains a
@@ -1427,7 +1449,23 @@ Table of Contents
    correction is necessary, and SHOULD follow up on such cases to ensure
    that root-causes are identified and addressed.
 
-8.8.  Behavior Connection via an IXP
+8.7.  Preventing MED Oscilation
+
+   As documented in [RFC3345], the use of BGP Route Reflection [RFC4456]
+   and BGP Confederation [RFC5065] can lead to route oscilation,
+   especially in conjunction with the MULTI_EXIT_DISC (MED) attribute
+   (see [RFC4271]).  If BGP route oscilation occurs, routes may be
+   blackholed if dampening is implemented by neighbors, or individual
+   BGP speakers may become overloaded, further aggrevating the
+   oscilation issue.
+
+   Hence, operators SHOULD familiarize themselves with [RFC7964], which
+   describes methods and approaches to counteract MED related route-
+   oscilation.  Operators SHOULD carefully evaluate their network's
+   requirements and implement the practices documented in [RFC7964] as
+   appropriate.
+
+8.8.  Behavior when Connecting via an IXP
 
    IXPs are an essential aspect of the modern Internet, and contribute
    to keeping local traffic local.  As such, IXP fabrics often handle a
@@ -1466,7 +1504,7 @@ Table of Contents
    communities documented by the IXP to prevent the RS from exporting
    their NLRI to that specific IXP member.
 
-8.8.2.  Not Setting a Higher LOCAL_PREF for NLRI received via an IXP
+8.8.2.  Honoring GSHUT on an IXP
 
    Graceful BGP Session Shutdown (GSHUT) as defined in [RFC8326] is a
    formalized method for draining traffic from sessions gracefully
@@ -1476,10 +1514,10 @@ Table of Contents
    lower LOCAL_PREF to NLRI mathing the GRACEFUL_SHUTDOWN BGP community.
 
    GSHUT is a more effective method of traffic draining than, e.g.,
-   AS_PATH prepending.  Hence, GSHUT SHOULD be supported on all eBGP
-   sessions.  Furthermore, when ignoring the previous recommendation and
-   setting a higher LOCAL_PREF for sessions via an IXP LAN, GSHUT MUST
-   be supported.
+   AS_PATH prepending.  Hence, in general, GSHUT SHOULD be supported on
+   all eBGP sessions.  However, as an IXP member, when ignoring the
+   previous recommendation and setting a higher LOCAL_PREF for sessions
+   via an IXP LAN, GSHUT MUST be supported.
 
 9.  Prefix Filtering Recommendations
 
@@ -2117,6 +2155,10 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
+   [RFC2439]  Villamizar, C., Chandra, R., and R. Govindan, "BGP Route
+              Flap Damping", RFC 2439, DOI 10.17487/RFC2439, November
+              1998, <https://www.rfc-editor.org/info/rfc2439>.
+
    [RFC4271]  Rekhter, Y., Ed., Li, T., Ed., and S. Hares, Ed., "A
               Border Gateway Protocol 4 (BGP-4)", RFC 4271,
               DOI 10.17487/RFC4271, January 2006,
@@ -2125,6 +2167,16 @@ Table of Contents
    [RFC4272]  Murphy, S., "BGP Security Vulnerabilities Analysis",
               RFC 4272, DOI 10.17487/RFC4272, January 2006,
               <https://www.rfc-editor.org/info/rfc4272>.
+
+   [RFC4456]  Bates, T., Chen, E., and R. Chandra, "BGP Route
+              Reflection: An Alternative to Full Mesh Internal BGP
+              (IBGP)", RFC 4456, DOI 10.17487/RFC4456, April 2006,
+              <https://www.rfc-editor.org/info/rfc4456>.
+
+   [RFC5065]  Traina, P., McPherson, D., and J. Scudder, "Autonomous
+              System Confederations for BGP", RFC 5065,
+              DOI 10.17487/RFC5065, August 2007,
+              <https://www.rfc-editor.org/info/rfc5065>.
 
    [RFC5082]  Gill, V., Heasley, J., Meyer, D., Savola, P., Ed., and C.
               Pignataro, "The Generalized TTL Security Mechanism
@@ -2154,6 +2206,11 @@ Table of Contents
               Maennel, "Making Route Flap Damping Usable", RFC 7196,
               DOI 10.17487/RFC7196, May 2014,
               <https://www.rfc-editor.org/info/rfc7196>.
+
+   [RFC7964]  Walton, D., Retana, A., Chen, E., and J. Scudder,
+              "Solutions for BGP Persistent Route Oscillation",
+              RFC 7964, DOI 10.17487/RFC7964, September 2016,
+              <https://www.rfc-editor.org/info/rfc7964>.
 
    [RFC8092]  Heitz, J., Ed., Snijders, J., Ed., Patel, K., Bagdonas,
               I., and N. Hilliard, "BGP Large Communities Attribute",
@@ -2226,6 +2283,11 @@ Table of Contents
               Address Spoofing", BCP 38, RFC 2827, DOI 10.17487/RFC2827,
               May 2000, <https://www.rfc-editor.org/info/rfc2827>.
 
+   [RFC3345]  McPherson, D., Gill, V., Walton, D., and A. Retana,
+              "Border Gateway Protocol (BGP) Persistent Route
+              Oscillation Condition", RFC 3345, DOI 10.17487/RFC3345,
+              August 2002, <https://www.rfc-editor.org/info/rfc3345>.
+
    [RFC3704]  Baker, F. and P. Savola, "Ingress Filtering for Multihomed
               Networks", BCP 84, RFC 3704, DOI 10.17487/RFC3704, March
               2004, <https://www.rfc-editor.org/info/rfc3704>.
@@ -2234,11 +2296,6 @@ Table of Contents
               "Routing Policy Specification Language next generation
               (RPSLng)", RFC 4012, DOI 10.17487/RFC4012, March 2005,
               <https://www.rfc-editor.org/info/rfc4012>.
-
-   [RFC4456]  Bates, T., Chen, E., and R. Chandra, "BGP Route
-              Reflection: An Alternative to Full Mesh Internal BGP
-              (IBGP)", RFC 4456, DOI 10.17487/RFC4456, April 2006,
-              <https://www.rfc-editor.org/info/rfc4456>.
 
    [RFC4360]  Sangli, S., Tappan, D., and Y. Rekhter, "BGP Extended
               Communities Attribute", RFC 4360, DOI 10.17487/RFC4360,
