@@ -959,7 +959,7 @@
                         <li>
                             When known, BGP communities used to signal RPKI ROV state (see <xref target="sec-sidr-rov" format="default"/>) received from eBGP neighbors <bcp14>MUST</bcp14> be scrubbed.
                             This is done to prevent BGP update storms in case a neighbor looses the connection to its validator, changing the validation state of previously valid NLRI, and thereby the applied community for those NLRI, triggering an update message.
-                            For further details on why BGP communities <bcp14>MUST NOT</bcp14> be used to signal RPKI ROV state, please see <xref target="TBD" format="default"/>.
+                            For further details on why BGP communities <bcp14>MUST NOT</bcp14> be used to signal RPKI ROV state, please see <xref target="I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
                         </li>
                     </ul>
                 </section>
@@ -977,10 +977,10 @@
                             However, there are operational circumstances where it <bcp14>MAY</bcp14> be reasonable to send extended BGP communities to neighbors, see, e.g., <xref target="RFC4364" format="default"/>, Inter-AS VPN Option B.
                         </li>
                         <li>
-                            Operators <bcp14>MUST NOT</bcp14> use BGP communities to signal RPKI ROV state, see <xref target="TBD" format="default"/>.
+                            Operators <bcp14>MUST NOT</bcp14> use BGP communities to signal RPKI ROV state, see <xref target="I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
                             If an operator is still in a migration phase discontinuing this practice, they <bcp14>MUST</bcp14> scrub any such community they use for signaling RPKI-ROV state before sending NLRI to their external neighbors.
                             This is done to prevent the propagation of BGP update storms in case one of their BGP speakers looses the connection to its validator, changing the validation state of previously valid NLRI, and thereby the applied community for those NLRI, triggering an update message.
-                            For further details on why BGP communities <bcp14>MUST NOT</bcp14> be used to signal RPKI ROV state, please see <xref target="TBD" format="default"/>.
+                            For further details on why BGP communities <bcp14>MUST NOT</bcp14> be used to signal RPKI ROV state, please see <xref target="I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
                         </li>
                     </ul>
                 </section>
@@ -1745,6 +1745,22 @@
                         <date month="August" day="29" year="2023"/>
                     </front>
                     <seriesInfo name="Internet-Draft" value="draft-ietf-sidrops-aspa-verification-16"/>
+                </reference>
+                <reference anchor="I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp" target="https://datatracker.ietf.org/doc/draft-spaghetti-sidrops-avoid-rpki-state-in-bgp/">
+                    <front>
+                        <title>Guidance to Avoid Carrying RPKI Validation States in Transitive BGP Path Attributes</title>
+                        <author initials="J." surname="Snijders" fullname="Job Snijders">
+                            <organization>Fastly</organization>
+                        </author>
+                        <author initials="T." surname="Fiebig" fullname="Tobias Fiebig">
+                            <organization>MPI-INF</organization>
+                        </author>
+                        <author initials="M. A." surname="Stucchi" fullname="Massimiliano Stucchi">
+                            <organization>AS58280.net</organization>
+                        </author>
+                        <date month="February" day="8" year="2024"/>
+                    </front>
+                    <seriesInfo name="Internet-Draft" value="draft-spaghetti-sidrops-avoid-rpki-state-in-bgp-00"/>
                 </reference>
             </references>
             <references>
