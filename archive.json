@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-04T00:13:36.065476+00:00",
+  "timestamp": "2024-02-06T00:12:13.467412+00:00",
   "repo": "ichdasich/draft-ietf-grow-bgpopsecupd",
   "labels": [
     {
@@ -293,6 +293,22 @@
       "body": "There is still a pending comment saying:\r\n\r\n```\r\nSome terms should be unified, e.g., \"upstream\" \"upstream provider\"; \"Internet peer\" \"lateral peer\" \"peer\"; etc.\r\n```\r\n\r\nAdditionally, terms like NLRI etc need a full clean-run.\r\n\r\nHowever, this should be postponed until the document is feature-complete.",
       "createdAt": "2024-01-26T10:23:58Z",
       "updatedAt": "2024-01-26T10:23:59Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOKcyvv85-QNPD",
+      "title": "Add note on running own RPKI / and/or IRR validator",
+      "url": "https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/issues/14",
+      "state": "OPEN",
+      "author": "ichdasich",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently, there is no note on running one's own RPKI validator; This may, however, be prudent, see: https://github.com/job/draft-rpki-communities-harmful/pull/3\r\n\r\nAdditionally, there was a comment regarding the citation of bgpq4, which caches from NTT, usually. Similar notes may apply there, and--as noted re: irrd--features currently needing bgpq4 _should_ be part of irrd soon.",
+      "createdAt": "2024-02-05T10:25:27Z",
+      "updatedAt": "2024-02-05T10:30:22Z",
       "closedAt": null,
       "comments": []
     }
