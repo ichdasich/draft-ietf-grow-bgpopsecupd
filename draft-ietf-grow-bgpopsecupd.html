@@ -25,17 +25,17 @@
                 Also, as with BCP194, best practices outlined in this document may have changed since its publication.
        
     " name="description">
-<meta content="xml2rfc 3.19.1" name="generator">
+<meta content="xml2rfc 3.19.2" name="generator">
 <meta content="draft-ietf-grow-bgpopsecupd-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.19.1
+  xml2rfc 3.19.2
     Python 3.11.6
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 4.1.0
+    platformdirs 4.2.0
     pycountry 22.3.5
     PyYAML 6.0.1
     requests 2.31.0
@@ -1040,11 +1040,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">BGP OPSEC</td>
-<td class="right">January 2024</td>
+<td class="right">February 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Fiebig</td>
-<td class="center">Expires 29 July 2024</td>
+<td class="center">Expires 9 August 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1060,12 +1060,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc7454" class="eref">7454</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-01-26" class="published">26 January 2024</time>
+<time datetime="2024-02-06" class="published">6 February 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Best Current Practice</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-07-29">29 July 2024</time></dd>
+<dd class="expires"><time datetime="2024-08-09">9 August 2024</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1111,7 +1111,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 29 July 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 9 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2455,7 +2455,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <li class="normal" id="section-8.5.1-1.3">
                             When known, BGP communities used to signal RPKI ROV state (see <a href="#sec-sidr-rov" class="auto internal xref">Section 7.2.1</a>) received from eBGP neighbors <span class="bcp14">MUST</span> be scrubbed.
                             This is done to prevent BGP update storms in case a neighbor looses the connection to its validator, changing the validation state of previously valid NLRI, and thereby the applied community for those NLRI, triggering an update message.
-                            For further details on why BGP communities <span class="bcp14">MUST NOT</span> be used to signal RPKI ROV state, please see <span>[<a href="#TBD" class="cite xref">TBD</a>]</span>.<a href="#section-8.5.1-1.3" class="pilcrow">¶</a>
+                            For further details on why BGP communities <span class="bcp14">MUST NOT</span> be used to signal RPKI ROV state, please see <span>[<a href="#I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-8.5.1-1.3" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -2477,10 +2477,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
                             However, there are operational circumstances where it <span class="bcp14">MAY</span> be reasonable to send extended BGP communities to neighbors, see, e.g., <span>[<a href="#RFC4364" class="cite xref">RFC4364</a>]</span>, Inter-AS VPN Option B.<a href="#section-8.5.2-1.2" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-8.5.2-1.3">
-                            Operators <span class="bcp14">MUST NOT</span> use BGP communities to signal RPKI ROV state, see <span>[<a href="#TBD" class="cite xref">TBD</a>]</span>.
+                            Operators <span class="bcp14">MUST NOT</span> use BGP communities to signal RPKI ROV state, see <span>[<a href="#I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp</a>]</span>.
                             If an operator is still in a migration phase discontinuing this practice, they <span class="bcp14">MUST</span> scrub any such community they use for signaling RPKI-ROV state before sending NLRI to their external neighbors.
                             This is done to prevent the propagation of BGP update storms in case one of their BGP speakers looses the connection to its validator, changing the validation state of previously valid NLRI, and thereby the applied community for those NLRI, triggering an update message.
-                            For further details on why BGP communities <span class="bcp14">MUST NOT</span> be used to signal RPKI ROV state, please see <span>[<a href="#TBD" class="cite xref">TBD</a>]</span>.<a href="#section-8.5.2-1.3" class="pilcrow">¶</a>
+                            For further details on why BGP communities <span class="bcp14">MUST NOT</span> be used to signal RPKI ROV state, please see <span>[<a href="#I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-8.5.2-1.3" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -3339,8 +3339,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <span class="refAuthor">Gilad, Y.</span>, <span class="refAuthor">Goldberg, S.</span>, <span class="refAuthor">Sriram, K.</span>, <span class="refAuthor">Snijders, J.</span>, and <span class="refAuthor">B. Maddison</span>, <span class="refTitle">"The Use of maxLength in the Resource Public Key Infrastructure (RPKI)"</span>, <span class="seriesInfo">BCP 185</span>, <span class="seriesInfo">RFC 9319</span>, <span class="seriesInfo">DOI 10.17487/RFC9319</span>, <time datetime="2022-10" class="refDate">October 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9319">https://www.rfc-editor.org/info/rfc9319</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-sidrops-aspa-verification">[I-D.ietf-sidrops-aspa-verification]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Azimov, A.</span>, <span class="refAuthor">Bogomazov, E.</span>, <span class="refAuthor">Bush, R.</span>, <span class="refAuthor">Patel, K.</span>, <span class="refAuthor">Snijders, J.</span>, and <span class="refAuthor">K. Sriram</span>, <span class="refTitle">"BGP AS_PATH Verification Based on Autonomous System Provider Authorization (ASPA) Objects"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-sidrops-aspa-verification-16</span>, <time datetime="2023-08-29" class="refDate">29 August 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-aspa-verification-16">https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-aspa-verification-16</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp">[I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp]</dt>
+      <dd>
+<span class="refAuthor">Snijders, J.</span>, <span class="refAuthor">Fiebig, T.</span>, and <span class="refAuthor">M. A. Stucchi</span>, <span class="refTitle">"Guidance to Avoid Carrying RPKI Validation States in Transitive BGP Path Attributes"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-spaghetti-sidrops-avoid-rpki-state-in-bgp-00</span>, <time datetime="2024-02-08" class="refDate">8 February 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-spaghetti-sidrops-avoid-rpki-state-in-bgp/">https://datatracker.ietf.org/doc/draft-spaghetti-sidrops-avoid-rpki-state-in-bgp/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

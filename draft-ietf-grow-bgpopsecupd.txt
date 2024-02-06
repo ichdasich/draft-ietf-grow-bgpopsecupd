@@ -4,9 +4,9 @@
 
 Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
-Obsoletes: 7454 (if approved)                            26 January 2024
+Obsoletes: 7454 (if approved)                            6 February 2024
 Intended status: Best Current Practice                                  
-Expires: 29 July 2024
+Expires: 9 August 2024
 
 
                   Updated BGP Operations and Security
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 July 2024.
+   This Internet-Draft will expire on 9 August 2024.
 
 Copyright Notice
 
@@ -1353,7 +1353,7 @@ Table of Contents
       state of previously valid NLRI, and thereby the applied community
       for those NLRI, triggering an update message.  For further details
       on why BGP communities MUST NOT be used to signal RPKI ROV state,
-      please see [TBD].
+      please see [I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp].
 
 8.5.2.  Outbound BGP Community Scrubbing
 
@@ -1377,16 +1377,17 @@ Table of Contents
       neighbors, see, e.g., [RFC4364], Inter-AS VPN Option B.
 
    *  Operators MUST NOT use BGP communities to signal RPKI ROV state,
-      see [TBD].  If an operator is still in a migration phase
-      discontinuing this practice, they MUST scrub any such community
-      they use for signaling RPKI-ROV state before sending NLRI to their
-      external neighbors.  This is done to prevent the propagation of
-      BGP update storms in case one of their BGP speakers looses the
-      connection to its validator, changing the validation state of
-      previously valid NLRI, and thereby the applied community for those
-      NLRI, triggering an update message.  For further details on why
-      BGP communities MUST NOT be used to signal RPKI ROV state, please
-      see [TBD].
+      see [I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp].  If an
+      operator is still in a migration phase discontinuing this
+      practice, they MUST scrub any such community they use for
+      signaling RPKI-ROV state before sending NLRI to their external
+      neighbors.  This is done to prevent the propagation of BGP update
+      storms in case one of their BGP speakers looses the connection to
+      its validator, changing the validation state of previously valid
+      NLRI, and thereby the applied community for those NLRI, triggering
+      an update message.  For further details on why BGP communities
+      MUST NOT be used to signal RPKI ROV state, please see
+      [I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp].
 
 8.6.  Handling BGP Attributes
 
@@ -2258,6 +2259,14 @@ Table of Contents
               verification-16, 29 August 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-
               aspa-verification-16>.
+
+   [I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp]
+              Snijders, J., Fiebig, T., and M. A. Stucchi, "Guidance to
+              Avoid Carrying RPKI Validation States in Transitive BGP
+              Path Attributes", Work in Progress, Internet-Draft, draft-
+              spaghetti-sidrops-avoid-rpki-state-in-bgp-00, 8 February
+              2024, <https://datatracker.ietf.org/doc/draft-spaghetti-
+              sidrops-avoid-rpki-state-in-bgp/>.
 
 12.2.  Informative References
 
