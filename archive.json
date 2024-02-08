@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-06T00:12:13.467412+00:00",
+  "timestamp": "2024-02-08T00:12:04.218027+00:00",
   "repo": "ichdasich/draft-ietf-grow-bgpopsecupd",
   "labels": [
     {
@@ -166,7 +166,7 @@
       "labels": [],
       "body": "appending a community to signal the validation status of a prefix is generally considered a bad idea",
       "createdAt": "2023-11-06T19:09:03Z",
-      "updatedAt": "2024-01-23T14:54:59Z",
+      "updatedAt": "2024-02-06T10:33:44Z",
       "closedAt": "2024-01-23T14:54:59Z",
       "comments": [
         {
@@ -189,6 +189,20 @@
           "body": "Closed; Now recommending filtering outbound when using those (due to an ongoing migration away from them).\r\n",
           "createdAt": "2024-01-23T14:54:59Z",
           "updatedAt": "2024-01-23T14:54:59Z"
+        },
+        {
+          "author": "job",
+          "authorAssociation": "NONE",
+          "body": "Reference https://datatracker.ietf.org/doc/draft-spaghetti-sidrops-avoid-rpki-state-in-bgp/",
+          "createdAt": "2024-02-06T10:04:58Z",
+          "updatedAt": "2024-02-06T10:04:58Z"
+        },
+        {
+          "author": "ichdasich",
+          "authorAssociation": "OWNER",
+          "body": "Added",
+          "createdAt": "2024-02-06T10:33:44Z",
+          "updatedAt": "2024-02-06T10:33:44Z"
         }
       ]
     },
@@ -309,6 +323,22 @@
       "body": "Currently, there is no note on running one's own RPKI validator; This may, however, be prudent, see: https://github.com/job/draft-rpki-communities-harmful/pull/3\r\n\r\nAdditionally, there was a comment regarding the citation of bgpq4, which caches from NTT, usually. Similar notes may apply there, and--as noted re: irrd--features currently needing bgpq4 _should_ be part of irrd soon.",
       "createdAt": "2024-02-05T10:25:27Z",
       "updatedAt": "2024-02-05T10:30:22Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 15,
+      "id": "I_kwDOKcyvv85-jfC_",
+      "title": "Revisit handling of RFC8097 Communities (non-transitive)",
+      "url": "https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/issues/15",
+      "state": "OPEN",
+      "author": "ichdasich",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-02-07T15:01:16Z",
+      "updatedAt": "2024-02-07T15:01:16Z",
       "closedAt": null,
       "comments": []
     }
