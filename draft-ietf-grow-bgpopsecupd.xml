@@ -101,15 +101,15 @@
                 </t>
                 <ul spacing="normal">
                     <li>
-						Prevent off-path attackers from injecting BGP messages into existing sessions
-					</li>
+                        Prevent off-path attackers from injecting BGP messages into existing sessions
+                    </li>
                     <li>
-						Prevent off-path attackers from interrupting existing sessions
-					</li>
+                        Prevent off-path attackers from interrupting existing sessions
+                    </li>
                     <li>
-						Prevent off-path attackers from preventing the establishment of new sessions
-					</li>
-				</ul>
+                        Prevent off-path attackers from preventing the establishment of new sessions
+                    </li>
+                </ul>
 
             </section>
 
@@ -117,18 +117,18 @@
                 <name>BGP Speaker Management Interface Protection</name>
 
                 <t>
-					In addition to the control plane / exchange of BGP protocol messages, the management plane of BGP speakers must be appropriately secured.
-					Hence, operators <bcp14>MUST</bcp14> ensure that:
+                    In addition to the control plane / exchange of BGP protocol messages, the management plane of BGP speakers must be appropriately secured.
+                    Hence, operators <bcp14>MUST</bcp14> ensure that:
                 </t>
 
                 <ul spacing="normal">
                     <li>
-						No unauthorized third-parties can obtain access or connect to the management interface of a BGP speaker in a way that allows tainting confidentiality, integrity, or availability
-					</li>
+                        No unauthorized third-parties can obtain access or connect to the management interface of a BGP speaker in a way that allows tainting confidentiality, integrity, or availability
+                    </li>
                     <li>
-						External activity towards the management interface do not interfere with the integrity or availability of BGP sessions
-					</li>
-				</ul>
+                        External activity towards the management interface do not interfere with the integrity or availability of BGP sessions
+                    </li>
+                </ul>
 
             </section>
 
