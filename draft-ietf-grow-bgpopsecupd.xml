@@ -88,146 +88,50 @@
             </t>
         </section>
         <section  anchor="sec-protection-of-the-bgp-speaker">
-            <name>Protection of the BGP Speaker</name>
+            <name>Protection of the BGP Speaker and Session</name>
 
             <t>
-                The BGP speaker needs to be protected from external attempts to subvert the BGP session.
-                Furthermore, access to management services of the BGP speaker should be limited to neighbors, as these services usually share resources with the control plane and, e.g., automated attacks on management ports may impact the BGP speaker's ability to execute BGP related tasks.
+                The BGP speaker, i.e., the host running BGP to exchange routing information, needs to be protected from external attempts to taint integrity or availability of the BGP session and host alike.
             </t>
 
             <section  anchor="sec-protection-of-the-bgp-speaker-net">
-                <name>BGP Network Layer Protection</name>
+                <name>BGP Session Protection</name>
                 <t>
-                    To protect a BGP speaker on the network layer, the ability to connect to TCP port 179 on the local device should be restricted to known addresses that are permitted to become a BGP neighbor.
-                    Experience has shown that the natural protection TCP should offer is not always sufficient, as it is sometimes run in control-plane software.
-                    In the absence of ACLs, it is possible to attack a BGP speaker by simply sending a high volume of connection requests to it.
-                    This protection <bcp14>SHOULD</bcp14> be implemented by using an Access Control List (ACL) to limit access to TCP port 179 to authorized hosts.
+                    To protect a BGP speaker on the network layer, an operator <bcp14>MUST</bcp14> ensure the following properties using technical or organizational measures:
                 </t>
+                <ul spacing="normal">
+                    <li>
+						Prevent off-path attackers from injecting BGP messages into existing sessions
+					</li>
+                    <li>
+						Prevent off-path attackers from interrupting existing sessions
+					</li>
+                    <li>
+						Prevent off-path attackers from preventing the establishment of new sessions
+					</li>
+				</ul>
 
-                <t>
-                    If supported, an ACL specific to the control plane of the router <bcp14>SHOULD</bcp14> be used (receive-ACL, control-plane policing, etc.), to avoid configuration of data-plane filters for packets transiting through the router (and therefore not reaching the control plane).
-                    If the hardware cannot do that, interface ACLs can be used to block packets addressed to the local router.
-                </t>
-
-                <t>
-                    Some routers automatically program such an ACL upon BGP configuration.
-                    On other devices, this ACL should be configured and maintained manually or using scripts.
-                </t>
-
-                <t>
-                    In addition to strict filtering, rate-limiting MAY be configured for accepted BGP traffic.
-                    Rate-limiting BGP traffic consists in permitting only a certain quantity of bits per second (or packets per second) of BGP traffic to the control plane.
-                    This protects the BGP router control plane in case the amount of BGP traffic surpasses platform capabilities.
-                </t>
-
-                <t>
-                    Furthermore, it is possible to use non-gloablly reachable addresses for BGP session links.
-                    Options include using IPv4 routes with an IPv6 next hop in IPv4 sessions (see <xref target="RFC9229" format="default"/>), using prefixes not advertised in the GRT (<xref target="TBD" format="default"/>), using unnumbered BGP/Link-Local addresses (also using <xref target="RFC9229" format="default"/>), or using <xref target="RFC1918" format="default"/> addresses for IPv4 sessions.
-                    Even though routing based network layer protection <bcp14>MAY</bcp14> be implemented, it <bcp14>SHOULD</bcp14> only be done in addition to deploying ACLs.
-                    If any of these approaches is utilized, it <bcp14>MUST</bcp14> be ensured that the BGP speaker originates Path MTU Discovery related packets (see <xref target="RFC1191" format="default"/> for IPv4 and <xref target="RFC8201" format="default"/> for IPv6) from a globally reachable address, to ensure that Reverse Path Filtering of external parties does not interfere with PMTUD discovery for transiting traffic.
-                </t>
             </section>
 
             <section  anchor="sec-protection-of-the-bgp-speaker-mgmt">
                 <name>BGP Speaker Management Interface Protection</name>
 
                 <t>
-                    Usually, a BGP speaker's management interface is also reachable in-band, i.e., via the default routing domain / VRF (Virtual Routing Fabric) of the control plane.
-                    To make it easier to separate BGP and management related control plane traffic, management traffic <bcp14>SHOULD</bcp14> be exclusively handled via dedicated out-of-band management.
-                    This network <bcp14>SHOULD</bcp14> be protected from unauthorized connections by ACLs not handled on the BGP speaker itself to ensure that the control plane cannot be overloaded by attacks on the management interfaces of the BGP speaker.
+					In addition to the control plane / exchange of BGP protocol messages, the management plane of BGP speakers must be appropriately secured.
+					Hence, operators <bcp14>MUST</bcp14> ensure that:
                 </t>
 
-                <t>
-                    Please note that, in general, filtering and rate-limiting of control-plane traffic is a wider topic than "just for BGP".
-                    For further recommendations on how to protect the router's control plane, see <xref target="RFC6192" format="default"/> )
-                </t>
+                <ul spacing="normal">
+                    <li>
+						No unauthorized third-parties can obtain access or connect to the management interface of a BGP speaker in a way that allows tainting confidentiality, integrity, or availability
+					</li>
+                    <li>
+						External activity towards the management interface do not interfere with the integrity or availability of BGP sessions
+					</li>
+				</ul>
 
             </section>
 
-        </section>
-        <section  anchor="sec-protection-of-the-bgp-sessions">
-            <name>Protection of the BGP Sessions</name>
-
-            <t>
-                Current security issues of TCP-based protocols (therefore including BGP) have been documented in <xref target="RFC6952" format="default"/>.
-                The following subsections list the major points raised in this document and give the best practices related to TCP session protection for BGP operation.
-            </t>
-            <section  anchor="sec-protection-of-tcp-sessions-used-by-bgp">
-                <name>Protection of TCP Sessions Used by BGP</name>
-
-                <t>
-                    Attacks on TCP sessions used by BGP (aka BGP sessions), for example, sending spoofed TCP RST packets, could bring down a BGP session.
-                    Following a successful ARP spoofing attack (or other similar man-in- the-middle attack), the attacker might even be able to inject packets into the TCP stream (routing attacks).
-                </t>
-                <t>
-                    BGP sessions can be secured with a variety of mechanisms.
-                </t>
-                <section  anchor="sec-protection-of-tcp-sessions-used-by-bgp-integrity">
-                    <name>Integrity Verification and Authentication</name>
-                    <t>
-                        MD5 protection of the TCP session header, described in <xref target="RFC5925" format="default"/>, was the first available mechanism to protect the integrity of a BGP session.
-                        It has been obsoleted by the TCP Authentication Option (TCP-AO; <xref target="RFC5925" format="default"/>), which offers stronger protection.
-                        While MD5 is still the most used mechanism due to its availability in vendors' equipment, TCP-AO <bcp14>SHOULD</bcp14> be preferred when implemented by both sides of a session.
-                    </t>
-                    <t>
-                        Optionally, if TCP-AO is not supported, while both sides of the BGP session can support a stronger authentication algorithm than MD5, such as SHA-1 or SHA-256, using the stronger method <bcp14>SHOULD</bcp14> be considered.
-                        Aside from that, using keychain-based cryptographic keys lifecycle management, as suggested in <xref target="RFC6518" format="default"/> is highly <bcp14>RECOMMENDED</bcp14>.
-                    </t>
-                    <t>
-                        Additionally, IPsec could also be used for session protection.
-                        At the time of publication, there has been no wide-spread adoption of using IPsec for BGP sessions, and further analysis is required to define guidelines.
-                    </t>
-                    <t>
-                        The drawback of TCP session protection is additional configuration and management overhead for the maintenance of authentication information (for example, MD5 passwords).
-                        In either case, protection of TCP sessions used by BGP <bcp14>SHOULD</bcp14> be enabled when BGP sessions are established over shared networks where the risk of spoofing is high (like IXPs).
-                        Operators are also <bcp14>RECOMMENDED</bcp14> to consider the trade-offs and apply BGP session protection on all other external BGP sessions as well.
-                    </t>
-                    <t>
-                        Aside of this, most vendors use simple, reverse-decryptable password hash algorithm to store shared secrets keys for BGP (and other routing protocols) in devices' configuration files.
-                        While this practice simplifies password management tasks, since the passwords can always easily be deciphered, it carries the risk of leaking this information if a configuration is shared, e.g., with a vendor for a support case, or if the device is decommissioned and later resold without having been wiped.
-                        Hence, if a device offers more secure storage mechanisms for secrets, these <bcp14>SHOULD</bcp14> be used.
-                    </t>
-                    <t>
-                        Furthermore, operators <bcp14>SHOULD</bcp14> block spoofed packets (packets with a source IP address not belonging to their IP address space) at all edges of their network (see <xref target="RFC2827" format="default"/>  and <xref target="RFC3704" format="default"/> ).
-                        This protects the TCP session used by Internal BGP (iBGP) from attackers outside the Autonomous System.
-                        Similarly, the considerations for using non globally reachable addresses for links handling BGP sessions from <xref target="sec-protection-of-the-bgp-speaker-net" format="default"/> apply accordingly.
-                    </t>
-                    <t>
-                        Furthermore, as an additional security measure, iBGP sessions SHOULD also be protected using the authentication mechanisms discussed above.
-                    </t>
-                </section>
-                <section  anchor="sec-protection-of-tcp-sessions-used-by-bgp-pmtud">
-                    <name>Defending Against PMTUD Related Attacks</name>
-                    <t>
-                        In 2018 an attack on BGP was described in the literature which claims to enable BGP route injection without Layer 2 adjacency by leveraging PMTUD, see (<xref target="FENG-22" format="default"/>).
-                        The attack leverages packet fragmentation to bypass standard TCP protection mechanisms, so routes can be injected into an established BGP session.
-                        While the attack would be mitigated by the integrity mechanisms suggested in <xref target="sec-protection-of-tcp-sessions-used-by-bgp-integrity" format="default"/>, operators <bcp14>SHOULD</bcp14> additionally take precautions to defend against these attacks, especially if authentication mechanisms are not in use.
-                        To mitigate this attack, BGP speakers should not allow packet fragmentation on the control plane for BGP traffic between themselves and their neighbors.
-                        This is feasible, as even on multi-hop sessions, the path MTU should be known to the operators, meaning that it can be statically and consistently configured for both speakers involved in a session to prevent the need for fragmentation.
-                        Hence, operators <bcp14>SHOULD</bcp14> ensure that fragmentation is neither allowed nor necessary for BGP packets between two BGP speakers.
-                        If this is not possible, a strict lower limit for the MTU <bcp14>SHOULD</bcp14> be configured.
-                        This is usually done for TCP packets like those for a BGP session using MSS (Maximum Segment Size) clamping.
-                        Given that IPv6 requires an MTU of at least 1280b <xref target="RFC8200" format="default"/>, and to keep clamping consistent between IPv4 and IPv6, an MTU of 1280b, i.e., an MSS of 1240b for IPv4 and 1220b for IPv6, is the <bcp14>RECOMMENDED</bcp14> minimum.
-                    </t>
-                </section>
-            </section>
-            <section  anchor="sec-bgp-ttl-security-gtsm">
-                <name>BGP TTL Security (GTSM)</name>
-                <t>
-                    BGP sessions can be made harder to spoof with the Generalized TTL Security Mechanisms (GTSM aka TTL security), defined in <xref target="RFC5082" format="default"/>.
-                    Instead of sending TCP packets with TTL value of 1, the BGP speakers send the TCP packets with TTL value of 255, and the receiver checks that the TTL value equals 255.
-                    Since it's impossible to send an IP packet with TTL of 255 to an IP host that is not directly connected, BGP TTL security effectively prevents all spoofing attacks coming from third parties not directly connected to the same subnet as the BGP-speaking routers.
-                    Operators <bcp14>SHOULD</bcp14> implement TTL security on directly connected BGP neighbors.
-                </t>
-                <t>
-                    GTSM could also be applied to multi-hop BGP session as well.
-                    To achieve this, TTL needs to be configured with a proper value depending on the distance between BGP speakers (using the principle described above).
-                    Nevertheless, it is not as effective because anyone inside the TTL diameter could spoof the TTL.
-                </t>
-                <t>
-                    Like MD5 protection, TTL security has to be configured on both ends of a BGP session.
-                </t>
-            </section>
         </section>
         <section  anchor="sec-static-prefix-filtering">
             <name>Static Prefix Filtering</name>
@@ -1623,16 +1527,12 @@
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4271.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4456.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5065.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5082.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5925.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6811.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7606.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7115.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7196.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7964.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8092.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8200.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8201.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8212.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8326.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8704.xml"/>
@@ -1683,26 +1583,18 @@
             <references>
                 <name>Informative References</name>
 
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1191.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1918.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1997.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2827.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3345.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3704.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4012.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4272.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4360.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4364.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6192.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6480.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6518.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6666.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6952.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7132.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7454.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7947.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8195.xml"/>
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9229.xml"/>
                 <reference anchor="TBD" target="https://example.com">
                      <front>
                        <title>Reference still to be added</title>
@@ -1781,40 +1673,6 @@
                          <organization/>
                        </author>
                        <date month="November" year="2022"/>
-                     </front>
-                   </reference>
-                <reference anchor="FENG-22" target="https://csis.gmu.edu/ksun/publications/TCP%20Fragmentation_NDSS22.pdf">
-                     <front>
-                       <title>PMTUD is not Panacea: Revisiting IP Fragmentation Attacks against TCP</title>
-                       <seriesInfo name="NDSS" value="2022"/>
-                       <author initials="X" surname="Feng" fullname="Xuewei">
-                         <organization/>
-                       </author>
-                       <author initials="Q" surname="Li" fullname="Qi">
-                         <organization/>
-                       </author>
-                       <author initials="K" surname="Sun" fullname="Kun">
-                         <organization/>
-                       </author>
-                       <author initials="K" surname="Xu" fullname="Ke">
-                         <organization/>
-                       </author>
-                       <author initials="B" surname="Liu" fullname="Baojun">
-                         <organization/>
-                       </author>
-                       <author initials="X" surname="Zheng" fullname="Xiaofeng">
-                         <organization/>
-                       </author>
-                       <author initials="Q" surname="Yang" fullname="Qiushi">
-                         <organization/>
-                       </author>
-                       <author initials="H" surname="Duan" fullname="Haixin">
-                         <organization/>
-                       </author>
-                       <author initials="Z" surname="Qian" fullname="Zhiyun">
-                         <organization/>
-                       </author>
-                       <date month="February" year="2022"/>
                      </front>
                    </reference>
                 <reference anchor="RIPE-351" target="https://www.ripe.net/publications/docs/ripe-351">
