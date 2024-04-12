@@ -64,8 +64,8 @@
             <t>
                 The Border Gateway Protocol (BGP), specified in <xref target="RFC4271" format="default"/>, is the protocol used in the Internet to exchange routing information between network domains.
                 BGP does not directly include mechanisms that control whether the routes exchanged conform to the various guidelines defined by the Internet community.
-                Besides, BGP itself, by its design, does not have any direct way to protect itself against possible security-related threats.
-                This document intends to both summarize common existing guidelines and help operators apply coherent BGP policies and recommended security guidelines to their BGP-speaking routers.
+                Furthermore, the BGP protocol itself, by its design, does not have any direct way to protect itself against threats to confidentiality, integrity, and availability.
+                This document summarizes security properties and requirements when operating BGP for securing the infrastructure as well as for security considerations regarding the exchanged routing information.
             </t>
             <section>
                 <name>Requirements Language</name>
@@ -81,10 +81,10 @@
         <section  anchor="sec-scope-of-the-document">
             <name>Scope of the Document</name>
             <t>
-                The guidelines defined in this document are intended for BGP sessions carrying generic Internet routing information within the DFZ.
+                The guidelines defined in this document are intended for BGP when used to exchange generic Internet routing information within the DFZ.
                 It specifically does not cover other uses of BGP, e.g., when using BGP for NLRI exchange in a data-center context.
-                The nature of the Internet is such that Autonomous Systems can always agree on exceptions to a common framework for relevant local needs, and therefore configure a BGP session in a manner that may differ from the recommendations provided in this document.
-                While this is perfectly acceptable, every configured exception might have an impact on the entire inter-domain routing environment, and operators <bcp14>SHOULD</bcp14> carefully appraise this impact before implementation.
+                This document does not specify how the outlined requirements and properties can be technically realized at a specific point in time.
+                Instead, operators are advised to consult applicable documentation and contemporary informational documents describing implementation specifics.
             </t>
         </section>
         <section  anchor="sec-protection-of-the-bgp-speaker">
