@@ -24,6 +24,19 @@
                 <email>tfiebig@mpi-inf.mpg.de</email>
             </address>
         </author>
+        <author fullname="Nick Hilliard" initials="N." surname="Hilliard">
+            <organization abbrev="INEX">Internet Neutral Exchange Association</organization>
+            <address>
+                <postal>
+                    <street>4027 Kingswood Road</street>
+                    <city>Citywest, Dublin</city>
+                    <code>D24 AX96</code>
+                    <country>Ireland</country>
+                </postal>
+                <phone>+353 1 433 205 2</phone>
+                <email>nick@inex.ie</email>
+            </address>
+        </author>
         <area>ops</area>
         <workgroup>Global Routing Operations</workgroup>
 
