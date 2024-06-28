@@ -1,0 +1,317 @@
+
+
+
+
+Global Routing Operations                                      T. Fiebig
+Internet-Draft                                                   MPI-INF
+Obsoletes: 7454 (if approved)                                N. Hilliard
+Intended status: Best Current Practice                              INEX
+Expires: 30 December 2024                                   28 June 2024
+
+
+                  Updated BGP Operations and Security
+                   draft-ietf-grow-bgpopsecupd-latest
+
+Abstract
+
+   The Border Gateway Protocol (BGP) is the protocol is a critical
+   component in the Internet to exchange routing information between
+   network domains.  Due to this central nature, it is important to
+   understand the security and reliability requirements that can and
+   should be ensured to prevent accidental or intentional routing
+   disturbances.
+
+   Previously, security considerations for BGP have been described in
+   RFC7454 / BCP194.  Since the publications of RFC7454 / BCP194,
+   several developments and changes in operational practice took place
+   that warrant an update of these best current practices.  This
+   document replaces RFC7454 / BCP194, focusing on the overall goals,
+   and providing a less implementation centric set of best practices.
+
+   To this end, the document describes the security requirements and
+   goals when operating BGP for exchanging routing information with
+   other networks.  The document explicitly does not focus on specific
+   technical implementations and requirements.  Operators are advised to
+   consult documentation and contemporary informational documents
+   concerning methods to ensure that these properties are sufficiently
+   ensured in their network.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 30 December 2024.
+
+Copyright Notice
+
+   Copyright (c) 2024 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+     1.1.  Requirements Language
+   2.  Scope of the Document
+   3.  Protection of the BGP Speaker and Session
+     3.1.  BGP Session Protection
+     3.2.  BGP Speaker Management Interface Protection
+   4.  NLRI Filtering
+     4.1.  Importing NLRI
+     4.2.  Exporting NLRI
+     4.3.  General Considerations for Altering NLRI
+   5.  IANA Considerations
+   6.  Security Considerations
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
+   Acknowledgements
+   Authors' Addresses
+
+1.  Introduction
+
+   The Border Gateway Protocol (BGP), specified in [RFC4271], is the
+   protocol used in the Internet to exchange routing information between
+   network domains.  BGP does not directly include mechanisms that
+   control whether the routes exchanged conform to the various
+   guidelines defined by the Internet community.  Furthermore, the BGP
+   protocol itself, by its design, does not have any direct way to
+   protect itself against threats to confidentiality, integrity, and
+   availability.  This document summarizes security properties and
+   requirements when operating BGP for securing the infrastructure as
+   well as for security considerations regarding the exchanged routing
+   information.
+
+1.1.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2.  Scope of the Document
+
+   The guidelines defined in this document are intended for BGP when
+   used to exchange generic Internet routing information within the DFZ.
+   It specifically does not cover other uses of BGP, e.g., when using
+   BGP for NLRI exchange in a data-center context.  This document does
+   not specify how the outlined requirements and properties can be
+   technically realized at a specific point in time.  Instead, operators
+   are advised to consult applicable documentation and contemporary
+   informational documents describing implementation specifics.
+
+3.  Protection of the BGP Speaker and Session
+
+   The BGP speaker, i.e., the host running BGP to exchange routing
+   information, needs to be protected from external attempts to taint
+   integrity or availability of the BGP session and host alike.
+
+3.1.  BGP Session Protection
+
+   To protect a BGP speaker on the network layer, an operator MUST
+   ensure the following properties using technical or organizational
+   measures:
+
+   *  Prevent off-path attackers from injecting BGP messages into
+      existing sessions.
+
+   *  Prevent off-path attackers from interrupting existing sessions.
+
+   *  Prevent off-path attackers from preventing the establishment of
+      new sessions.
+
+   *  Ensure that the volume of ingested messages does not threaten the
+      availability of BGP speakers within the network.
+
+3.2.  BGP Speaker Management Interface Protection
+
+   In addition to the control plane / exchange of BGP protocol messages,
+   the management plane of BGP speakers must be appropriately secured.
+   Hence, operators MUST ensure that:
+
+   *  No unauthorized third-parties can obtain access or connect to the
+      management interface of a BGP speaker in a way that allows
+      tainting confidentiality, integrity, or availability.
+
+   *  External activity towards the management interface do not
+      interfere with the integrity or availability of BGP sessions.
+
+4.  NLRI Filtering
+
+   The purpose of BGP is exchanging routing information, i.e., NLRI.
+   Importing or exporting incorrect or malicious NLRI is a security risk
+   for networks themselves, but may also form a threat for connected
+   and/or remote networks.  As such, operators MUST ensure the following
+   properties when importing or exporting routing information from their
+   neighbors.
+
+4.1.  Importing NLRI
+
+   When importing NLRI from a neighbor, an operator MUST ensure that all
+   imported NLRI conform to the following properties by implementing
+   technical or organizational measures:
+
+   *  The AS originating NLRI for a prefix MUST be globally authorized
+      to originate that prefix.  Operators MAY deviate from this for
+      default routes (::/0 and 0.0.0.0/0), if they granted the specific
+      neighbor permission to announce default routes towards them.
+
+   *  The AS_PATH of the NLRI MUST NOT violate the valley-free principle
+      [RFC4012], i.e., all ASes left of the originating AS in the
+      AS_PATH MUST be authorized to advertise the NLRI to the AS
+      directly to their left.
+
+   *  The AS_PATH MUST NOT contain an AS number reserved for private use
+      [RFC6996].
+
+4.2.  Exporting NLRI
+
+   When exporting NLRI from a neighbor, an operator MUST ensure that all
+   NLRI they export conform to the following properties by implementing
+   technical or organizational measures:
+
+   *  The AS originating NLRI for a prefix MUST be globally authorized
+      to originate that prefix.  Operators MAY deviate from this for
+      default routes (::/0 and 0.0.0.0/0), if they originate the default
+      route and the specific neighbor granted them permission to
+      announce default routes towards.
+
+   *  The AS_PATH of the NLRI MUST NOT violate the valley-free principle
+      [RFC4012], i.e., the exporting AS MUST be authorized to export
+      NLRI for the specific prefix when received from the AS directly to
+      its right in the AS_PATH.
+
+   *  The AS_PATH MUST NOT contain an AS number reserved for private use
+      [RFC6996].
+
+4.3.  General Considerations for Altering NLRI
+
+   When processing NLRI, an operator MUST ensure that some basic
+   properties of these NLRI are not altered or set:
+
+   *  An operator MUST NOT change transitive BGP attributes, if the
+      attribute is unknown to the operator.  In selected cases, if a
+      specific attribute is known to be malicious, an operator MAY
+      filter that specific attribute.
+
+   *  NLRI carried on BGP MUST NOT be enriched with transitive
+      attributes subject to change independent of the underlying NLRI,
+      e.g., encoding RPKI validation state in transitive attributes
+      [I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp].
+
+5.  IANA Considerations
+
+   This document does not require any IANA actions.
+
+6.  Security Considerations
+
+   This document is entirely about BGP operational security.  It lists
+   requirements and properties operators MUST ensure using technical or
+   organizational measures when operating BGP routers in the DFZ.
+
+   However, it does not detail how the outlined properties and security
+   requirements can be implemented and enforced in practice.  This is a
+   conscious choice given that available techniques and methods to
+   ensure these properties will change over time, while the underlying
+   principles remain the same.
+
+7.  References
+
+7.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+   [RFC4271]  Rekhter, Y., Ed., Li, T., Ed., and S. Hares, Ed., "A
+              Border Gateway Protocol 4 (BGP-4)", RFC 4271,
+              DOI 10.17487/RFC4271, January 2006,
+              <https://www.rfc-editor.org/info/rfc4271>.
+
+   [RFC6996]  Mitchell, J., "Autonomous System (AS) Reservation for
+              Private Use", BCP 6, RFC 6996, DOI 10.17487/RFC6996, July
+              2013, <https://www.rfc-editor.org/info/rfc6996>.
+
+   [I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp]
+              Snijders, J., Fiebig, T., and M. A. Stucchi, "Guidance to
+              Avoid Carrying RPKI Validation States in Transitive BGP
+              Path Attributes", Work in Progress, Internet-Draft, draft-
+              spaghetti-sidrops-avoid-rpki-state-in-bgp-00, 8 February
+              2024, <https://datatracker.ietf.org/doc/draft-spaghetti-
+              sidrops-avoid-rpki-state-in-bgp/>.
+
+7.2.  Informative References
+
+   [RFC4012]  Blunk, L., Damas, J., Parent, F., and A. Robachevsky,
+              "Routing Policy Specification Language next generation
+              (RPSLng)", RFC 4012, DOI 10.17487/RFC4012, March 2005,
+              <https://www.rfc-editor.org/info/rfc4012>.
+
+   [RFC7454]  Durand, J., Pepelnjak, I., and G. Doering, "BGP Operations
+              and Security", BCP 194, RFC 7454, DOI 10.17487/RFC7454,
+              February 2015, <https://www.rfc-editor.org/info/rfc7454>.
+
+Acknowledgements
+
+   This document has been originally based on [RFC7454] and we thank the
+   original authors for their work.
+
+   We thank the following people for reviewing this draft and suggesting
+   changes:
+
+   *  Gert Doerring
+
+   *  Jeff Haas
+
+   *  Geng Nan
+
+   *  Martin Pels
+
+   *  Job Snijders
+
+   *  Berislav Todorovic
+
+Authors' Addresses
+
+   Tobias Fiebig
+   Max-Planck-Institut fuer Informatik
+   Campus E14
+   66123 Saarbruecken
+   Germany
+   Phone: +49 681 9325 3527
+   Email: tfiebig@mpi-inf.mpg.de
+
+
+   Nick Hilliard
+   Internet Neutral Exchange Association
+   4027 Kingswood Road
+   Citywest, Dublin
+   D24 AX96
+   Ireland
+   Phone: +353 1 433 205 2
+   Email: nick@inex.ie
