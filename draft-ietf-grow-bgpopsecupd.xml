@@ -159,7 +159,7 @@
                         The AS_PATH of the NLRI <bcp14>MUST NOT</bcp14> violate the valley-free principle <xref target="RFC4012" format="default"/>, i.e., all ASes left of the originating AS in the AS_PATH <bcp14>MUST</bcp14> be authorized to advertise the NLRI to the AS directly to their left.
                     </li>
                     <li>
-                        The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases excluding their presence in the global routing table.
+                        The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases not necessitating their presence in the global routing table <xref target="IANAASNSpec" format="default"/>.
                     </li>
                     <li>
                         The number of NLRI received from a neighbor <bcp14>MUST NOT</bcp14> exceed the resources of the local router.
@@ -179,7 +179,7 @@
                         The AS originating NLRI for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.
                     </li>
                     <li>
-                        The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases excluding their presence in the global routing table.
+                        The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases not necessitating their presence in the global routing table <xref target="IANAASNSpec" format="default"/>.
                     </li>
                 </ul>
             </section>
@@ -242,6 +242,14 @@
                         <date month="February" day="8" year="2024"/>
                     </front>
                     <seriesInfo name="Internet-Draft" value="draft-spaghetti-sidrops-avoid-rpki-state-in-bgp-00"/>
+                </reference>
+                <reference anchor="IANAASNSpec" target="https://www.iana.org/assignments/iana-as-numbers-special-registry/iana-as-numbers-special-registry.xhtml">
+                  <front>
+                    <title>Special-Purpose Autonomous System (AS) Numbers</title>
+                    <author>
+                      <organization>IANA</organization>
+                    </author>
+                  </front>
                 </reference>
             </references>
             <references>
