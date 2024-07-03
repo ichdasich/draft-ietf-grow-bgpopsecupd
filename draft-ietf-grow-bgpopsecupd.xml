@@ -159,7 +159,7 @@
                         The AS_PATH of the NLRI <bcp14>MUST NOT</bcp14> violate the valley-free principle <xref target="RFC4012" format="default"/>, i.e., all ASes left of the originating AS in the AS_PATH <bcp14>MUST</bcp14> be authorized to advertise the NLRI to the AS directly to their left.
                     </li>
                     <li>
-                        The AS_PATH <bcp14>MUST NOT</bcp14> contain an AS number reserved for private use <xref target="RFC6996" format="default"/>.
+                        The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases.
                     </li>
                     <li>
                         The number of NLRI received from a neighbor <bcp14>MUST NOT</bcp14> exceed the resources of the local router.
@@ -179,7 +179,7 @@
                         The AS originating NLRI for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.
                     </li>
                     <li>
-                        The AS_PATH <bcp14>MUST NOT</bcp14> contain an AS number reserved for private use <xref target="RFC6996" format="default"/>.
+                        The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases.
                     </li>
                 </ul>
             </section>
