@@ -1314,7 +1314,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         The AS_PATH of the NLRI <span class="bcp14">MUST NOT</span> violate the valley-free principle <span>[<a href="#RFC4012" class="cite xref">RFC4012</a>]</span>, i.e., all ASes left of the originating AS in the AS_PATH <span class="bcp14">MUST</span> be authorized to advertise the NLRI to the AS directly to their left.<a href="#section-4.1-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.3">
-                        The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases excluding their presence in the global routing table.<a href="#section-4.1-2.3" class="pilcrow">¶</a>
+                        The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases not necessitating their presence in the global routing table <span>[<a href="#IANAASNSpec" class="cite xref">IANAASNSpec</a>]</span>.<a href="#section-4.1-2.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.4">
                         The number of NLRI received from a neighbor <span class="bcp14">MUST NOT</span> exceed the resources of the local router.<a href="#section-4.1-2.4" class="pilcrow">¶</a>
@@ -1337,7 +1337,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         The AS originating NLRI for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.<a href="#section-4.2-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.2-2.3">
-                        The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases excluding their presence in the global routing table.<a href="#section-4.2-2.3" class="pilcrow">¶</a>
+                        The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases not necessitating their presence in the global routing table <span>[<a href="#IANAASNSpec" class="cite xref">IANAASNSpec</a>]</span>.<a href="#section-4.2-2.3" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1409,8 +1409,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <span class="refAuthor">Mitchell, J.</span>, <span class="refTitle">"Autonomous System (AS) Reservation for Private Use"</span>, <span class="seriesInfo">BCP 6</span>, <span class="seriesInfo">RFC 6996</span>, <span class="seriesInfo">DOI 10.17487/RFC6996</span>, <time datetime="2013-07" class="refDate">July 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6996">https://www.rfc-editor.org/info/rfc6996</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp">[I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Snijders, J.</span>, <span class="refAuthor">Fiebig, T.</span>, and <span class="refAuthor">M. A. Stucchi</span>, <span class="refTitle">"Guidance to Avoid Carrying RPKI Validation States in Transitive BGP Path Attributes"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-spaghetti-sidrops-avoid-rpki-state-in-bgp-00</span>, <time datetime="2024-02-08" class="refDate">8 February 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-spaghetti-sidrops-avoid-rpki-state-in-bgp/">https://datatracker.ietf.org/doc/draft-spaghetti-sidrops-avoid-rpki-state-in-bgp/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IANAASNSpec">[IANAASNSpec]</dt>
+      <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"Special-Purpose Autonomous System (AS) Numbers"</span>, <span>&lt;<a href="https://www.iana.org/assignments/iana-as-numbers-special-registry/iana-as-numbers-special-registry.xhtml">https://www.iana.org/assignments/iana-as-numbers-special-registry/iana-as-numbers-special-registry.xhtml</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

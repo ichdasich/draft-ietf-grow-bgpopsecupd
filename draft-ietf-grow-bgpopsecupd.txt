@@ -185,8 +185,8 @@ Table of Contents
       directly to their left.
 
    *  The AS_PATH MUST NOT contain AS numbers reserved for private
-      [RFC6996] or special-use cases excluding their presence in the
-      global routing table.
+      [RFC6996] or special-use cases not necessitating their presence in
+      the global routing table [IANAASNSpec].
 
    *  The number of NLRI received from a neighbor MUST NOT exceed the
       resources of the local router.
@@ -213,8 +213,8 @@ Table of Contents
       announce default routes towards them.
 
    *  The AS_PATH MUST NOT contain AS numbers reserved for private
-      [RFC6996] or special-use cases excluding their presence in the
-      global routing table.
+      [RFC6996] or special-use cases not necessitating their presence in
+      the global routing table [IANAASNSpec].
 
 4.3.  General Considerations for Altering NLRI
 
@@ -276,6 +276,11 @@ Table of Contents
               spaghetti-sidrops-avoid-rpki-state-in-bgp-00, 8 February
               2024, <https://datatracker.ietf.org/doc/draft-spaghetti-
               sidrops-avoid-rpki-state-in-bgp/>.
+
+   [IANAASNSpec]
+              IANA, "Special-Purpose Autonomous System (AS) Numbers",
+              <https://www.iana.org/assignments/iana-as-numbers-special-
+              registry/iana-as-numbers-special-registry.xhtml>.
 
 7.2.  Informative References
 
