@@ -1314,7 +1314,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         The AS_PATH of the NLRI <span class="bcp14">MUST NOT</span> violate the valley-free principle <span>[<a href="#RFC4012" class="cite xref">RFC4012</a>]</span>, i.e., all ASes left of the originating AS in the AS_PATH <span class="bcp14">MUST</span> be authorized to advertise the NLRI to the AS directly to their left.<a href="#section-4.1-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.3">
-                        The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases.<a href="#section-4.1-2.3" class="pilcrow">¶</a>
+                        The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases excluding their presence in the global routing table.<a href="#section-4.1-2.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.4">
                         The number of NLRI received from a neighbor <span class="bcp14">MUST NOT</span> exceed the resources of the local router.<a href="#section-4.1-2.4" class="pilcrow">¶</a>
@@ -1337,7 +1337,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         The AS originating NLRI for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.<a href="#section-4.2-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.2-2.3">
-                        The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases.<a href="#section-4.2-2.3" class="pilcrow">¶</a>
+                        The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases excluding their presence in the global routing table.<a href="#section-4.2-2.3" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>

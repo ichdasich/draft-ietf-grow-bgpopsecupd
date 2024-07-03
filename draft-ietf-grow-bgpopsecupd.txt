@@ -185,7 +185,8 @@ Table of Contents
       directly to their left.
 
    *  The AS_PATH MUST NOT contain AS numbers reserved for private
-      [RFC6996] or special-use cases.
+      [RFC6996] or special-use cases excluding their presence in the
+      global routing table.
 
    *  The number of NLRI received from a neighbor MUST NOT exceed the
       resources of the local router.
@@ -212,7 +213,8 @@ Table of Contents
       announce default routes towards them.
 
    *  The AS_PATH MUST NOT contain AS numbers reserved for private
-      [RFC6996] or special-use cases.
+      [RFC6996] or special-use cases excluding their presence in the
+      global routing table.
 
 4.3.  General Considerations for Altering NLRI
 
