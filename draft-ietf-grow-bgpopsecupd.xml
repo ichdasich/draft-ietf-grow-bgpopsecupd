@@ -110,7 +110,10 @@
                         Prevent off-path attackers from preventing the establishment of new sessions.
                     </li>
                     <li>
-                        Ensure that the volume of ingested messages does not threaten the availability of BGP speakers within the network.
+                        Prevent remote systems from overwhelming the BGP speaker by sending large volumes of unsolicited packets or BGP messages.
+                    </li>
+                    <li>
+                        Ensure that unstable sessions do not threaten the availability of BGP speakers within the network.
                     </li>
                 </ul>
 
@@ -158,19 +161,22 @@
                     <li>
                         The AS_PATH <bcp14>MUST NOT</bcp14> contain an AS number reserved for private use <xref target="RFC6996" format="default"/>.
                     </li>
+                    <li>
+                        The number of NLRI received from a neighbor <bcp14>MUST NOT</bcp14> exceed the resources of the local router.
+                    </li>
                 </ul>
             </section>
             <section  anchor="sec-exporting-nlri">
-                <name>Exporting NLRI</name>
+                <name>Originating and Redistributing NLRI</name>
                 <t>
-                    When exporting NLRI from a neighbor, an operator <bcp14>MUST</bcp14> ensure that all NLRI they export conform to the following properties by implementing technical or organizational measures:
+                    When originating NLRI or redistributing NLRI received from a neighbor, an operator <bcp14>MUST</bcp14> ensure that all NLRI they export conform to the following properties by implementing technical or organizational measures:
                 </t>
                 <ul spacing="normal">
                     <li>
-                        The AS originating NLRI for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards.
+                        The AS_PATH of redistributed NLRI <bcp14>MUST NOT</bcp14> violate the valley-free principle <xref target="RFC4012" format="default"/>, i.e., the redistributing AS <bcp14>MUST</bcp14> be authorized to redistribute NLRI for the specific prefix when received from the AS directly to its right in the AS_PATH. Additionally, each AS in the AS_PATH not originating the prefix <bcp14>MUST</bcp14> be authorized to redistribute the prefix when receiving it from the next AS to its right.
                     </li>
                     <li>
-                        The AS_PATH of the NLRI <bcp14>MUST NOT</bcp14> violate the valley-free principle <xref target="RFC4012" format="default"/>, i.e., the exporting AS <bcp14>MUST</bcp14> be authorized to export NLRI for the specific prefix when received from the AS directly to its right in the AS_PATH.
+                        The AS originating NLRI for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.
                     </li>
                     <li>
                         The AS_PATH <bcp14>MUST NOT</bcp14> contain an AS number reserved for private use <xref target="RFC6996" format="default"/>.
@@ -184,7 +190,7 @@
                 </t>
                 <ul spacing="normal">
                     <li>
-                        An operator <bcp14>MUST NOT</bcp14> change transitive BGP attributes, if the attribute is unknown to the operator. In selected cases, if a specific attribute is known to be malicious, an operator <bcp14>MAY</bcp14> filter that specific attribute.
+                        An operator <bcp14>MUST NOT</bcp14> change transitive BGP attributes, if the attribute is unknown to the operator. In selected cases, if a specific attribute is known to be malicious, an operator <bcp14>MAY</bcp14> filter that specific attribute or the NLRI.
                     </li>
                     <li>
                         NLRI carried on BGP <bcp14>MUST NOT</bcp14> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <xref target="I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
@@ -271,6 +277,9 @@
                 </li>
                 <li>
                     Berislav Todorovic
+                </li>
+                <li>
+                    Martin Pels
                 </li>
             </ul>
         </section>
