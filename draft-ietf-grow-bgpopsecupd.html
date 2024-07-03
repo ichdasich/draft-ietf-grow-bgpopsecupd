@@ -23,22 +23,21 @@
                 Operators are advised to consult documentation and contemporary informational documents concerning methods to ensure that these properties are sufficiently ensured in their network.
        
     " name="description">
-<meta content="xml2rfc 3.20.1" name="generator">
+<meta content="xml2rfc 3.22.0" name="generator">
 <meta content="draft-ietf-grow-bgpopsecupd-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.20.1
-    Python 3.11.8
+  xml2rfc 3.22.0
+    Python 3.12.3
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
-    Jinja2 3.1.2
-    lxml 4.9.3
-    platformdirs 4.2.0
+    Jinja2 3.1.4
+    lxml 4.9.4
+    platformdirs 4.2.2
     pycountry 22.3.5
     PyYAML 6.0.1
-    requests 2.31.0
-    setuptools 68.2.2
-    six 1.16.0
+    requests 2.32.3
+    setuptools 69.5.1
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-grow-bgpopsecupd.xml" rel="alternate" type="application/rfc+xml">
@@ -1038,11 +1037,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">BGP OPSEC</td>
-<td class="right">April 2024</td>
+<td class="right">July 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Fiebig &amp; Hilliard</td>
-<td class="center">Expires 14 October 2024</td>
+<td class="center">Expires 4 January 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1058,12 +1057,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc7454" class="eref">7454</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-04-12" class="published">12 April 2024</time>
+<time datetime="2024-07-03" class="published">3 July 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Best Current Practice</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-10-14">14 October 2024</time></dd>
+<dd class="expires"><time datetime="2025-01-04">4 January 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1111,7 +1110,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 October 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1169,7 +1168,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-importing-nlri" class="internal xref">Importing NLRI</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-exporting-nlri" class="internal xref">Exporting NLRI</a></p>
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-originating-and-redistribut" class="internal xref">Originating and Redistributing NLRI</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
                 <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-general-considerations-for-" class="internal xref">General Considerations for Altering NLRI</a></p>
@@ -1263,7 +1262,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         Prevent off-path attackers from preventing the establishment of new sessions.<a href="#section-3.1-2.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-3.1-2.4">
-                        Ensure that the volume of ingested messages does not threaten the availability of BGP speakers within the network.<a href="#section-3.1-2.4" class="pilcrow">¶</a>
+                        Prevent remote systems from overwhelming the BGP speaker by sending large volumes of unsolicited packets or BGP messages.<a href="#section-3.1-2.4" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.1-2.5">
+                        Ensure that unstable sessions do not threaten the availability of BGP speakers within the network.<a href="#section-3.1-2.5" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1312,27 +1314,30 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         The AS_PATH of the NLRI <span class="bcp14">MUST NOT</span> violate the valley-free principle <span>[<a href="#RFC4012" class="cite xref">RFC4012</a>]</span>, i.e., all ASes left of the originating AS in the AS_PATH <span class="bcp14">MUST</span> be authorized to advertise the NLRI to the AS directly to their left.<a href="#section-4.1-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.3">
-                        The AS_PATH <span class="bcp14">MUST NOT</span> contain an AS number reserved for private use <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span>.<a href="#section-4.1-2.3" class="pilcrow">¶</a>
+                        The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases.<a href="#section-4.1-2.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-4.1-2.4">
+                        The number of NLRI received from a neighbor <span class="bcp14">MUST NOT</span> exceed the resources of the local router.<a href="#section-4.1-2.4" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-exporting-nlri">
 <section id="section-4.2">
-        <h3 id="name-exporting-nlri">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-exporting-nlri" class="section-name selfRef">Exporting NLRI</a>
+        <h3 id="name-originating-and-redistribut">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-originating-and-redistribut" class="section-name selfRef">Originating and Redistributing NLRI</a>
         </h3>
 <p id="section-4.2-1">
-                    When exporting NLRI from a neighbor, an operator <span class="bcp14">MUST</span> ensure that all NLRI they export conform to the following properties by implementing technical or organizational measures:<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+                    When originating NLRI or redistributing NLRI received from a neighbor, an operator <span class="bcp14">MUST</span> ensure that all NLRI they export conform to the following properties by implementing technical or organizational measures:<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.2-2.1">
-                        The AS originating NLRI for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards.<a href="#section-4.2-2.1" class="pilcrow">¶</a>
+                        The AS_PATH of redistributed NLRI <span class="bcp14">MUST NOT</span> violate the valley-free principle <span>[<a href="#RFC4012" class="cite xref">RFC4012</a>]</span>, i.e., the redistributing AS <span class="bcp14">MUST</span> be authorized to redistribute NLRI for the specific prefix when received from the AS directly to its right in the AS_PATH. Additionally, each AS in the AS_PATH not originating the prefix <span class="bcp14">MUST</span> be authorized to redistribute the prefix when receiving it from the next AS to its right.<a href="#section-4.2-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.2-2.2">
-                        The AS_PATH of the NLRI <span class="bcp14">MUST NOT</span> violate the valley-free principle <span>[<a href="#RFC4012" class="cite xref">RFC4012</a>]</span>, i.e., the exporting AS <span class="bcp14">MUST</span> be authorized to export NLRI for the specific prefix when received from the AS directly to its right in the AS_PATH.<a href="#section-4.2-2.2" class="pilcrow">¶</a>
+                        The AS originating NLRI for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.<a href="#section-4.2-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.2-2.3">
-                        The AS_PATH <span class="bcp14">MUST NOT</span> contain an AS number reserved for private use <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span>.<a href="#section-4.2-2.3" class="pilcrow">¶</a>
+                        The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases.<a href="#section-4.2-2.3" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1346,7 +1351,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     When processing NLRI, an operator <span class="bcp14">MUST</span> ensure that some basic properties of these NLRI are not altered or set:<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3-2.1">
-                        An operator <span class="bcp14">MUST NOT</span> change transitive BGP attributes, if the attribute is unknown to the operator. In selected cases, if a specific attribute is known to be malicious, an operator <span class="bcp14">MAY</span> filter that specific attribute.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
+                        An operator <span class="bcp14">MUST NOT</span> change transitive BGP attributes, if the attribute is unknown to the operator. In selected cases, if a specific attribute is known to be malicious, an operator <span class="bcp14">MAY</span> filter that specific attribute or the NLRI.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.2">
                         NLRI carried on BGP <span class="bcp14">MUST NOT</span> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <span>[<a href="#I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
@@ -1452,6 +1457,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
         <li class="normal" id="appendix-A-3.6">
                     Berislav Todorovic<a href="#appendix-A-3.6" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-A-3.7">
+                    Martin Pels<a href="#appendix-A-3.7" class="pilcrow">¶</a>
 </li>
       </ul>
 </section>

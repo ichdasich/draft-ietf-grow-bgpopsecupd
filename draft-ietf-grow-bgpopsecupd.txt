@@ -6,7 +6,7 @@ Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
 Obsoletes: 7454 (if approved)                                N. Hilliard
 Intended status: Best Current Practice                              INEX
-Expires: 14 October 2024                                   12 April 2024
+Expires: 4 January 2025                                      3 July 2024
 
 
                   Updated BGP Operations and Security
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 October 2024.
+   This Internet-Draft will expire on 4 January 2025.
 
 Copyright Notice
 
@@ -77,7 +77,7 @@ Table of Contents
      3.2.  BGP Speaker Management Interface Protection
    4.  NLRI Filtering
      4.1.  Importing NLRI
-     4.2.  Exporting NLRI
+     4.2.  Originating and Redistributing NLRI
      4.3.  General Considerations for Altering NLRI
    5.  IANA Considerations
    6.  Security Considerations
@@ -140,8 +140,11 @@ Table of Contents
    *  Prevent off-path attackers from preventing the establishment of
       new sessions.
 
-   *  Ensure that the volume of ingested messages does not threaten the
-      availability of BGP speakers within the network.
+   *  Prevent remote systems from overwhelming the BGP speaker by
+      sending large volumes of unsolicited packets or BGP messages.
+
+   *  Ensure that unstable sessions do not threaten the availability of
+      BGP speakers within the network.
 
 3.2.  BGP Speaker Management Interface Protection
 
@@ -181,28 +184,35 @@ Table of Contents
       AS_PATH MUST be authorized to advertise the NLRI to the AS
       directly to their left.
 
-   *  The AS_PATH MUST NOT contain an AS number reserved for private use
-      [RFC6996].
+   *  The AS_PATH MUST NOT contain AS numbers reserved for private
+      [RFC6996] or special-use cases.
 
-4.2.  Exporting NLRI
+   *  The number of NLRI received from a neighbor MUST NOT exceed the
+      resources of the local router.
 
-   When exporting NLRI from a neighbor, an operator MUST ensure that all
-   NLRI they export conform to the following properties by implementing
-   technical or organizational measures:
+4.2.  Originating and Redistributing NLRI
+
+   When originating NLRI or redistributing NLRI received from a
+   neighbor, an operator MUST ensure that all NLRI they export conform
+   to the following properties by implementing technical or
+   organizational measures:
+
+   *  The AS_PATH of redistributed NLRI MUST NOT violate the valley-free
+      principle [RFC4012], i.e., the redistributing AS MUST be
+      authorized to redistribute NLRI for the specific prefix when
+      received from the AS directly to its right in the AS_PATH.
+      Additionally, each AS in the AS_PATH not originating the prefix
+      MUST be authorized to redistribute the prefix when receiving it
+      from the next AS to its right.
 
    *  The AS originating NLRI for a prefix MUST be globally authorized
       to originate that prefix.  Operators MAY deviate from this for
       default routes (::/0 and 0.0.0.0/0), if they originate the default
       route and the specific neighbor granted them permission to
-      announce default routes towards.
+      announce default routes towards them.
 
-   *  The AS_PATH of the NLRI MUST NOT violate the valley-free principle
-      [RFC4012], i.e., the exporting AS MUST be authorized to export
-      NLRI for the specific prefix when received from the AS directly to
-      its right in the AS_PATH.
-
-   *  The AS_PATH MUST NOT contain an AS number reserved for private use
-      [RFC6996].
+   *  The AS_PATH MUST NOT contain AS numbers reserved for private
+      [RFC6996] or special-use cases.
 
 4.3.  General Considerations for Altering NLRI
 
@@ -212,7 +222,7 @@ Table of Contents
    *  An operator MUST NOT change transitive BGP attributes, if the
       attribute is unknown to the operator.  In selected cases, if a
       specific attribute is known to be malicious, an operator MAY
-      filter that specific attribute.
+      filter that specific attribute or the NLRI.
 
    *  NLRI carried on BGP MUST NOT be enriched with transitive
       attributes subject to change independent of the underlying NLRI,
@@ -295,6 +305,8 @@ Acknowledgements
    *  Job Snijders
 
    *  Berislav Todorovic
+
+   *  Martin Pels
 
 Authors' Addresses
 
