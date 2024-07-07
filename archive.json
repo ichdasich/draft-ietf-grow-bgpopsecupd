@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-04T00:13:40.624870+00:00",
+  "timestamp": "2024-07-07T00:15:15.892379+00:00",
   "repo": "ichdasich/draft-ietf-grow-bgpopsecupd",
   "labels": [
     {
@@ -299,62 +299,110 @@
       "id": "I_kwDOKcyvv859SWVB",
       "title": "Some terms need additional unification",
       "url": "https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/issues/13",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ichdasich",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "There is still a pending comment saying:\r\n\r\n```\r\nSome terms should be unified, e.g., \"upstream\" \"upstream provider\"; \"Internet peer\" \"lateral peer\" \"peer\"; etc.\r\n```\r\n\r\nAdditionally, terms like NLRI etc need a full clean-run.\r\n\r\nHowever, this should be postponed until the document is feature-complete.",
       "createdAt": "2024-01-26T10:23:58Z",
-      "updatedAt": "2024-01-26T10:23:59Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-07-04T07:51:02Z",
+      "closedAt": "2024-07-04T07:51:02Z",
+      "comments": [
+        {
+          "author": "ichdasich",
+          "authorAssociation": "OWNER",
+          "body": "Moved to https://github.com/ichdasich/draft-routing-operations-security/issues/4",
+          "createdAt": "2024-07-04T07:51:02Z",
+          "updatedAt": "2024-07-04T07:51:02Z"
+        }
+      ]
     },
     {
       "number": 14,
       "id": "I_kwDOKcyvv85-QNPD",
       "title": "Add note on running own RPKI / and/or IRR validator",
       "url": "https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/issues/14",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ichdasich",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "Currently, there is no note on running one's own RPKI validator; This may, however, be prudent, see: https://github.com/job/draft-rpki-communities-harmful/pull/3\r\n\r\nAdditionally, there was a comment regarding the citation of bgpq4, which caches from NTT, usually. Similar notes may apply there, and--as noted re: irrd--features currently needing bgpq4 _should_ be part of irrd soon.",
       "createdAt": "2024-02-05T10:25:27Z",
-      "updatedAt": "2024-02-05T10:30:22Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-07-04T07:50:25Z",
+      "closedAt": "2024-07-04T07:50:25Z",
+      "comments": [
+        {
+          "author": "ichdasich",
+          "authorAssociation": "OWNER",
+          "body": "Moved to https://github.com/ichdasich/draft-routing-operations-security/issues/3",
+          "createdAt": "2024-07-04T07:50:25Z",
+          "updatedAt": "2024-07-04T07:50:25Z"
+        }
+      ]
     },
     {
       "number": 15,
       "id": "I_kwDOKcyvv85-jfC_",
       "title": "Revisit handling of RFC8097 Communities (non-transitive)",
       "url": "https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/issues/15",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ichdasich",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-02-07T15:01:16Z",
-      "updatedAt": "2024-02-07T15:01:16Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-07-04T07:49:56Z",
+      "closedAt": "2024-07-04T07:49:56Z",
+      "comments": [
+        {
+          "author": "ichdasich",
+          "authorAssociation": "OWNER",
+          "body": "Moved to https://github.com/ichdasich/draft-routing-operations-security/issues/2",
+          "createdAt": "2024-07-04T07:49:56Z",
+          "updatedAt": "2024-07-04T07:49:56Z"
+        }
+      ]
     },
     {
       "number": 16,
       "id": "I_kwDOKcyvv86BJS9o",
       "title": "Adjust suggestions for 8.2.2 as per comment on ML to focus on monitoring",
       "url": "https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/issues/16",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ichdasich",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "```\r\nOn 26/10/2023 15:10, Tobias Fiebig wrote:\r\n > [..]\r\n >\r\n>> The global limits seem to offer no real benefit in addition to\r\n>> per-session limits. The referenced paper mentions Per-Origin AS\r\n>> limits, not the per-Neighbor AS limits mentioned in the draft. This\r\n>> also seems to be unimplementable, given that routers act\r\n>> independently on prefixes they receive.\r\n>\r\n> I think there are two points in here:\r\n> - The paper mentions per-origin, which i consider even more un-\r\n>    implementable than per-neighbor, which is why I restricted it to\r\n>    direct neighbors (similar to the idea of BCP38, that things 'should'\r\n>    be fine if everyone filters their downstreams.)\r\n> - Your implementability point is very valid.\r\n>\r\n> To address both points, it might make sense to move this to a softer\r\n> recommendation to \"Monitoring the global number of prefixes ingested\r\n> from each peer/downstream, and alerting if that number increases too\r\n> quickly\" or something similar;\r\n\r\nI think a recommendation for prefix limit monitoring and alerting for\r\nall peers would be a good replacement of section 8.2.2.\r\n\r\nSection 8.2.1 already mentions placing a prefix limit on upstreams, so\r\nthis should limit the risk of the attack described in 8.2.2 somewhat.\r\nBut it will have to be combined with monitoring, so that a customer AS\r\ndoes not cut itself off if the BGP table on all of their upstreams\r\neventually grows too large.\r\n\r\nKind regards,\r\nMartin\r\n```",
       "createdAt": "2024-03-04T12:11:58Z",
-      "updatedAt": "2024-03-04T12:11:58Z",
+      "updatedAt": "2024-07-04T07:49:39Z",
+      "closedAt": "2024-07-04T07:49:38Z",
+      "comments": [
+        {
+          "author": "ichdasich",
+          "authorAssociation": "OWNER",
+          "body": "Moved to https://github.com/ichdasich/draft-routing-operations-security/issues/1",
+          "createdAt": "2024-07-04T07:49:38Z",
+          "updatedAt": "2024-07-04T07:49:38Z"
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "id": "I_kwDOKcyvv86Od4V2",
+      "title": "Comment on formulation regarding valley free principle",
+      "url": "https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/issues/17",
+      "state": "OPEN",
+      "author": "ichdasich",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Martin Pels noted:\r\n```\r\n\"The AS_PATH of redistributed NLRI MUST NOT violate the valley-free\r\nprinciple [RFC4012], i.e., [..]\"\r\n\r\nThere are more forms of route leaks than violations of \"valley-free\".\r\nAlso, I noticed the referenced RFC4012 does not actually mention the\r\nterm. I think you could remove this part of the bulletpoint, so start\r\nwith \"The redistributing AS MUST be authorized [..]\".\r\n```\r\nConsider reformulating this; Also figure ideal coverage of route leaks (or simplicity of touching the topic) out.",
+      "createdAt": "2024-07-04T07:52:31Z",
+      "updatedAt": "2024-07-04T07:52:32Z",
       "closedAt": null,
       "comments": []
     }
