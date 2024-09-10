@@ -42,7 +42,7 @@
 
         <abstract>
             <t>
-                The Border Gateway Protocol (BGP) is the protocol is a critical component in the Internet to exchange routing information between network domains.
+                The Border Gateway Protocol (BGP) is a critical component in the Internet to exchange routing information between network domains.
                 Due to this central nature, it is important to understand the security and reliability requirements that can and should be ensured to prevent accidental or intentional routing disturbances.
             </t>
             <t>
