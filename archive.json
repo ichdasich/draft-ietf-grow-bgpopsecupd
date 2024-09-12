@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-10T00:15:10.649519+00:00",
+  "timestamp": "2024-09-12T00:15:40.755054+00:00",
   "repo": "ichdasich/draft-ietf-grow-bgpopsecupd",
   "labels": [
     {
@@ -407,5 +407,32 @@
       "comments": []
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 18,
+      "id": "PR_kwDOKcyvv856-NK7",
+      "title": "Fix an editorial error in the abstract",
+      "url": "https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/pull/18",
+      "state": "OPEN",
+      "author": "stepnem",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes: 20f432f0409d (\"rewrite abstract\")",
+      "createdAt": "2024-09-10T11:57:35Z",
+      "updatedAt": "2024-09-10T11:57:35Z",
+      "baseRepository": "ichdasich/draft-ietf-grow-bgpopsecupd",
+      "baseRefName": "main",
+      "baseRefOid": "f78879f1eb51f7c33a037ea526e00ce7a90f5539",
+      "headRepository": "stepnem/draft-ietf-grow-bgpopsecupd",
+      "headRefName": "editfix",
+      "headRefOid": "af6d5c92d7c4da90bc781b93f486a938cba65dd6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
