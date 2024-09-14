@@ -6,7 +6,7 @@ Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
 Obsoletes: 7454 (if approved)                                N. Hilliard
 Intended status: Best Current Practice                              INEX
-Expires: 4 January 2025                                      3 July 2024
+Expires: 18 March 2025                                 14 September 2024
 
 
                   Updated BGP Operations and Security
@@ -14,12 +14,11 @@ Expires: 4 January 2025                                      3 July 2024
 
 Abstract
 
-   The Border Gateway Protocol (BGP) is the protocol is a critical
-   component in the Internet to exchange routing information between
-   network domains.  Due to this central nature, it is important to
-   understand the security and reliability requirements that can and
-   should be ensured to prevent accidental or intentional routing
-   disturbances.
+   The Border Gateway Protocol (BGP) is a critical component in the
+   Internet to exchange routing information between network domains.
+   Due to this central nature, it is important to understand the
+   security and reliability requirements that can and should be ensured
+   to prevent accidental or intentional routing disturbances.
 
    Previously, security considerations for BGP have been described in
    RFC7454 / BCP194.  Since the publications of RFC7454 / BCP194,
@@ -51,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 January 2025.
+   This Internet-Draft will expire on 18 March 2025.
 
 Copyright Notice
 
