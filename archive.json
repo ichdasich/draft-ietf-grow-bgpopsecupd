@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-12T00:15:40.755054+00:00",
+  "timestamp": "2024-09-15T00:17:23.413689+00:00",
   "repo": "ichdasich/draft-ietf-grow-bgpopsecupd",
   "labels": [
     {
@@ -413,26 +413,50 @@
       "id": "PR_kwDOKcyvv856-NK7",
       "title": "Fix an editorial error in the abstract",
       "url": "https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/pull/18",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "stepnem",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes: 20f432f0409d (\"rewrite abstract\")",
       "createdAt": "2024-09-10T11:57:35Z",
-      "updatedAt": "2024-09-10T11:57:35Z",
+      "updatedAt": "2024-09-14T09:59:54Z",
       "baseRepository": "ichdasich/draft-ietf-grow-bgpopsecupd",
       "baseRefName": "main",
       "baseRefOid": "f78879f1eb51f7c33a037ea526e00ce7a90f5539",
       "headRepository": "stepnem/draft-ietf-grow-bgpopsecupd",
       "headRefName": "editfix",
       "headRefOid": "af6d5c92d7c4da90bc781b93f486a938cba65dd6",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "closedAt": "2024-09-14T09:59:54Z",
+      "mergedAt": "2024-09-14T09:59:54Z",
+      "mergedBy": "ichdasich",
+      "mergeCommit": {
+        "oid": "45e9a07c179c047fc7ee9cb2ade2da9aef635299"
+      },
+      "comments": [
+        {
+          "author": "ichdasich",
+          "authorAssociation": "OWNER",
+          "body": "Looks good to me, thanks!",
+          "createdAt": "2024-09-14T09:57:39Z",
+          "updatedAt": "2024-09-14T09:57:39Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKcyvv86JWqXV",
+          "commit": {
+            "abbreviatedOid": "af6d5c9"
+          },
+          "author": "ichdasich",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "Editorial change; Straight forward, lgtm.",
+          "createdAt": "2024-09-14T09:58:52Z",
+          "updatedAt": "2024-09-14T09:58:52Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
