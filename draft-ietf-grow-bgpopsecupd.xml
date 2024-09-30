@@ -254,8 +254,6 @@
             </references>
             <references>
                 <name>Informative References</name>
-
-                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4012.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7454.xml"/>
             </references>
         </references>
