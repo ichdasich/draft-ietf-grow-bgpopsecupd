@@ -184,8 +184,9 @@ Table of Contents
       to advertise it to the importing AS.
 
    *  The AS_PATH MUST NOT contain AS numbers reserved for private
-      [RFC6996] or special-use cases not necessitating their presence in
-      the global routing table [IANAASNSpec].
+      [RFC6996] or special-use cases, except for those AS numbers
+      explicitly dedicated to a special-use that requires their presence
+      in the global routing table [IANAASNSpec].
 
    *  The number of NLRI received from a neighbor MUST NOT exceed the
       resources of the local router.
@@ -210,8 +211,9 @@ Table of Contents
       announce default routes towards them.
 
    *  The AS_PATH MUST NOT contain AS numbers reserved for private
-      [RFC6996] or special-use cases not necessitating their presence in
-      the global routing table [IANAASNSpec].
+      [RFC6996] or special-use cases, except for those AS numbers
+      explicitly dedicated to a special-use that requires their presence
+      in the global routing table [IANAASNSpec].
 
 4.3.  Altering NLRI
 
@@ -333,6 +335,8 @@ Acknowledgements
    *  Martin Pels
 
    *  Wolfgang Tremmel
+
+   *  Ben Maddison
 
 Authors' Addresses
 
