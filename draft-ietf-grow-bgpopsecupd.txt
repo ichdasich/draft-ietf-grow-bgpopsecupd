@@ -6,7 +6,7 @@ Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
 Obsoletes: 7454 (if approved)                                N. Hilliard
 Intended status: Best Current Practice                              INEX
-Expires: 18 March 2025                                 14 September 2024
+Expires: 3 April 2025                                  30 September 2024
 
 
                   Updated BGP Operations and Security
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 March 2025.
+   This Internet-Draft will expire on 3 April 2025.
 
 Copyright Notice
 
@@ -77,7 +77,7 @@ Table of Contents
    4.  NLRI Filtering
      4.1.  Importing NLRI
      4.2.  Originating and Redistributing NLRI
-     4.3.  General Considerations for Altering NLRI
+     4.3.  Altering NLRI
    5.  IANA Considerations
    6.  Security Considerations
    7.  References
@@ -178,10 +178,10 @@ Table of Contents
       default routes (::/0 and 0.0.0.0/0), if they granted the specific
       neighbor permission to announce default routes towards them.
 
-   *  The AS_PATH of the NLRI MUST NOT violate the valley-free principle
-      [RFC4012], i.e., all ASes left of the originating AS in the
-      AS_PATH MUST be authorized to advertise the NLRI to the AS
-      directly to their left.
+   *  All ASes left of the originating AS in the AS_PATH MUST be
+      authorized to advertise the NLRI to the AS directly to their left,
+      and the neighbor from which an NLRI is received MUST be authorized
+      to advertise it to the importing AS.
 
    *  The AS_PATH MUST NOT contain AS numbers reserved for private
       [RFC6996] or special-use cases not necessitating their presence in
@@ -197,13 +197,11 @@ Table of Contents
    to the following properties by implementing technical or
    organizational measures:
 
-   *  The AS_PATH of redistributed NLRI MUST NOT violate the valley-free
-      principle [RFC4012], i.e., the redistributing AS MUST be
-      authorized to redistribute NLRI for the specific prefix when
-      received from the AS directly to its right in the AS_PATH.
-      Additionally, each AS in the AS_PATH not originating the prefix
-      MUST be authorized to redistribute the prefix when receiving it
-      from the next AS to its right.
+   *  The redistributing AS MUST be authorized to redistribute NLRI for
+      the specific prefix when received from the AS directly to its
+      right in the AS_PATH.  Additionally, each AS in the AS_PATH not
+      originating the prefix MUST be authorized to redistribute the
+      prefix when receiving it from the next AS to its right.
 
    *  The AS originating NLRI for a prefix MUST be globally authorized
       to originate that prefix.  Operators MAY deviate from this for
@@ -215,20 +213,21 @@ Table of Contents
       [RFC6996] or special-use cases not necessitating their presence in
       the global routing table [IANAASNSpec].
 
-4.3.  General Considerations for Altering NLRI
+4.3.  Altering NLRI
 
-   When processing NLRI, an operator MUST ensure that some basic
-   properties of these NLRI are not altered or set:
+   When processing NLRI, an operator MUST ensure that basic properties
+   of these NLRI are not altered:
 
-   *  An operator MUST NOT change transitive BGP attributes, if the
-      attribute is unknown to the operator.  In selected cases, if a
-      specific attribute is known to be malicious, an operator MAY
-      filter that specific attribute or the NLRI.
+   *  An operator MUST NOT change or remove transitive BGP attributes,
+      if the attribute is unknown to the operator.  In selected cases,
+      if a specific attribute is known to be malicious, an operator MAY
+      temporarily remove that specific attribute from NLRI when
+      importing them or filter NLRI carrying the attribute.
 
    *  NLRI carried on BGP MUST NOT be enriched with transitive
       attributes subject to change independent of the underlying NLRI,
       e.g., encoding RPKI validation state in transitive attributes
-      [I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp].
+      [I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp].
 
 5.  IANA Considerations
 
@@ -245,6 +244,16 @@ Table of Contents
    conscious choice given that available techniques and methods to
    ensure these properties will change over time, while the underlying
    principles remain the same.
+
+   Instead, readers MAY refer to the most recent non expired draft of
+   [I-D.draft-fiebig-grow-routing-ops-sec-inform] for an updated list of
+   currently available technology to ensure the above principles, and
+   the most recent non expired draft of
+   [I-D.draft-fiebig-grow-routing-ops-terms] for information on
+   currently used terms and definitions in the context of global routing
+   operations.  Readers MUST NOT rely on expired versions of these I-Ds.
+   If no most recent non-expired version of either I-D is available, the
+   document MUST be considered to be non-existent.
 
 7.  References
 
@@ -268,12 +277,26 @@ Table of Contents
               Private Use", BCP 6, RFC 6996, DOI 10.17487/RFC6996, July
               2013, <https://www.rfc-editor.org/info/rfc6996>.
 
-   [I-D.spaghetti-sidrops-avoid-rpki-state-in-bgp]
+   [I-D.draft-fiebig-grow-routing-ops-sec-inform]
+              Fiebig, T., "Current Options for Securing Global Routing",
+              Work in Progress, Internet-Draft, draft-fiebig-grow-
+              routing-ops-sec-inform, 3 July 2024,
+              <https://datatracker.ietf.org/doc/draft-fiebig-grow-
+              routing-ops-sec-inform/>.
+
+   [I-D.draft-fiebig-grow-routing-ops-terms]
+              Fiebig, T., "Currently Used Terminology in Global Routing
+              Operations", Work in Progress, Internet-Draft, draft-
+              fiebig-grow-routing-ops-terms, 3 July 2024,
+              <https://datatracker.ietf.org/doc/draft-fiebig-grow-
+              routing-ops-terms/>.
+
+   [I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp]
               Snijders, J., Fiebig, T., and M. A. Stucchi, "Guidance to
               Avoid Carrying RPKI Validation States in Transitive BGP
               Path Attributes", Work in Progress, Internet-Draft, draft-
-              spaghetti-sidrops-avoid-rpki-state-in-bgp-00, 8 February
-              2024, <https://datatracker.ietf.org/doc/draft-spaghetti-
+              draft-ietf-sidrops-avoid-rpki-state-in-bgp-00, 9 April
+              2024, <https://datatracker.ietf.org/doc/draft-draft-ietf-
               sidrops-avoid-rpki-state-in-bgp/>.
 
    [IANAASNSpec]
@@ -282,11 +305,6 @@ Table of Contents
               registry/iana-as-numbers-special-registry.xhtml>.
 
 7.2.  Informative References
-
-   [RFC4012]  Blunk, L., Damas, J., Parent, F., and A. Robachevsky,
-              "Routing Policy Specification Language next generation
-              (RPSLng)", RFC 4012, DOI 10.17487/RFC4012, March 2005,
-              <https://www.rfc-editor.org/info/rfc4012>.
 
    [RFC7454]  Durand, J., Pepelnjak, I., and G. Doering, "BGP Operations
               and Security", BCP 194, RFC 7454, DOI 10.17487/RFC7454,
