@@ -179,7 +179,7 @@
                         The AS originating NLRI for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.
                     </li>
                     <li>
-                        The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases not necessitating their presence in the global routing table <xref target="IANAASNSpec" format="default"/>.
+                        The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases, except for those AS numbers explicitly dedicated to a special-use that requires their presence in the global routing table <xref target="IANAASNSpec" format="default"/>.
                     </li>
                 </ul>
             </section>
