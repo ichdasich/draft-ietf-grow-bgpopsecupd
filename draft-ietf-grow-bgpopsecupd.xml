@@ -190,7 +190,9 @@
                 </t>
                 <ul spacing="normal">
                     <li>
-                        An operator <bcp14>MUST NOT</bcp14> change or remove transitive BGP attributes, if the attribute is unknown to the operator. In selected cases, if a specific attribute is known to be malicious, an operator <bcp14>MAY</bcp14> temporarily remove that specific attribute from NLRI when importing them or filter NLRI carrying the attribute.
+                        An operator <bcp14>MUST NOT</bcp14> change or remove immutable transitive BGP attributes, e.g., ORIGIN as per <xref target="RFC4271" format="default"/>.
+                        If an attribute is unknown to the operator it must be considered immutable.
+                        In selected cases, if a specific attribute is known to be malicious, an operator <bcp14>MAY</bcp14> either temporarily remove that specific attribute from NLRI when importing them or filter NLRI carrying the attribute.
                     </li>
                     <li>
                         NLRI carried on BGP <bcp14>MUST NOT</bcp14> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <xref target="I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
