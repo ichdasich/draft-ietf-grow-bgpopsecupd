@@ -220,11 +220,13 @@ Table of Contents
    When processing NLRI, an operator MUST ensure that basic properties
    of these NLRI are not altered:
 
-   *  An operator MUST NOT change or remove transitive BGP attributes,
-      if the attribute is unknown to the operator.  In selected cases,
-      if a specific attribute is known to be malicious, an operator MAY
-      temporarily remove that specific attribute from NLRI when
-      importing them or filter NLRI carrying the attribute.
+   *  An operator MUST NOT change or remove immutable transitive BGP
+      attributes, e.g., ORIGIN as per [RFC4271].  If an attribute is
+      unknown to the operator it must be considered immutable.  In
+      selected cases, if a specific attribute is known to be malicious,
+      an operator MAY either temporarily remove that specific attribute
+      from NLRI when importing them or filter NLRI carrying the
+      attribute.
 
    *  NLRI carried on BGP MUST NOT be enriched with transitive
       attributes subject to change independent of the underlying NLRI,

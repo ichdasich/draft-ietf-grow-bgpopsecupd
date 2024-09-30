@@ -1351,7 +1351,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     When processing NLRI, an operator <span class="bcp14">MUST</span> ensure that basic properties of these NLRI are not altered:<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3-2.1">
-                        An operator <span class="bcp14">MUST NOT</span> change or remove transitive BGP attributes, if the attribute is unknown to the operator. In selected cases, if a specific attribute is known to be malicious, an operator <span class="bcp14">MAY</span> temporarily remove that specific attribute from NLRI when importing them or filter NLRI carrying the attribute.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
+                        An operator <span class="bcp14">MUST NOT</span> change or remove immutable transitive BGP attributes, e.g., ORIGIN as per <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.
+                        If an attribute is unknown to the operator it must be considered immutable.
+                        In selected cases, if a specific attribute is known to be malicious, an operator <span class="bcp14">MAY</span> either temporarily remove that specific attribute from NLRI when importing them or filter NLRI carrying the attribute.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.2">
                         NLRI carried on BGP <span class="bcp14">MUST NOT</span> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <span>[<a href="#I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
