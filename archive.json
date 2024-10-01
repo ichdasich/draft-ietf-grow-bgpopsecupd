@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-29T00:17:53.885929+00:00",
+  "timestamp": "2024-10-01T00:18:07.767650+00:00",
   "repo": "ichdasich/draft-ietf-grow-bgpopsecupd",
   "labels": [
     {
@@ -395,16 +395,24 @@
       "id": "I_kwDOKcyvv86Od4V2",
       "title": "Comment on formulation regarding valley free principle",
       "url": "https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/issues/17",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ichdasich",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "Martin Pels noted:\r\n```\r\n\"The AS_PATH of redistributed NLRI MUST NOT violate the valley-free\r\nprinciple [RFC4012], i.e., [..]\"\r\n\r\nThere are more forms of route leaks than violations of \"valley-free\".\r\nAlso, I noticed the referenced RFC4012 does not actually mention the\r\nterm. I think you could remove this part of the bulletpoint, so start\r\nwith \"The redistributing AS MUST be authorized [..]\".\r\n```\r\nConsider reformulating this; Also figure ideal coverage of route leaks (or simplicity of touching the topic) out.",
       "createdAt": "2024-07-04T07:52:31Z",
-      "updatedAt": "2024-07-04T07:52:32Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-09-30T13:29:07Z",
+      "closedAt": "2024-09-30T13:29:07Z",
+      "comments": [
+        {
+          "author": "ichdasich",
+          "authorAssociation": "OWNER",
+          "body": "fixed in https://github.com/ichdasich/draft-ietf-grow-bgpopsecupd/commit/85af63cf3618aa2a9462dffdbb772784f990d23a",
+          "createdAt": "2024-09-30T13:28:58Z",
+          "updatedAt": "2024-09-30T13:28:58Z"
+        }
+      ]
     }
   ],
   "pulls": [
