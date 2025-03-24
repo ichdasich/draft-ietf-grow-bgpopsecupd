@@ -1,6 +1,8 @@
+<!-- regenerate: on (set to off if you edit this file) -->
+
 # Updated BGP Operations and Security
 
-This is the working area for the IETF [GROW Working Group](https://datatracker.ietf.org/wg/grow/documents/) Internet-Draft, "Updated BGP Operations and Security".
+This is the working area for the IETF [GROW Working Group](https://datatracker.ietf.org/group/grow/documents/) Internet-Draft, "Updated BGP Operations and Security".
 
 * [Editor's Copy](https://ichdasich.github.io/draft-ietf-grow-bgpopsecupd/#go.draft-ietf-grow-bgpopsecupd.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-grow-bgpopsecupd)
