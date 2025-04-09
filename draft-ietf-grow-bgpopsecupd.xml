@@ -218,7 +218,7 @@
                 This is a conscious choice given that available techniques and methods to ensure these properties will change over time, while the underlying principles remain the same.
             </t>
             <t>
-                Instead, readers <bcp14>MAY</bcp14> refer to the most recent non expired draft of <xref target="I-D.draft-fiebig-grow-routing-ops-sec-inform" format="default"/> for an updated list of currently available technology to ensure the above principles, and the most recent non expired draft of <xref target="I-D.draft-fiebig-grow-routing-ops-terms" format="default"/> for information on currently used terms and definitions in the context of global routing operations.
+                Instead, readers <bcp14>MAY</bcp14> refer to the most recent non expired draft of <xref target="I-D.draft-ietf-grow-routing-ops-sec-inform" format="default"/> for an updated list of currently available technology to ensure the above principles, and the most recent non expired draft of <xref target="I-D.draft-ietf-grow-routing-ops-terms" format="default"/> for information on currently used terms and definitions in the context of global routing operations.
                 Readers <bcp14>MUST NOT</bcp14> rely on expired versions of these I-Ds.
                 If no most recent non-expired version of either I-D is available, the document <bcp14>MUST</bcp14> be considered to be non-existent.
             </t>
@@ -234,25 +234,25 @@
                 <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4271.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6996.xml"/>
-                <reference anchor="I-D.draft-fiebig-grow-routing-ops-sec-inform" target="https://datatracker.ietf.org/doc/draft-fiebig-grow-routing-ops-sec-inform/">
+                <reference anchor="I-D.draft-ietf-grow-routing-ops-sec-inform" target="https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-sec-inform/">
                     <front>
                         <title>Current Options for Securing Global Routing</title>
                         <author fullname="Tobias Fiebig" initials="T." surname="Fiebig">
                             <organization abbrev="MPI-INF">Max-Planck-Institut fuer Informatik</organization>
                         </author>
-                        <date month="July" day="3" year="2024"/>
+                        <date month="April" day="9" year="2025"/>
                     </front>
-                    <seriesInfo name="Internet-Draft" value="draft-fiebig-grow-routing-ops-sec-inform"/>
+                    <seriesInfo name="Internet-Draft" value="draft-ietf-grow-routing-ops-sec-inform"/>
                 </reference>
-                <reference anchor="I-D.draft-fiebig-grow-routing-ops-terms" target="https://datatracker.ietf.org/doc/draft-fiebig-grow-routing-ops-terms/">
+                <reference anchor="I-D.draft-ietf-grow-routing-ops-terms" target="https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-terms/">
                     <front>
                         <title>Currently Used Terminology in Global Routing Operations</title>
                         <author fullname="Tobias Fiebig" initials="T." surname="Fiebig">
                             <organization abbrev="MPI-INF">Max-Planck-Institut fuer Informatik</organization>
                         </author>
-                        <date month="July" day="3" year="2024"/>
+                        <date month="April" day="9" year="2025"/>
                     </front>
-                    <seriesInfo name="Internet-Draft" value="draft-fiebig-grow-routing-ops-terms"/>
+                    <seriesInfo name="Internet-Draft" value="draft-ietf-grow-routing-ops-terms"/>
                 </reference>
                 <reference anchor="I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp" target="https://datatracker.ietf.org/doc/draft-draft-ietf-sidrops-avoid-rpki-state-in-bgp/">
                     <front>
@@ -266,9 +266,9 @@
                         <author initials="M. A." surname="Stucchi" fullname="Massimiliano Stucchi">
                             <organization>AS58280.net</organization>
                         </author>
-                        <date month="April" day="9" year="2024"/>
+                        <date month="October" day="3" year="2024"/>
                     </front>
-                    <seriesInfo name="Internet-Draft" value="draft-draft-ietf-sidrops-avoid-rpki-state-in-bgp-00"/>
+                    <seriesInfo name="Internet-Draft" value="draft-draft-ietf-sidrops-avoid-rpki-state-in-bgp"/>
                 </reference>
                 <reference anchor="IANAASNSpec" target="https://www.iana.org/assignments/iana-as-numbers-special-registry/iana-as-numbers-special-registry.xhtml">
                   <front>
