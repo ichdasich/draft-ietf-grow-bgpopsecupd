@@ -6,7 +6,7 @@ Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
 Obsoletes: 7454 (if approved)                                N. Hilliard
 Intended status: Best Current Practice                              INEX
-Expires: 25 September 2025                                 24 March 2025
+Expires: 11 October 2025                                    9 April 2025
 
 
                   Updated BGP Operations and Security
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 September 2025.
+   This Internet-Draft will expire on 11 October 2025.
 
 Copyright Notice
 
