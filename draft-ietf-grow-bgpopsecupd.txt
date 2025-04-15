@@ -6,7 +6,7 @@ Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
 Obsoletes: 7454 (if approved)                                N. Hilliard
 Intended status: Best Current Practice                              INEX
-Expires: 11 October 2025                                    9 April 2025
+Expires: 17 October 2025                                   15 April 2025
 
 
                   Updated BGP Operations and Security
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 October 2025.
+   This Internet-Draft will expire on 17 October 2025.
 
 Copyright Notice
 
@@ -250,11 +250,11 @@ Table of Contents
    principles remain the same.
 
    Instead, readers MAY refer to the most recent non expired draft of
-   [I-D.draft-fiebig-grow-routing-ops-sec-inform] for an updated list of
+   [I-D.draft-ietf-grow-routing-ops-sec-inform] for an updated list of
    currently available technology to ensure the above principles, and
    the most recent non expired draft of
-   [I-D.draft-fiebig-grow-routing-ops-terms] for information on
-   currently used terms and definitions in the context of global routing
+   [I-D.draft-ietf-grow-routing-ops-terms] for information on currently
+   used terms and definitions in the context of global routing
    operations.  Readers MUST NOT rely on expired versions of these I-Ds.
    If no most recent non-expired version of either I-D is available, the
    document MUST be considered to be non-existent.
@@ -281,25 +281,25 @@ Table of Contents
               Private Use", BCP 6, RFC 6996, DOI 10.17487/RFC6996, July
               2013, <https://www.rfc-editor.org/info/rfc6996>.
 
-   [I-D.draft-fiebig-grow-routing-ops-sec-inform]
+   [I-D.draft-ietf-grow-routing-ops-sec-inform]
               Fiebig, T., "Current Options for Securing Global Routing",
-              Work in Progress, Internet-Draft, draft-fiebig-grow-
-              routing-ops-sec-inform, 3 July 2024,
-              <https://datatracker.ietf.org/doc/draft-fiebig-grow-
-              routing-ops-sec-inform/>.
+              Work in Progress, Internet-Draft, draft-ietf-grow-routing-
+              ops-sec-inform, 9 April 2025,
+              <https://datatracker.ietf.org/doc/draft-ietf-grow-routing-
+              ops-sec-inform/>.
 
-   [I-D.draft-fiebig-grow-routing-ops-terms]
+   [I-D.draft-ietf-grow-routing-ops-terms]
               Fiebig, T., "Currently Used Terminology in Global Routing
-              Operations", Work in Progress, Internet-Draft, draft-
-              fiebig-grow-routing-ops-terms, 3 July 2024,
-              <https://datatracker.ietf.org/doc/draft-fiebig-grow-
-              routing-ops-terms/>.
+              Operations", Work in Progress, Internet-Draft, draft-ietf-
+              grow-routing-ops-terms, 9 April 2025,
+              <https://datatracker.ietf.org/doc/draft-ietf-grow-routing-
+              ops-terms/>.
 
    [I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp]
               Snijders, J., Fiebig, T., and M. A. Stucchi, "Guidance to
               Avoid Carrying RPKI Validation States in Transitive BGP
               Path Attributes", Work in Progress, Internet-Draft, draft-
-              draft-ietf-sidrops-avoid-rpki-state-in-bgp-00, 9 April
+              draft-ietf-sidrops-avoid-rpki-state-in-bgp, 3 October
               2024, <https://datatracker.ietf.org/doc/draft-draft-ietf-
               sidrops-avoid-rpki-state-in-bgp/>.
 
