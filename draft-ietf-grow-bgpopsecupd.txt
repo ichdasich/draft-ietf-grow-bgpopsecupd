@@ -231,7 +231,7 @@ Table of Contents
    *  NLRI carried on BGP MUST NOT be enriched with transitive
       attributes subject to change independent of the underlying NLRI,
       e.g., encoding RPKI validation state in transitive attributes
-      [I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp].
+      [I-D.ietf-sidrops-avoid-rpki-state-in-bgp].
 
 5.  IANA Considerations
 
@@ -250,14 +250,14 @@ Table of Contents
    principles remain the same.
 
    Instead, readers MAY refer to the most recent non expired draft of
-   [I-D.draft-ietf-grow-routing-ops-sec-inform] for an updated list of
+   [I-D.ietf-grow-routing-ops-sec-inform] for an updated list of
    currently available technology to ensure the above principles, and
    the most recent non expired draft of
-   [I-D.draft-ietf-grow-routing-ops-terms] for information on currently
-   used terms and definitions in the context of global routing
-   operations.  Readers MUST NOT rely on expired versions of these I-Ds.
-   If no most recent non-expired version of either I-D is available, the
-   document MUST be considered to be non-existent.
+   [I-D.ietf-grow-routing-ops-terms] for information on currently used
+   terms and definitions in the context of global routing operations.
+   Readers MUST NOT rely on expired versions of these I-Ds.  If no most
+   recent non-expired version of either I-D is available, the document
+   MUST be considered to be non-existent.
 
 7.  References
 
@@ -281,28 +281,6 @@ Table of Contents
               Private Use", BCP 6, RFC 6996, DOI 10.17487/RFC6996, July
               2013, <https://www.rfc-editor.org/info/rfc6996>.
 
-   [I-D.draft-ietf-grow-routing-ops-sec-inform]
-              Fiebig, T., "Current Options for Securing Global Routing",
-              Work in Progress, Internet-Draft, draft-ietf-grow-routing-
-              ops-sec-inform, 9 April 2025,
-              <https://datatracker.ietf.org/doc/draft-ietf-grow-routing-
-              ops-sec-inform/>.
-
-   [I-D.draft-ietf-grow-routing-ops-terms]
-              Fiebig, T., "Currently Used Terminology in Global Routing
-              Operations", Work in Progress, Internet-Draft, draft-ietf-
-              grow-routing-ops-terms, 9 April 2025,
-              <https://datatracker.ietf.org/doc/draft-ietf-grow-routing-
-              ops-terms/>.
-
-   [I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp]
-              Snijders, J., Fiebig, T., and M. A. Stucchi, "Guidance to
-              Avoid Carrying RPKI Validation States in Transitive BGP
-              Path Attributes", Work in Progress, Internet-Draft, draft-
-              draft-ietf-sidrops-avoid-rpki-state-in-bgp, 3 October
-              2024, <https://datatracker.ietf.org/doc/draft-draft-ietf-
-              sidrops-avoid-rpki-state-in-bgp/>.
-
    [IANAASNSpec]
               IANA, "Special-Purpose Autonomous System (AS) Numbers",
               <https://www.iana.org/assignments/iana-as-numbers-special-
@@ -313,6 +291,28 @@ Table of Contents
    [RFC7454]  Durand, J., Pepelnjak, I., and G. Doering, "BGP Operations
               and Security", BCP 194, RFC 7454, DOI 10.17487/RFC7454,
               February 2015, <https://www.rfc-editor.org/info/rfc7454>.
+
+   [I-D.ietf-grow-routing-ops-sec-inform]
+              Fiebig, T., "Current Options for Securing Global Routing",
+              Work in Progress, Internet-Draft, draft-ietf-grow-routing-
+              ops-sec-inform, 9 April 2025,
+              <https://datatracker.ietf.org/doc/draft-ietf-grow-routing-
+              ops-sec-inform/>.
+
+   [I-D.ietf-grow-routing-ops-terms]
+              Fiebig, T., "Currently Used Terminology in Global Routing
+              Operations", Work in Progress, Internet-Draft, draft-ietf-
+              grow-routing-ops-terms, 9 April 2025,
+              <https://datatracker.ietf.org/doc/draft-ietf-grow-routing-
+              ops-terms/>.
+
+   [I-D.ietf-sidrops-avoid-rpki-state-in-bgp]
+              Snijders, J., Fiebig, T., and M. A. Stucchi, "Guidance to
+              Avoid Carrying RPKI Validation States in Transitive BGP
+              Path Attributes", Work in Progress, Internet-Draft, draft-
+              ietf-sidrops-avoid-rpki-state-in-bgp, 3 October 2024,
+              <https://datatracker.ietf.org/doc/draft-ietf-sidrops-
+              avoid-rpki-state-in-bgp/>.
 
 Acknowledgements
 
@@ -339,6 +339,8 @@ Acknowledgements
    *  Wolfgang Tremmel
 
    *  Ben Maddison
+
+   *  Mohamed Boucadair
 
 Authors' Addresses
 

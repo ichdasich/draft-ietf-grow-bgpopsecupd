@@ -1376,7 +1376,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         In selected cases, if a specific attribute is known to be malicious, an operator <span class="bcp14">MAY</span> either temporarily remove that specific attribute from NLRI when importing them or filter NLRI carrying the attribute.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.2">
-                        NLRI carried on BGP <span class="bcp14">MUST NOT</span> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <span>[<a href="#I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
+                        NLRI carried on BGP <span class="bcp14">MUST NOT</span> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <span>[<a href="#I-D.ietf-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.ietf-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1404,7 +1404,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 However, it does not detail how the outlined properties and security requirements can be implemented and enforced in practice.
                 This is a conscious choice given that available techniques and methods to ensure these properties will change over time, while the underlying principles remain the same.<a href="#section-6-2" class="pilcrow">¶</a></p>
 <p id="section-6-3">
-                Instead, readers <span class="bcp14">MAY</span> refer to the most recent non expired draft of <span>[<a href="#I-D.draft-ietf-grow-routing-ops-sec-inform" class="cite xref">I-D.draft-ietf-grow-routing-ops-sec-inform</a>]</span> for an updated list of currently available technology to ensure the above principles, and the most recent non expired draft of <span>[<a href="#I-D.draft-ietf-grow-routing-ops-terms" class="cite xref">I-D.draft-ietf-grow-routing-ops-terms</a>]</span> for information on currently used terms and definitions in the context of global routing operations.
+                Instead, readers <span class="bcp14">MAY</span> refer to the most recent non expired draft of <span>[<a href="#I-D.ietf-grow-routing-ops-sec-inform" class="cite xref">I-D.ietf-grow-routing-ops-sec-inform</a>]</span> for an updated list of currently available technology to ensure the above principles, and the most recent non expired draft of <span>[<a href="#I-D.ietf-grow-routing-ops-terms" class="cite xref">I-D.ietf-grow-routing-ops-terms</a>]</span> for information on currently used terms and definitions in the context of global routing operations.
                 Readers <span class="bcp14">MUST NOT</span> rely on expired versions of these I-Ds.
                 If no most recent non-expired version of either I-D is available, the document <span class="bcp14">MUST</span> be considered to be non-existent.<a href="#section-6-3" class="pilcrow">¶</a></p>
 </section>
@@ -1434,18 +1434,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
         <dd>
 <span class="refAuthor">Mitchell, J.</span>, <span class="refTitle">"Autonomous System (AS) Reservation for Private Use"</span>, <span class="seriesInfo">BCP 6</span>, <span class="seriesInfo">RFC 6996</span>, <span class="seriesInfo">DOI 10.17487/RFC6996</span>, <time datetime="2013-07" class="refDate">July 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6996">https://www.rfc-editor.org/info/rfc6996</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.draft-ietf-grow-routing-ops-sec-inform">[I-D.draft-ietf-grow-routing-ops-sec-inform]</dt>
-        <dd>
-<span class="refAuthor">Fiebig, T.</span>, <span class="refTitle">"Current Options for Securing Global Routing"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-grow-routing-ops-sec-inform</span>, <time datetime="2025-04-09" class="refDate">9 April 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-sec-inform/">https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-sec-inform/</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="I-D.draft-ietf-grow-routing-ops-terms">[I-D.draft-ietf-grow-routing-ops-terms]</dt>
-        <dd>
-<span class="refAuthor">Fiebig, T.</span>, <span class="refTitle">"Currently Used Terminology in Global Routing Operations"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-grow-routing-ops-terms</span>, <time datetime="2025-04-09" class="refDate">9 April 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-terms/">https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-terms/</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp">[I-D.draft-ietf-sidrops-avoid-rpki-state-in-bgp]</dt>
-        <dd>
-<span class="refAuthor">Snijders, J.</span>, <span class="refAuthor">Fiebig, T.</span>, and <span class="refAuthor">M. A. Stucchi</span>, <span class="refTitle">"Guidance to Avoid Carrying RPKI Validation States in Transitive BGP Path Attributes"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-draft-ietf-sidrops-avoid-rpki-state-in-bgp</span>, <time datetime="2024-10-03" class="refDate">3 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-draft-ietf-sidrops-avoid-rpki-state-in-bgp/">https://datatracker.ietf.org/doc/draft-draft-ietf-sidrops-avoid-rpki-state-in-bgp/</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="IANAASNSpec">[IANAASNSpec]</dt>
       <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"Special-Purpose Autonomous System (AS) Numbers"</span>, <span>&lt;<a href="https://www.iana.org/assignments/iana-as-numbers-special-registry/iana-as-numbers-special-registry.xhtml">https://www.iana.org/assignments/iana-as-numbers-special-registry/iana-as-numbers-special-registry.xhtml</a>&gt;</span>. </dd>
@@ -1458,8 +1446,20 @@ svg :is([fill="white"], [fill^="#fff"]) {
         </h3>
 <dl class="references">
 <dt id="RFC7454">[RFC7454]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Durand, J.</span>, <span class="refAuthor">Pepelnjak, I.</span>, and <span class="refAuthor">G. Doering</span>, <span class="refTitle">"BGP Operations and Security"</span>, <span class="seriesInfo">BCP 194</span>, <span class="seriesInfo">RFC 7454</span>, <span class="seriesInfo">DOI 10.17487/RFC7454</span>, <time datetime="2015-02" class="refDate">February 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7454">https://www.rfc-editor.org/info/rfc7454</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-grow-routing-ops-sec-inform">[I-D.ietf-grow-routing-ops-sec-inform]</dt>
+        <dd>
+<span class="refAuthor">Fiebig, T.</span>, <span class="refTitle">"Current Options for Securing Global Routing"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-grow-routing-ops-sec-inform</span>, <time datetime="2025-04-09" class="refDate">9 April 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-sec-inform/">https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-sec-inform/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-grow-routing-ops-terms">[I-D.ietf-grow-routing-ops-terms]</dt>
+        <dd>
+<span class="refAuthor">Fiebig, T.</span>, <span class="refTitle">"Currently Used Terminology in Global Routing Operations"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-grow-routing-ops-terms</span>, <time datetime="2025-04-09" class="refDate">9 April 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-terms/">https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-terms/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-sidrops-avoid-rpki-state-in-bgp">[I-D.ietf-sidrops-avoid-rpki-state-in-bgp]</dt>
+      <dd>
+<span class="refAuthor">Snijders, J.</span>, <span class="refAuthor">Fiebig, T.</span>, and <span class="refAuthor">M. A. Stucchi</span>, <span class="refTitle">"Guidance to Avoid Carrying RPKI Validation States in Transitive BGP Path Attributes"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-sidrops-avoid-rpki-state-in-bgp</span>, <time datetime="2024-10-03" class="refDate">3 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-ietf-sidrops-avoid-rpki-state-in-bgp/">https://datatracker.ietf.org/doc/draft-ietf-sidrops-avoid-rpki-state-in-bgp/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1500,6 +1500,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
         <li class="normal" id="appendix-A-3.9">
                     Ben Maddison<a href="#appendix-A-3.9" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-A-3.10">
+                    Mohamed Boucadair<a href="#appendix-A-3.10" class="pilcrow">¶</a>
 </li>
       </ul>
 </section>
