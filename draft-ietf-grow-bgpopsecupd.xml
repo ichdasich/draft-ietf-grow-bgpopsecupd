@@ -81,10 +81,10 @@
         <section  anchor="sec-scope-of-the-document">
             <name>Scope of the Document</name>
             <t>
-                The guidelines defined in this document are intended for BGP when used to exchange generic Internet routing information within the DFZ.
+                The guidelines defined in this document are intended for BGP when used to exchange generic Internet routing information within the Default-Free Zone (DFZ).
                 It specifically does not cover other uses of BGP, e.g., when using BGP for NLRI exchange in a data-center context.
                 This document does not specify how the outlined requirements and properties can be technically realized at a specific point in time.
-                Instead, operators are advised to consult applicable documentation and contemporary informational documents describing implementation specifics.
+                Instead, operators are advised to consult applicable documentation and contemporary informational documents describing implementation specifics (e.g., <xref target="I-D.ietf-grow-routing-ops-sec-inform" format="default"/> and <xref target="I-D.ietf-grow-routing-ops-terms" format="default"/>).
             </t>
         </section>
         <section  anchor="sec-protection-of-the-bgp-speaker">
@@ -116,6 +116,9 @@
                         Ensure that unstable sessions do not threaten the availability of BGP speakers within the network.
                     </li>
                 </ul>
+                <t>
+                    Example technologies to accomplish this include GTSM/TTL-security <xref target="RFC5082" format="default"/>, BGP-MD5 / TCP-AO <xref target="RFC5925" format="default"/>, limiting traffic to the control plane via Control Plane Policing (CoPP), and setting maximum prefix limits for the number of prefixes a neighbor may send.
+                </t>
 
             </section>
 
@@ -132,7 +135,7 @@
                         No unauthorized third-parties can obtain access or connect to the management interface of a BGP speaker in a way that allows tainting confidentiality, integrity, or availability.
                     </li>
                     <li>
-                        External activity towards the management interface do not interfere with the integrity or availability of BGP sessions.
+                        External activity towards the management interface does not interfere with the integrity or availability of BGP sessions.
                     </li>
                 </ul>
 
@@ -156,7 +159,7 @@
                         The AS originating NLRI for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.
                     </li>
                     <li>
-                        All ASes left of the originating AS in the AS_PATH <bcp14>MUST</bcp14> be authorized to advertise the NLRI to the AS directly to their left, and the neighbor from which an NLRI is received <bcp14>MUST</bcp14> be authorized to advertise it to the importing AS.
+                        For received NLRI with an AS_PATH = {AS1, AS2, ..., ASn}, where AS1 is the neighbor that sent the UPDATE and ASn is the originator, for each k in 1..n−1, AS(k+1) <bcp14>MUST</bcp14> be authorized to export the NLRI to ASk according to their bilateral routing policy (e.g., provider–customer, peer, or lateral-peer).
                     </li>
                     <li>
                         The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases, except for those AS numbers explicitly dedicated to a special-use that requires their presence in the global routing table <xref target="IANAASNSpec" format="default"/>.
@@ -213,15 +216,6 @@
                 This document is entirely about BGP operational security.
                 It lists requirements and properties operators <bcp14>MUST</bcp14> ensure using technical or organizational measures when operating BGP routers in the DFZ.
             </t>
-            <t>
-                However, it does not detail how the outlined properties and security requirements can be implemented and enforced in practice.
-                This is a conscious choice given that available techniques and methods to ensure these properties will change over time, while the underlying principles remain the same.
-            </t>
-            <t>
-                Instead, readers <bcp14>MAY</bcp14> refer to the most recent non expired draft of <xref target="I-D.ietf-grow-routing-ops-sec-inform" format="default"/> for an updated list of currently available technology to ensure the above principles, and the most recent non expired draft of <xref target="I-D.ietf-grow-routing-ops-terms" format="default"/> for information on currently used terms and definitions in the context of global routing operations.
-                Readers <bcp14>MUST NOT</bcp14> rely on expired versions of these I-Ds.
-                If no most recent non-expired version of either I-D is available, the document <bcp14>MUST</bcp14> be considered to be non-existent.
-            </t>
         </section>
     </middle>
 
@@ -245,6 +239,8 @@
             </references>
             <references>
                 <name>Informative References</name>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5082.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5925.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7454.xml"/>
                 <reference anchor="I-D.ietf-grow-routing-ops-sec-inform" target="https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-sec-inform/">
                     <front>
@@ -312,7 +308,7 @@
                     Berislav Todorovic
                 </li>
                 <li>
-                    Martin Pels
+                    Linda Dunbar
                 </li>
                 <li>
                     Wolfgang Tremmel
