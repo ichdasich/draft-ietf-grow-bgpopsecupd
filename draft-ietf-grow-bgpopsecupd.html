@@ -23,22 +23,22 @@
                 Operators are advised to consult documentation and contemporary informational documents concerning methods to ensure that these properties are sufficiently ensured in their network.
        
     " name="description">
-<meta content="xml2rfc 3.28.1" name="generator">
+<meta content="xml2rfc 3.30.2" name="generator">
 <meta content="draft-ietf-grow-bgpopsecupd-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.1
-    Python 3.12.9
+  xml2rfc 3.30.2
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
-    lxml 5.3.0
-    platformdirs 4.3.7
+    lxml 5.3.1
+    platformdirs 4.4.0
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
-    setuptools 70.3.0
-    wcwidth 0.2.13
+    requests 2.32.5
+    setuptools 80.9.0
+    wcwidth 0.2.14
 -->
 <link href="draft-ietf-grow-bgpopsecupd.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1057,11 +1057,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">BGP OPSEC</td>
-<td class="right">April 2025</td>
+<td class="right">October 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Fiebig &amp; Hilliard</td>
-<td class="center">Expires 17 October 2025</td>
+<td class="center">Expires 6 April 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1077,12 +1077,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc7454" class="eref">7454</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-04-15" class="published">15 April 2025</time>
+<time datetime="2025-10-03" class="published">3 October 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Best Current Practice</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-10-17">17 October 2025</time></dd>
+<dd class="expires"><time datetime="2026-04-06">6 April 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1130,7 +1130,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 17 October 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1251,10 +1251,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-scope-of-the-document" class="section-name selfRef">Scope of the Document</a>
       </h2>
 <p id="section-2-1">
-                The guidelines defined in this document are intended for BGP when used to exchange generic Internet routing information within the DFZ.
+                The guidelines defined in this document are intended for BGP when used to exchange generic Internet routing information within the Default-Free Zone (DFZ).
                 It specifically does not cover other uses of BGP, e.g., when using BGP for NLRI exchange in a data-center context.
                 This document does not specify how the outlined requirements and properties can be technically realized at a specific point in time.
-                Instead, operators are advised to consult applicable documentation and contemporary informational documents describing implementation specifics.<a href="#section-2-1" class="pilcrow">¶</a></p>
+                Instead, operators are advised to consult applicable documentation and contemporary informational documents describing implementation specifics (e.g., <span>[<a href="#I-D.ietf-grow-routing-ops-sec-inform" class="cite xref">I-D.ietf-grow-routing-ops-sec-inform</a>]</span> and <span>[<a href="#I-D.ietf-grow-routing-ops-terms" class="cite xref">I-D.ietf-grow-routing-ops-terms</a>]</span>).<a href="#section-2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-protection-of-the-bgp-speaker">
@@ -1288,6 +1288,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         Ensure that unstable sessions do not threaten the availability of BGP speakers within the network.<a href="#section-3.1-2.5" class="pilcrow">¶</a>
 </li>
         </ul>
+<p id="section-3.1-3">
+                    Example technologies to accomplish this include GTSM/TTL-security <span>[<a href="#RFC5082" class="cite xref">RFC5082</a>]</span>, BGP-MD5 / TCP-AO <span>[<a href="#RFC5925" class="cite xref">RFC5925</a>]</span>, limiting traffic to the control plane via Control Plane Policing (CoPP), and setting maximum prefix limits for the number of prefixes a neighbor may send.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-protection-of-the-bgp-speaker-mgmt">
@@ -1303,7 +1305,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         No unauthorized third-parties can obtain access or connect to the management interface of a BGP speaker in a way that allows tainting confidentiality, integrity, or availability.<a href="#section-3.2-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-3.2-2.2">
-                        External activity towards the management interface do not interfere with the integrity or availability of BGP sessions.<a href="#section-3.2-2.2" class="pilcrow">¶</a>
+                        External activity towards the management interface does not interfere with the integrity or availability of BGP sessions.<a href="#section-3.2-2.2" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1331,7 +1333,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         The AS originating NLRI for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.<a href="#section-4.1-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.2">
-                        All ASes left of the originating AS in the AS_PATH <span class="bcp14">MUST</span> be authorized to advertise the NLRI to the AS directly to their left, and the neighbor from which an NLRI is received <span class="bcp14">MUST</span> be authorized to advertise it to the importing AS.<a href="#section-4.1-2.2" class="pilcrow">¶</a>
+                        For received NLRI with an AS_PATH = {AS1, AS2, ..., ASn}, where AS1 is the neighbor that sent the UPDATE and ASn is the originator, for each k in 1..n−1, AS(k+1) <span class="bcp14">MUST</span> be authorized to export the NLRI to ASk according to their bilateral routing policy (e.g., provider–customer, peer, or lateral-peer).<a href="#section-4.1-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.3">
                         The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases, except for those AS numbers explicitly dedicated to a special-use that requires their presence in the global routing table <span>[<a href="#IANAASNSpec" class="cite xref">IANAASNSpec</a>]</span>.<a href="#section-4.1-2.3" class="pilcrow">¶</a>
@@ -1400,13 +1402,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-6-1">
                 This document is entirely about BGP operational security.
                 It lists requirements and properties operators <span class="bcp14">MUST</span> ensure using technical or organizational measures when operating BGP routers in the DFZ.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">
-                However, it does not detail how the outlined properties and security requirements can be implemented and enforced in practice.
-                This is a conscious choice given that available techniques and methods to ensure these properties will change over time, while the underlying principles remain the same.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">
-                Instead, readers <span class="bcp14">MAY</span> refer to the most recent non expired draft of <span>[<a href="#I-D.ietf-grow-routing-ops-sec-inform" class="cite xref">I-D.ietf-grow-routing-ops-sec-inform</a>]</span> for an updated list of currently available technology to ensure the above principles, and the most recent non expired draft of <span>[<a href="#I-D.ietf-grow-routing-ops-terms" class="cite xref">I-D.ietf-grow-routing-ops-terms</a>]</span> for information on currently used terms and definitions in the context of global routing operations.
-                Readers <span class="bcp14">MUST NOT</span> rely on expired versions of these I-Ds.
-                If no most recent non-expired version of either I-D is available, the document <span class="bcp14">MUST</span> be considered to be non-existent.<a href="#section-6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-7">
@@ -1445,6 +1440,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="RFC5082">[RFC5082]</dt>
+        <dd>
+<span class="refAuthor">Gill, V.</span>, <span class="refAuthor">Heasley, J.</span>, <span class="refAuthor">Meyer, D.</span>, <span class="refAuthor">Savola, P., Ed.</span>, and <span class="refAuthor">C. Pignataro</span>, <span class="refTitle">"The Generalized TTL Security Mechanism (GTSM)"</span>, <span class="seriesInfo">RFC 5082</span>, <span class="seriesInfo">DOI 10.17487/RFC5082</span>, <time datetime="2007-10" class="refDate">October 2007</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5082">https://www.rfc-editor.org/info/rfc5082</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5925">[RFC5925]</dt>
+        <dd>
+<span class="refAuthor">Touch, J.</span>, <span class="refAuthor">Mankin, A.</span>, and <span class="refAuthor">R. Bonica</span>, <span class="refTitle">"The TCP Authentication Option"</span>, <span class="seriesInfo">RFC 5925</span>, <span class="seriesInfo">DOI 10.17487/RFC5925</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5925">https://www.rfc-editor.org/info/rfc5925</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7454">[RFC7454]</dt>
         <dd>
 <span class="refAuthor">Durand, J.</span>, <span class="refAuthor">Pepelnjak, I.</span>, and <span class="refAuthor">G. Doering</span>, <span class="refTitle">"BGP Operations and Security"</span>, <span class="seriesInfo">BCP 194</span>, <span class="seriesInfo">RFC 7454</span>, <span class="seriesInfo">DOI 10.17487/RFC7454</span>, <time datetime="2015-02" class="refDate">February 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7454">https://www.rfc-editor.org/info/rfc7454</a>&gt;</span>. </dd>
@@ -1493,7 +1496,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     Berislav Todorovic<a href="#appendix-A-3.6" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="appendix-A-3.7">
-                    Martin Pels<a href="#appendix-A-3.7" class="pilcrow">¶</a>
+                    Linda Dunbar<a href="#appendix-A-3.7" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="appendix-A-3.8">
                     Wolfgang Tremmel<a href="#appendix-A-3.8" class="pilcrow">¶</a>

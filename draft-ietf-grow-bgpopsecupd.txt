@@ -6,7 +6,7 @@ Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
 Obsoletes: 7454 (if approved)                                N. Hilliard
 Intended status: Best Current Practice                              INEX
-Expires: 17 October 2025                                   15 April 2025
+Expires: 6 April 2026                                     3 October 2025
 
 
                   Updated BGP Operations and Security
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 October 2025.
+   This Internet-Draft will expire on 6 April 2026.
 
 Copyright Notice
 
@@ -111,13 +111,16 @@ Table of Contents
 2.  Scope of the Document
 
    The guidelines defined in this document are intended for BGP when
-   used to exchange generic Internet routing information within the DFZ.
-   It specifically does not cover other uses of BGP, e.g., when using
-   BGP for NLRI exchange in a data-center context.  This document does
-   not specify how the outlined requirements and properties can be
-   technically realized at a specific point in time.  Instead, operators
-   are advised to consult applicable documentation and contemporary
-   informational documents describing implementation specifics.
+   used to exchange generic Internet routing information within the
+   Default-Free Zone (DFZ).  It specifically does not cover other uses
+   of BGP, e.g., when using BGP for NLRI exchange in a data-center
+   context.  This document does not specify how the outlined
+   requirements and properties can be technically realized at a specific
+   point in time.  Instead, operators are advised to consult applicable
+   documentation and contemporary informational documents describing
+   implementation specifics (e.g.,
+   [I-D.ietf-grow-routing-ops-sec-inform] and
+   [I-D.ietf-grow-routing-ops-terms]).
 
 3.  Protection of the BGP Speaker and Session
 
@@ -145,6 +148,11 @@ Table of Contents
    *  Ensure that unstable sessions do not threaten the availability of
       BGP speakers within the network.
 
+   Example technologies to accomplish this include GTSM/TTL-security
+   [RFC5082], BGP-MD5 / TCP-AO [RFC5925], limiting traffic to the
+   control plane via Control Plane Policing (CoPP), and setting maximum
+   prefix limits for the number of prefixes a neighbor may send.
+
 3.2.  BGP Speaker Management Interface Protection
 
    In addition to the control plane / exchange of BGP protocol messages,
@@ -155,7 +163,7 @@ Table of Contents
       management interface of a BGP speaker in a way that allows
       tainting confidentiality, integrity, or availability.
 
-   *  External activity towards the management interface do not
+   *  External activity towards the management interface does not
       interfere with the integrity or availability of BGP sessions.
 
 4.  NLRI Filtering
@@ -178,10 +186,11 @@ Table of Contents
       default routes (::/0 and 0.0.0.0/0), if they granted the specific
       neighbor permission to announce default routes towards them.
 
-   *  All ASes left of the originating AS in the AS_PATH MUST be
-      authorized to advertise the NLRI to the AS directly to their left,
-      and the neighbor from which an NLRI is received MUST be authorized
-      to advertise it to the importing AS.
+   *  For received NLRI with an AS_PATH = {AS1, AS2, ..., ASn}, where
+      AS1 is the neighbor that sent the UPDATE and ASn is the
+      originator, for each k in 1..n−1, AS(k+1) MUST be authorized to
+      export the NLRI to ASk according to their bilateral routing policy
+      (e.g., provider–customer, peer, or lateral-peer).
 
    *  The AS_PATH MUST NOT contain AS numbers reserved for private
       [RFC6996] or special-use cases, except for those AS numbers
@@ -243,22 +252,6 @@ Table of Contents
    requirements and properties operators MUST ensure using technical or
    organizational measures when operating BGP routers in the DFZ.
 
-   However, it does not detail how the outlined properties and security
-   requirements can be implemented and enforced in practice.  This is a
-   conscious choice given that available techniques and methods to
-   ensure these properties will change over time, while the underlying
-   principles remain the same.
-
-   Instead, readers MAY refer to the most recent non expired draft of
-   [I-D.ietf-grow-routing-ops-sec-inform] for an updated list of
-   currently available technology to ensure the above principles, and
-   the most recent non expired draft of
-   [I-D.ietf-grow-routing-ops-terms] for information on currently used
-   terms and definitions in the context of global routing operations.
-   Readers MUST NOT rely on expired versions of these I-Ds.  If no most
-   recent non-expired version of either I-D is available, the document
-   MUST be considered to be non-existent.
-
 7.  References
 
 7.1.  Normative References
@@ -287,6 +280,15 @@ Table of Contents
               registry/iana-as-numbers-special-registry.xhtml>.
 
 7.2.  Informative References
+
+   [RFC5082]  Gill, V., Heasley, J., Meyer, D., Savola, P., Ed., and C.
+              Pignataro, "The Generalized TTL Security Mechanism
+              (GTSM)", RFC 5082, DOI 10.17487/RFC5082, October 2007,
+              <https://www.rfc-editor.org/info/rfc5082>.
+
+   [RFC5925]  Touch, J., Mankin, A., and R. Bonica, "The TCP
+              Authentication Option", RFC 5925, DOI 10.17487/RFC5925,
+              June 2010, <https://www.rfc-editor.org/info/rfc5925>.
 
    [RFC7454]  Durand, J., Pepelnjak, I., and G. Doering, "BGP Operations
               and Security", BCP 194, RFC 7454, DOI 10.17487/RFC7454,
@@ -334,7 +336,7 @@ Acknowledgements
 
    *  Berislav Todorovic
 
-   *  Martin Pels
+   *  Linda Dunbar
 
    *  Wolfgang Tremmel
 
