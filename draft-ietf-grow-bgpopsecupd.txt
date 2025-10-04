@@ -6,10 +6,10 @@ Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
 Obsoletes: 7454 (if approved)                                N. Hilliard
 Intended status: Best Current Practice                              INEX
-Expires: 6 April 2026                                     3 October 2025
+Expires: 7 April 2026                                     4 October 2025
 
 
-                  Updated BGP Operations and Security
+                      BGP Operations and Security
                    draft-ietf-grow-bgpopsecupd-latest
 
 Abstract
@@ -18,22 +18,11 @@ Abstract
    Internet to exchange routing information between network domains.
    Due to this central nature, it is important to understand the
    security and reliability requirements that can and should be ensured
-   to prevent accidental or intentional routing disturbances.
-
-   Previously, security considerations for BGP have been described in
-   RFC7454 / BCP194.  Since the publications of RFC7454 / BCP194,
-   several developments and changes in operational practice took place
-   that warrant an update of these best current practices.  This
-   document replaces RFC7454 / BCP194, focusing on the overall goals,
-   and providing a less implementation centric set of best practices.
-
-   To this end, the document describes the security requirements and
-   goals when operating BGP for exchanging routing information with
-   other networks.  The document explicitly does not focus on specific
-   technical implementations and requirements.  Operators are advised to
-   consult documentation and contemporary informational documents
-   concerning methods to ensure that these properties are sufficiently
-   ensured in their network.
+   to prevent accidental or intentional routing disturbances.  This
+   document describes security requirements and goals when operating BGP
+   for exchanging routing information with other networks, and
+   explicitly does not focus on specific technical implementations and
+   requirements.
 
 Status of This Memo
 
@@ -50,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 April 2026.
+   This Internet-Draft will expire on 7 April 2026.
 
 Copyright Notice
 
@@ -95,10 +84,16 @@ Table of Contents
    guidelines defined by the Internet community.  Furthermore, the BGP
    protocol itself, by its design, does not have any direct way to
    protect itself against threats to confidentiality, integrity, and
-   availability.  This document summarizes security properties and
-   requirements when operating BGP for securing the infrastructure as
-   well as for security considerations regarding the exchanged routing
-   information.
+   availability.
+
+   This document summarizes security properties and requirements when
+   operating BGP for securing the infrastructure as well as for security
+   considerations regarding the exchanged routing information.  The
+   document explicitly does not focus on specific technical
+   implementations and requirements.  Operators are advised to consult
+   documentation and contemporary informational documents concerning
+   methods to ensure that these properties are sufficiently ensured in
+   their network.
 
 1.1.  Requirements Language
 
@@ -124,9 +119,9 @@ Table of Contents
 
 3.  Protection of the BGP Speaker and Session
 
-   The BGP speaker, i.e., the host running BGP to exchange routing
+   The BGP speaker, i.e., the node running BGP to exchange routing
    information, needs to be protected from external attempts to taint
-   integrity or availability of the BGP session and host alike.
+   integrity or availability of the BGP session and node alike.
 
 3.1.  BGP Session Protection
 
@@ -339,6 +334,8 @@ Acknowledgements
    *  Linda Dunbar
 
    *  Wolfgang Tremmel
+
+   *  Florian Obser
 
    *  Ben Maddison
 
