@@ -47,8 +47,8 @@
             </t>
             <t>
                 Previously, security considerations for BGP have been described in RFC7454 / BCP194.
-                Since the publications of RFC7454 / BCP194, several developments and changes in operational practice took place that warrant an update of these best current practices.
-                This document replaces RFC7454 / BCP194, focusing on the overall goals, and providing a less implementation centric set of best practices.
+                Since the publications of RFC7454, several developments and changes in operational practice took place that warrant an update of these best current practices.
+                This document obsoletes RFC7454, focusing on the overall goals, and providing a less implementation centric set of best practices.
             </t>
             <t>
                 This document describes security requirements and goals when operating BGP for exchanging routing information with other networks, and explicitly does not focus on specific technical implementations and requirements.
