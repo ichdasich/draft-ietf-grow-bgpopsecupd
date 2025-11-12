@@ -191,18 +191,22 @@
                 </ul>
             </section>
             <section  anchor="sec-handling-nlri">
-                <name>Altering NLRI</name>
+                <name>Altering Attributes in Received BGP Updates</name>
                 <t>
-                    When processing NLRI, an operator <bcp14>MUST</bcp14> ensure that basic properties of these NLRI are not altered:
+                    When processing received BGP updates, an operator <bcp14>SHOULD</bcp14> ensure that attributes which are considered immutable are not altered:
                 </t>
                 <ul spacing="normal">
                     <li>
-                        An operator <bcp14>MUST NOT</bcp14> change or remove immutable transitive BGP attributes, e.g., ORIGIN as per <xref target="RFC4271" format="default"/>.
-                        If an attribute is unknown to the operator it must be considered immutable.
-                        In selected cases, if a specific attribute is known to be malicious, an operator <bcp14>MAY</bcp14> either temporarily remove that specific attribute from NLRI when importing them or filter NLRI carrying the attribute.
+                        An operator <bcp14>SHOULD NOT</bcp14> change or remove immutable transitive BGP attributes, e.g., ORIGIN as per <xref target="RFC4271" format="default"/>.
+                        Furthermore, incremental deployment of new features and technologies relies on the unaltered redistribution of unknown attributes by implementations not yet supporting this feature.
+                        Hence, as gratuitously filtering such attributes would harm incremental deployment, filtering unknown attributes <bcp14>SHOULD</bcp14> be avoided by transit providers.
                     </li>
                     <li>
-                        NLRI carried on BGP <bcp14>MUST NOT</bcp14> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <xref target="I-D.ietf-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
+                        Please note that occasionally unknown or malformed attributes may cause operational problems, e.g., due to implementation bugs.
+                        Hence, in selected cases, if a specific attribute is known to be malicious or disruptive, an operator <bcp14>MAY</bcp14> either temporarily remove that specific attribute from received BGP updates when importing them or filter the BGP update carrying the attribute.
+                    </li>
+                    <li>
+                        BGP updates <bcp14>MUST NOT</bcp14> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <xref target="I-D.ietf-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
                     </li>
                 </ul>
             </section>
