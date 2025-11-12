@@ -161,6 +161,8 @@
                 <ul spacing="normal">
                     <li>
                         The AS originating NLRI for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.
+                        Operators <bcp14>SHOULD</bcp14> be aware that ingesting a default route can have opaque negative operational impact, if the announcing upstream is not able to cover the more specific forwarding in the appropriate service provider context.
+                        These limitations do not materialize when receiving a full BGP view.
                     </li>
                     <li>
                         For received NLRI with an AS_PATH = {AS1, AS2, ..., ASn}, where AS1 is the neighbor that sent the UPDATE and ASn is the originator, for each k in 1..n−1, AS(k+1) <bcp14>MUST</bcp14> be authorized to export the NLRI to ASk according to their bilateral routing policy (e.g., provider–customer, peer, or lateral-peer).
@@ -184,6 +186,7 @@
                     </li>
                     <li>
                         The AS originating NLRI for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.
+                        Operators <bcp14>SHOULD</bcp14> be aware that originating a default route without being able to cover the more specific forwarding in the appropriate service provider context can have opaque negative operational impact for a downstream, while sharing a full BGP view with a downstream does not carry this risk.
                     </li>
                     <li>
                         The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases, except for those AS numbers explicitly dedicated to a special-use that requires their presence in the global routing table <xref target="IANAASNSpec" format="default"/>.
