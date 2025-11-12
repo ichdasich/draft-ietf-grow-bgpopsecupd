@@ -120,6 +120,8 @@
                 </ul>
                 <t>
                     Example technologies to accomplish this include GTSM/TTL-security <xref target="RFC5082" format="default"/>, BGP-MD5 / TCP-AO <xref target="RFC5925" format="default"/>, limiting traffic to the control plane via Control Plane Policing (CoPP), and setting maximum prefix limits for the number of prefixes a neighbor may send.
+                    When implementing prefix limits, operators <bcp14>SHOULD</bcp14> be aware of the operational implications of exceeding prefix limits, i.e., a loss of an established session.
+                    Hence, operators <bcp14>SHOULD</bcp14> appropriately weigh this impact within the specific operational circumstances, and ensure appropriate prefix limits to not cause outages under normal operations.
                 </t>
 
             </section>
