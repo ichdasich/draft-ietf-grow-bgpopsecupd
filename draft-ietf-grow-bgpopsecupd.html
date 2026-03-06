@@ -10,7 +10,7 @@
 <meta content="
        
                 The Border Gateway Protocol (BGP) is a critical component in the Internet to exchange routing information between network domains.
-                Due to this central nature, it is important to understand the security and reliability requirements that can and should be ensured to prevent accidental or intentional routing disturbances.
+                Due to this central nature, it is important to understand the security and reliability requirements that can and should be met to prevent accidental or intentional routing disturbances.
        
        
                 Previously, security considerations for BGP have been described in RFC7454 / BCP194.
@@ -21,22 +21,21 @@
                 This document describes security requirements and goals when operating BGP for exchanging routing information with other networks, and explicitly does not focus on specific technical implementations and requirements.
        
     " name="description">
-<meta content="xml2rfc 3.30.2" name="generator">
+<meta content="xml2rfc 3.31.0" name="generator">
 <meta content="draft-ietf-grow-bgpopsecupd-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.2
-    Python 3.12.11
+  xml2rfc 3.31.0
+    Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
-    intervaltree 3.1.0
+    intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 5.3.1
-    platformdirs 4.4.0
+    lxml 6.0.2
+    platformdirs 4.5.1
     pycountry 24.6.1
-    PyYAML 6.0.2
+    PyYAML 6.0.3
     requests 2.32.5
-    setuptools 80.9.0
-    wcwidth 0.2.14
+    wcwidth 0.3.0
 -->
 <link href="draft-ietf-grow-bgpopsecupd.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -177,7 +176,7 @@
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: 'Oxygen Mono';
@@ -185,7 +184,8 @@
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 }
 
 @font-face {
@@ -577,6 +577,7 @@ aside, blockquote {
 }
 blockquote {
   margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
 }
 cite {
   display: block;
@@ -647,7 +648,7 @@ a.pilcrow {
   }
 }
 @media not print {
-  :hover > a.pilcrow {
+  :hover > a.pilcrow, a.pilcrow:focus {
     opacity: 1;
   }
   a.pilcrow[href]:hover {
@@ -1055,11 +1056,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">BGP OPSEC</td>
-<td class="right">October 2025</td>
+<td class="right">March 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Fiebig &amp; Hilliard</td>
-<td class="center">Expires 10 April 2026</td>
+<td class="center">Expires 7 September 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1075,12 +1076,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc7454" class="eref">7454</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-10-07" class="published">7 October 2025</time>
+<time datetime="2026-03-06" class="published">6 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Best Current Practice</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-04-10">10 April 2026</time></dd>
+<dd class="expires"><time datetime="2026-09-07">7 September 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1099,7 +1100,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">
                 The Border Gateway Protocol (BGP) is a critical component in the Internet to exchange routing information between network domains.
-                Due to this central nature, it is important to understand the security and reliability requirements that can and should be ensured to prevent accidental or intentional routing disturbances.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+                Due to this central nature, it is important to understand the security and reliability requirements that can and should be met to prevent accidental or intentional routing disturbances.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <p id="section-abstract-2">
                 Previously, security considerations for BGP have been described in RFC7454 / BCP194.
                 Since the publications of RFC7454, several developments and changes in operational practice took place that warrant an update of these best current practices.
@@ -1126,7 +1127,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 10 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1135,7 +1136,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2025 IETF Trust and the persons identified as the
+            Copyright (c) 2026 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1338,7 +1339,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases, except for those AS numbers explicitly dedicated to a special-use that requires their presence in the global routing table <span>[<a href="#IANAASNSpec" class="cite xref">IANAASNSpec</a>]</span>.<a href="#section-4.1-2.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.4">
-                        The number of NLRI received from a neighbor <span class="bcp14">MUST NOT</span> exceed the resources of the local router.<a href="#section-4.1-2.4" class="pilcrow">¶</a>
+                        The AS_PATH for a received NLRI <span class="bcp14">MUST NOT</span> exceed the maximum length supported by the local router.<a href="#section-4.1-2.4" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-4.1-2.5">
+                        The number of BGP communities <span>[<a href="#RFC1997" class="cite xref">RFC1997</a>]</span>, extended BGP communities <span>[<a href="#RFC4360" class="cite xref">RFC4360</a>]</span> and Large BGP communities <span>[<a href="#RFC8092" class="cite xref">RFC8092</a>]</span> attached to a received NLRI <span class="bcp14">MUST NOT</span> exceed the maximum supported by the local router.<a href="#section-4.1-2.5" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-4.1-2.6">
+                        The number of NLRI received from a neighbor <span class="bcp14">MUST NOT</span> exceed the resources of the local router.<a href="#section-4.1-2.6" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1439,6 +1446,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="RFC1997">[RFC1997]</dt>
+        <dd>
+<span class="refAuthor">Chandra, R.</span>, <span class="refAuthor">Traina, P.</span>, and <span class="refAuthor">T. Li</span>, <span class="refTitle">"BGP Communities Attribute"</span>, <span class="seriesInfo">RFC 1997</span>, <span class="seriesInfo">DOI 10.17487/RFC1997</span>, <time datetime="1996-08" class="refDate">August 1996</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc1997">https://www.rfc-editor.org/info/rfc1997</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4360">[RFC4360]</dt>
+        <dd>
+<span class="refAuthor">Sangli, S.</span>, <span class="refAuthor">Tappan, D.</span>, and <span class="refAuthor">Y. Rekhter</span>, <span class="refTitle">"BGP Extended Communities Attribute"</span>, <span class="seriesInfo">RFC 4360</span>, <span class="seriesInfo">DOI 10.17487/RFC4360</span>, <time datetime="2006-02" class="refDate">February 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4360">https://www.rfc-editor.org/info/rfc4360</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC5082">[RFC5082]</dt>
         <dd>
 <span class="refAuthor">Gill, V.</span>, <span class="refAuthor">Heasley, J.</span>, <span class="refAuthor">Meyer, D.</span>, <span class="refAuthor">Savola, P., Ed.</span>, and <span class="refAuthor">C. Pignataro</span>, <span class="refTitle">"The Generalized TTL Security Mechanism (GTSM)"</span>, <span class="seriesInfo">RFC 5082</span>, <span class="seriesInfo">DOI 10.17487/RFC5082</span>, <time datetime="2007-10" class="refDate">October 2007</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5082">https://www.rfc-editor.org/info/rfc5082</a>&gt;</span>. </dd>
@@ -1450,6 +1465,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dt id="RFC7454">[RFC7454]</dt>
         <dd>
 <span class="refAuthor">Durand, J.</span>, <span class="refAuthor">Pepelnjak, I.</span>, and <span class="refAuthor">G. Doering</span>, <span class="refTitle">"BGP Operations and Security"</span>, <span class="seriesInfo">BCP 194</span>, <span class="seriesInfo">RFC 7454</span>, <span class="seriesInfo">DOI 10.17487/RFC7454</span>, <time datetime="2015-02" class="refDate">February 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7454">https://www.rfc-editor.org/info/rfc7454</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8092">[RFC8092]</dt>
+        <dd>
+<span class="refAuthor">Heitz, J., Ed.</span>, <span class="refAuthor">Snijders, J., Ed.</span>, <span class="refAuthor">Patel, K.</span>, <span class="refAuthor">Bagdonas, I.</span>, and <span class="refAuthor">N. Hilliard</span>, <span class="refTitle">"BGP Large Communities Attribute"</span>, <span class="seriesInfo">RFC 8092</span>, <span class="seriesInfo">DOI 10.17487/RFC8092</span>, <time datetime="2017-02" class="refDate">February 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8092">https://www.rfc-editor.org/info/rfc8092</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-grow-routing-ops-sec-inform">[I-D.ietf-grow-routing-ops-sec-inform]</dt>
         <dd>
