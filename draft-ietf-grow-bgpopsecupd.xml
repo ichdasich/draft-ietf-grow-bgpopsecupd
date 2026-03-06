@@ -43,7 +43,7 @@
         <abstract>
             <t>
                 The Border Gateway Protocol (BGP) is a critical component in the Internet to exchange routing information between network domains.
-                Due to this central nature, it is important to understand the security and reliability requirements that can and should be ensured to prevent accidental or intentional routing disturbances.
+                Due to this central nature, it is important to understand the security and reliability requirements that can and should be met to prevent accidental or intentional routing disturbances.
             </t>
             <t>
                 Previously, security considerations for BGP have been described in RFC7454 / BCP194.
@@ -165,6 +165,12 @@
                     </li>
                     <li>
                         The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases, except for those AS numbers explicitly dedicated to a special-use that requires their presence in the global routing table <xref target="IANAASNSpec" format="default"/>.
+                    </li>
+                    <li>
+                        The AS_PATH for a received NLRI <bcp14>MUST NOT</bcp14> exceed the maximum length supported by the local router.
+                    </li>
+                    <li>
+                        The number of BGP communities <xref target="RFC1997" format="default"/>, extended BGP communities <xref target="RFC4360" format="default"/> and Large BGP communities <xref target="RFC8092" format="default"/> attached to a received NLRI <bcp14>MUST NOT</bcp14> exceed the maximum supported by the local router.
                     </li>
                     <li>
                         The number of NLRI received from a neighbor <bcp14>MUST NOT</bcp14> exceed the resources of the local router.
