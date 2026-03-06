@@ -247,9 +247,12 @@
             </references>
             <references>
                 <name>Informative References</name>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1997.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4360.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5082.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5925.xml"/>
                 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7454.xml"/>
+                <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8092.xml"/>
                 <reference anchor="I-D.ietf-grow-routing-ops-sec-inform" target="https://datatracker.ietf.org/doc/draft-ietf-grow-routing-ops-sec-inform/">
                     <front>
                         <title>Current Options for Securing Global Routing</title>
