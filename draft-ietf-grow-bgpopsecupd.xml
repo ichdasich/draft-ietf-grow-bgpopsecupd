@@ -84,7 +84,7 @@
             <name>Scope of the Document</name>
             <t>
                 The guidelines defined in this document are intended for BGP when used to exchange generic Internet routing information within the Default-Free Zone (DFZ).
-                It specifically does not cover other uses of BGP, e.g., when using BGP for NLRI exchange in a data-center context.
+                It specifically does not cover other uses of BGP, e.g., when using BGP for NLRI exchange in a data-center context, or other use-cases when using BGP without globally unique identifiers between networks.
                 This document does not specify how the outlined requirements and properties can be technically realized at a specific point in time.
                 Instead, operators are advised to consult applicable documentation and contemporary informational documents describing implementation specifics (e.g., <xref target="I-D.ietf-grow-routing-ops-sec-inform" format="default"/> and <xref target="I-D.ietf-grow-routing-ops-terms" format="default"/>).
             </t>
