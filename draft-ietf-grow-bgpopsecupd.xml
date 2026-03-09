@@ -120,6 +120,7 @@
                 </ul>
                 <t>
                     Example technologies to accomplish this include GTSM/TTL-security <xref target="RFC5082" format="default"/>, BGP-MD5 / TCP-AO <xref target="RFC5925" format="default"/>, limiting traffic to the control plane via Control Plane Policing (CoPP), and setting maximum prefix limits for the number of prefixes a neighbor may send.
+                    Please note, though, that limiting the number of permissible prefixes a neighbor may send may also introduce stability issues, if that number is set too low for the corresponding neighbor.
                 </t>
 
             </section>
