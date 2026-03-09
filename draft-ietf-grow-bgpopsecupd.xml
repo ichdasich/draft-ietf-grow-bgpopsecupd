@@ -160,6 +160,7 @@
                 <ul spacing="normal">
                     <li>
                         The AS originating NLRI for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.
+                        Operaters are cautioned to evaluate carefully how accepting a default route affects their network, as this occludes limitations in forwarding coverage by the upstream from which the default route was received.
                     </li>
                     <li>
                         For received NLRI with an AS_PATH = {AS1, AS2, ..., ASn}, where AS1 is the neighbor that sent the UPDATE and ASn is the originator, for each k in 1..n−1, AS(k+1) <bcp14>MUST</bcp14> be authorized to export the NLRI to ASk according to their bilateral routing policy (e.g., provider–customer, peer, or lateral-peer).
