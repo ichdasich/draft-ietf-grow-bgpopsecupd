@@ -170,7 +170,7 @@
                         The AS_PATH for a received NLRI <bcp14>MUST NOT</bcp14> exceed the maximum length supported by the local router.
                     </li>
                     <li>
-                        The number of BGP communities <xref target="RFC1997" format="default"/>, extended BGP communities <xref target="RFC4360" format="default"/> and Large BGP communities <xref target="RFC8092" format="default"/> attached to a received NLRI <bcp14>MUST NOT</bcp14> exceed the maximum supported by the local router.
+                        The number of transitive BGP attributes, e.g., BGP communities <xref target="RFC1997" format="default"/>, extended BGP communities <xref target="RFC4360" format="default"/>, or Large BGP communities <xref target="RFC8092" format="default"/> attached to a received NLRI <bcp14>MUST NOT</bcp14> exceed the maximum supported by the local router.
                     </li>
                     <li>
                         The number of NLRI received from a neighbor <bcp14>MUST NOT</bcp14> exceed the resources of the local router.
