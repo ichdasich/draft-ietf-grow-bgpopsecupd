@@ -1060,7 +1060,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Fiebig &amp; Hilliard</td>
-<td class="center">Expires 7 September 2026</td>
+<td class="center">Expires 10 September 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1076,12 +1076,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc7454" class="eref">7454</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-06" class="published">6 March 2026</time>
+<time datetime="2026-03-09" class="published">9 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Best Current Practice</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-09-07">7 September 2026</time></dd>
+<dd class="expires"><time datetime="2026-09-10">10 September 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1127,7 +1127,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 10 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1252,7 +1252,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       </h2>
 <p id="section-2-1">
                 The guidelines defined in this document are intended for BGP when used to exchange generic Internet routing information within the Default-Free Zone (DFZ).
-                It specifically does not cover other uses of BGP, e.g., when using BGP for NLRI exchange in a data-center context.
+                It specifically does not cover other uses of BGP, e.g., when using BGP for NLRI exchange in a data-center context, or other use-cases when using BGP without globally unique identifiers between networks.
                 This document does not specify how the outlined requirements and properties can be technically realized at a specific point in time.
                 Instead, operators are advised to consult applicable documentation and contemporary informational documents describing implementation specifics (e.g., <span>[<a href="#I-D.ietf-grow-routing-ops-sec-inform" class="cite xref">I-D.ietf-grow-routing-ops-sec-inform</a>]</span> and <span>[<a href="#I-D.ietf-grow-routing-ops-terms" class="cite xref">I-D.ietf-grow-routing-ops-terms</a>]</span>).<a href="#section-2-1" class="pilcrow">¶</a></p>
 </section>
@@ -1289,7 +1289,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
         </ul>
 <p id="section-3.1-3">
-                    Example technologies to accomplish this include GTSM/TTL-security <span>[<a href="#RFC5082" class="cite xref">RFC5082</a>]</span>, BGP-MD5 / TCP-AO <span>[<a href="#RFC5925" class="cite xref">RFC5925</a>]</span>, limiting traffic to the control plane via Control Plane Policing (CoPP), and setting maximum prefix limits for the number of prefixes a neighbor may send.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+                    Example technologies to accomplish this include GTSM/TTL-security <span>[<a href="#RFC5082" class="cite xref">RFC5082</a>]</span>, BGP-MD5 / TCP-AO <span>[<a href="#RFC5925" class="cite xref">RFC5925</a>]</span>, limiting traffic to the control plane via Control Plane Policing (CoPP), and setting maximum prefix limits for the number of prefixes a neighbor may send.
+                    Please note, though, that limiting the number of permissible prefixes a neighbor may send may also introduce stability issues, if that number is set too low for the corresponding neighbor.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-protection-of-the-bgp-speaker-mgmt">
@@ -1330,7 +1331,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     When importing NLRI from a neighbor, an operator <span class="bcp14">MUST</span> ensure that all imported NLRI conform to the following properties by implementing technical or organizational measures:<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.1-2.1">
-                        The AS originating NLRI for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.<a href="#section-4.1-2.1" class="pilcrow">¶</a>
+                        The AS originating NLRI for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.
+                        Operaters are cautioned to evaluate carefully how accepting a default route affects their network, as this occludes limitations in forwarding coverage by the upstream from which the default route was received.<a href="#section-4.1-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.2">
                         For received NLRI with an AS_PATH = {AS1, AS2, ..., ASn}, where AS1 is the neighbor that sent the UPDATE and ASn is the originator, for each k in 1..n−1, AS(k+1) <span class="bcp14">MUST</span> be authorized to export the NLRI to ASk according to their bilateral routing policy (e.g., provider–customer, peer, or lateral-peer).<a href="#section-4.1-2.2" class="pilcrow">¶</a>
@@ -1342,7 +1344,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         The AS_PATH for a received NLRI <span class="bcp14">MUST NOT</span> exceed the maximum length supported by the local router.<a href="#section-4.1-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.5">
-                        The number of BGP communities <span>[<a href="#RFC1997" class="cite xref">RFC1997</a>]</span>, extended BGP communities <span>[<a href="#RFC4360" class="cite xref">RFC4360</a>]</span> and Large BGP communities <span>[<a href="#RFC8092" class="cite xref">RFC8092</a>]</span> attached to a received NLRI <span class="bcp14">MUST NOT</span> exceed the maximum supported by the local router.<a href="#section-4.1-2.5" class="pilcrow">¶</a>
+                        The number of transitive BGP attributes, e.g., BGP communities <span>[<a href="#RFC1997" class="cite xref">RFC1997</a>]</span>, extended BGP communities <span>[<a href="#RFC4360" class="cite xref">RFC4360</a>]</span>, or Large BGP communities <span>[<a href="#RFC8092" class="cite xref">RFC8092</a>]</span> attached to a received NLRI <span class="bcp14">MUST NOT</span> exceed the maximum supported by the local router.<a href="#section-4.1-2.5" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.6">
                         The number of NLRI received from a neighbor <span class="bcp14">MUST NOT</span> exceed the resources of the local router.<a href="#section-4.1-2.6" class="pilcrow">¶</a>
@@ -1379,9 +1381,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     When processing NLRI, an operator <span class="bcp14">MUST</span> ensure that basic properties of these NLRI are not altered:<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3-2.1">
-                        An operator <span class="bcp14">MUST NOT</span> change or remove immutable transitive BGP attributes, e.g., ORIGIN as per <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.
-                        If an attribute is unknown to the operator it must be considered immutable.
-                        In selected cases, if a specific attribute is known to be malicious, an operator <span class="bcp14">MAY</span> either temporarily remove that specific attribute from NLRI when importing them or filter NLRI carrying the attribute.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
+                        An operator <span class="bcp14">SHOULD NOT</span> change or remove immutable transitive BGP attributes, e.g., ORIGIN as per <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.
+                        In selected cases, if a specific attribute is known to be malicious, an operator <span class="bcp14">MAY</span> either temporarily remove that specific attribute from NLRI when importing them or filter NLRI carrying the attribute.
+                        If an attribute is unknown to the operator it <span class="bcp14">MUST</span> be considered immutable.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.2">
                         NLRI carried on BGP <span class="bcp14">MUST NOT</span> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <span>[<a href="#I-D.ietf-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.ietf-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-4.3-2.2" class="pilcrow">¶</a>

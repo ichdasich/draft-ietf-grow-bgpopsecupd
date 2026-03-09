@@ -6,7 +6,7 @@ Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
 Obsoletes: 7454 (if approved)                                N. Hilliard
 Intended status: Best Current Practice                              INEX
-Expires: 7 September 2026                                   6 March 2026
+Expires: 10 September 2026                                  9 March 2026
 
 
                       BGP Operations and Security
@@ -47,7 +47,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 September 2026.
+   This Internet-Draft will expire on 10 September 2026.
 
 Copyright Notice
 
@@ -117,11 +117,12 @@ Table of Contents
    used to exchange generic Internet routing information within the
    Default-Free Zone (DFZ).  It specifically does not cover other uses
    of BGP, e.g., when using BGP for NLRI exchange in a data-center
-   context.  This document does not specify how the outlined
-   requirements and properties can be technically realized at a specific
-   point in time.  Instead, operators are advised to consult applicable
-   documentation and contemporary informational documents describing
-   implementation specifics (e.g.,
+   context, or other use-cases when using BGP without globally unique
+   identifiers between networks.  This document does not specify how the
+   outlined requirements and properties can be technically realized at a
+   specific point in time.  Instead, operators are advised to consult
+   applicable documentation and contemporary informational documents
+   describing implementation specifics (e.g.,
    [I-D.ietf-grow-routing-ops-sec-inform] and
    [I-D.ietf-grow-routing-ops-terms]).
 
@@ -154,7 +155,10 @@ Table of Contents
    Example technologies to accomplish this include GTSM/TTL-security
    [RFC5082], BGP-MD5 / TCP-AO [RFC5925], limiting traffic to the
    control plane via Control Plane Policing (CoPP), and setting maximum
-   prefix limits for the number of prefixes a neighbor may send.
+   prefix limits for the number of prefixes a neighbor may send.  Please
+   note, though, that limiting the number of permissible prefixes a
+   neighbor may send may also introduce stability issues, if that number
+   is set too low for the corresponding neighbor.
 
 3.2.  BGP Speaker Management Interface Protection
 
@@ -188,6 +192,10 @@ Table of Contents
       to originate that prefix.  Operators MAY deviate from this for
       default routes (::/0 and 0.0.0.0/0), if they granted the specific
       neighbor permission to announce default routes towards them.
+      Operaters are cautioned to evaluate carefully how accepting a
+      default route affects their network, as this occludes limitations
+      in forwarding coverage by the upstream from which the default
+      route was received.
 
    *  For received NLRI with an AS_PATH = {AS1, AS2, ..., ASn}, where
       AS1 is the neighbor that sent the UPDATE and ASn is the
@@ -203,10 +211,10 @@ Table of Contents
    *  The AS_PATH for a received NLRI MUST NOT exceed the maximum length
       supported by the local router.
 
-   *  The number of BGP communities [RFC1997], extended BGP communities
-      [RFC4360] and Large BGP communities [RFC8092] attached to a
-      received NLRI MUST NOT exceed the maximum supported by the local
-      router.
+   *  The number of transitive BGP attributes, e.g., BGP communities
+      [RFC1997], extended BGP communities [RFC4360], or Large BGP
+      communities [RFC8092] attached to a received NLRI MUST NOT exceed
+      the maximum supported by the local router.
 
    *  The number of NLRI received from a neighbor MUST NOT exceed the
       resources of the local router.
@@ -240,13 +248,13 @@ Table of Contents
    When processing NLRI, an operator MUST ensure that basic properties
    of these NLRI are not altered:
 
-   *  An operator MUST NOT change or remove immutable transitive BGP
-      attributes, e.g., ORIGIN as per [RFC4271].  If an attribute is
-      unknown to the operator it must be considered immutable.  In
-      selected cases, if a specific attribute is known to be malicious,
-      an operator MAY either temporarily remove that specific attribute
-      from NLRI when importing them or filter NLRI carrying the
-      attribute.
+   *  An operator SHOULD NOT change or remove immutable transitive BGP
+      attributes, e.g., ORIGIN as per [RFC4271].  In selected cases, if
+      a specific attribute is known to be malicious, an operator MAY
+      either temporarily remove that specific attribute from NLRI when
+      importing them or filter NLRI carrying the attribute.  If an
+      attribute is unknown to the operator it MUST be considered
+      immutable.
 
    *  NLRI carried on BGP MUST NOT be enriched with transitive
       attributes subject to change independent of the underlying NLRI,
