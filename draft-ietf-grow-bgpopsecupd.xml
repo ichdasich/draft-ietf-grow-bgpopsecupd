@@ -43,15 +43,12 @@
         <abstract>
             <t>
                 The Border Gateway Protocol (BGP) is a critical component in the Internet to exchange routing information between network domains.
-                Due to this central nature, it is important to understand the security and reliability requirements that can and should be met to prevent accidental or intentional routing disturbances.
+                It is important to understand the security and reliability requirements that can and should be met to prevent accidental or intentional routing disturbances.
             </t>
             <t>
                 Previously, security considerations for BGP have been described in RFC7454 / BCP194.
-                Since the publications of RFC7454, several developments and changes in operational practice took place that warrant an update of these best current practices.
-                This document obsoletes RFC7454, focusing on the overall goals, and providing a less implementation centric set of best practices.
-            </t>
-            <t>
-                This document describes security requirements and goals when operating BGP for exchanging routing information with other networks, and explicitly does not focus on specific technical implementations and requirements.
+                Since the publication of RFC7454, changes in operational practice have taken place.
+                This document obsoletes RFC7454, and provides for less implementation-specific best practices.
             </t>
         </abstract>
     </front>
@@ -65,8 +62,7 @@
                 Furthermore, the BGP protocol itself, by its design, does not have any direct way to protect itself against threats to confidentiality, integrity, and availability.
             </t>
             <t>
-                This document summarizes security properties and requirements when operating BGP for securing the infrastructure as well as for security considerations regarding the exchanged routing information.
-                The document explicitly does not focus on specific technical implementations and requirements.
+                This document summarizes security properties and requirements when operating BGP for securing the infrastructure as well as security considerations regarding the exchanged routing information.
                 Operators are advised to consult documentation and contemporary informational documents concerning methods to ensure that these properties are sufficiently ensured in their network.
             </t>
             <section>
@@ -84,7 +80,7 @@
             <name>Scope of the Document</name>
             <t>
                 The guidelines defined in this document are intended for BGP when used to exchange generic Internet routing information within the Default-Free Zone (DFZ).
-                It specifically does not cover other uses of BGP, e.g., when using BGP for NLRI exchange in a data-center context, or other use-cases when using BGP without globally unique identifiers between networks.
+                It specifically does not cover other uses of BGP, e.g., when using BGP for exchanging routes in a data-center context, or other use-cases when using BGP without globally unique identifiers between networks.
                 This document does not specify how the outlined requirements and properties can be technically realized at a specific point in time.
                 Instead, operators are advised to consult applicable documentation and contemporary informational documents describing implementation specifics (e.g., <xref target="I-D.ietf-grow-routing-ops-sec-inform" format="default"/> and <xref target="I-D.ietf-grow-routing-ops-terms" format="default"/>).
             </t>
@@ -93,11 +89,11 @@
             <name>Protection of the BGP Speaker and Session</name>
 
             <t>
-                The BGP speaker, i.e., the node running BGP to exchange routing information, needs to be protected from external attempts to taint integrity or availability of the BGP session and node alike.
+                The BGP speaker, i.e., the node running BGP to exchange routing information, needs to be protected from external attempts to impact integrity or availability of the BGP session and the node.
             </t>
 
             <section  anchor="sec-protection-of-the-bgp-speaker-net">
-                <name>BGP Session Protection</name>
+                <name>Protecting the BGP Session</name>
                 <t>
                     To protect a BGP speaker on the network layer, an operator <bcp14>MUST</bcp14> ensure the following properties using technical or organizational measures:
                 </t>
@@ -120,13 +116,13 @@
                 </ul>
                 <t>
                     Example technologies to accomplish this include GTSM/TTL-security <xref target="RFC5082" format="default"/>, BGP-MD5 / TCP-AO <xref target="RFC5925" format="default"/>, limiting traffic to the control plane via Control Plane Policing (CoPP), and setting maximum prefix limits for the number of prefixes a neighbor may send.
-                    Please note, though, that limiting the number of permissible prefixes a neighbor may send may also introduce stability issues, if that number is set too low for the corresponding neighbor.
+                    Please note that limiting the number of permissible prefixes a neighbor may send may also introduce stability issues, if that number is set too low for the corresponding neighbor.
                 </t>
 
             </section>
 
             <section  anchor="sec-protection-of-the-bgp-speaker-mgmt">
-                <name>BGP Speaker Management Interface Protection</name>
+                <name>Protecting the Management Interface of the BGP Speaker</name>
 
                 <t>
                     In addition to the control plane / exchange of BGP protocol messages, the management plane of BGP speakers must be appropriately secured.
@@ -135,7 +131,7 @@
 
                 <ul spacing="normal">
                     <li>
-                        No unauthorized third-parties can obtain access or connect to the management interface of a BGP speaker in a way that allows tainting confidentiality, integrity, or availability.
+                        No unauthorized third-parties can obtain access or connect to the management interface of a BGP speaker in a way that impacts confidentiality, integrity, or availability.
                     </li>
                     <li>
                         External activity towards the management interface does not interfere with the integrity or availability of BGP sessions.
@@ -146,50 +142,50 @@
 
         </section>
         <section  anchor="sec-nlri-filtering">
-            <name>NLRI Filtering</name>
+            <name>Route Filtering</name>
             <t>
-                The purpose of BGP is exchanging routing information, i.e., NLRI.
-                Importing or exporting incorrect or malicious NLRI is a security risk for networks themselves, but may also form a threat for connected and/or remote networks.
+                The purpose of BGP is to exchange routing information.
+                Importing or exporting incorrect or malicious routes is a security risk for receiving networks and may threaten connected and/or remote networks.
                 As such, operators <bcp14>MUST</bcp14> ensure the following properties when importing or exporting routing information from their neighbors.
             </t>
             <section  anchor="sec-importing-nlri">
-                <name>Importing NLRI</name>
+                <name>Importing BGP Routes</name>
                 <t>
-                    When importing NLRI from a neighbor, an operator <bcp14>MUST</bcp14> ensure that all imported NLRI conform to the following properties by implementing technical or organizational measures:
+                    When importing BGP routes from a neighbor, an operator <bcp14>MUST</bcp14> ensure that all imported routes conform to the following properties by implementing technical or organizational measures:
                 </t>
                 <ul spacing="normal">
                     <li>
-                        The AS originating NLRI for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.
+                        The AS originating BGP routes for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.
                         Operaters are cautioned to evaluate carefully how accepting a default route affects their network, as this occludes limitations in forwarding coverage by the upstream from which the default route was received.
                     </li>
                     <li>
-                        For received NLRI with an AS_PATH = {AS1, AS2, ..., ASn}, where AS1 is the neighbor that sent the UPDATE and ASn is the originator, for each k in 1..n−1, AS(k+1) <bcp14>MUST</bcp14> be authorized to export the NLRI to ASk according to their bilateral routing policy (e.g., provider–customer, peer, or lateral-peer).
+                        For received BGP routes with an AS_PATH = {AS1, AS2, ..., ASn}, where AS1 is the neighbor that sent the UPDATE and ASn is the originator, for each k in 1..n−1, AS(k+1) <bcp14>MUST</bcp14> be authorized to export the BGP routes to ASk according to their bilateral routing policy (e.g., provider–customer, peer, or lateral-peer).
                     </li>
                     <li>
                         The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases, except for those AS numbers explicitly dedicated to a special-use that requires their presence in the global routing table <xref target="IANAASNSpec" format="default"/>.
                     </li>
                     <li>
-                        The AS_PATH for a received NLRI <bcp14>MUST NOT</bcp14> exceed the maximum length supported by the local router.
+                        The length of the AS_PATH for a received BGP routes <bcp14>MUST NOT</bcp14> exceed the maximum length supported by the local router.
                     </li>
                     <li>
                         The number of transitive BGP attributes, e.g., BGP communities <xref target="RFC1997" format="default"/>, extended BGP communities <xref target="RFC4360" format="default"/>, or Large BGP communities <xref target="RFC8092" format="default"/> attached to a received NLRI <bcp14>MUST NOT</bcp14> exceed the maximum supported by the local router.
                     </li>
                     <li>
-                        The number of NLRI received from a neighbor <bcp14>MUST NOT</bcp14> exceed the resources of the local router.
+                        The number of BGP routes received from a neighbor <bcp14>MUST NOT</bcp14> exceed the resources of the local router.
                     </li>
                 </ul>
             </section>
             <section  anchor="sec-exporting-nlri">
-                <name>Originating and Redistributing NLRI</name>
+                <name>Originating and Propagating BGP Routes</name>
                 <t>
-                    When originating NLRI or redistributing NLRI received from a neighbor, an operator <bcp14>MUST</bcp14> ensure that all NLRI they export conform to the following properties by implementing technical or organizational measures:
+                    When originating or propagating BGP routes, an operator <bcp14>MUST</bcp14> ensure that all BGP routes they export conform to the following properties by implementing technical or organizational measures:
                 </t>
                 <ul spacing="normal">
                     <li>
-                        The redistributing AS <bcp14>MUST</bcp14> be authorized to redistribute NLRI for the specific prefix when received from the AS directly to its right in the AS_PATH. Additionally, each AS in the AS_PATH not originating the prefix <bcp14>MUST</bcp14> be authorized to redistribute the prefix when receiving it from the next AS to its right.
+                        The propagating AS <bcp14>MUST</bcp14> be authorized to propagate BGP routes for the specific prefix when received from the AS directly to its right in the AS_PATH. Additionally, each AS in the AS_PATH not originating the prefix <bcp14>MUST</bcp14> be authorized to propagate the prefix when receiving it from the next AS to its right.
                     </li>
                     <li>
-                        The AS originating NLRI for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.
+                        The AS originating BGP routes for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.
                     </li>
                     <li>
                         The AS_PATH <bcp14>MUST NOT</bcp14> contain AS numbers reserved for private <xref target="RFC6996" format="default"/> or special-use cases, except for those AS numbers explicitly dedicated to a special-use that requires their presence in the global routing table <xref target="IANAASNSpec" format="default"/>.
@@ -197,18 +193,20 @@
                 </ul>
             </section>
             <section  anchor="sec-handling-nlri">
-                <name>Altering NLRI</name>
+                <name>Altering BGP Routes</name>
                 <t>
-                    When processing NLRI, an operator <bcp14>MUST</bcp14> ensure that basic properties of these NLRI are not altered:
+                    When processing BGP routes, an operator <bcp14>MUST</bcp14> ensure that the basic properties of these routes are not altered:
                 </t>
                 <ul spacing="normal">
                     <li>
                         An operator <bcp14>SHOULD NOT</bcp14> change or remove immutable transitive BGP attributes, e.g., ORIGIN as per <xref target="RFC4271" format="default"/>.
-                        In selected cases, if a specific attribute is known to be malicious, an operator <bcp14>MAY</bcp14> either temporarily remove that specific attribute from NLRI when importing them or filter NLRI carrying the attribute.
+                        In selected cases, if a specific attribute is known to be malicious, an operator <bcp14>MAY</bcp14> either remove that specific attribute from the BGP routes when importing them or filter the routes carrying the attribute.
+			<!-- XXX JMH - there is some contention about unknowns -->
                         If an attribute is unknown to the operator it <bcp14>MUST</bcp14> be considered immutable.
                     </li>
                     <li>
-                        NLRI carried on BGP <bcp14>MUST NOT</bcp14> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <xref target="I-D.ietf-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
+			    <!-- XXX JMH - independent of ? This isn't clear. -->
+                        Routes carried by BGP <bcp14>MUST NOT</bcp14> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <xref target="I-D.ietf-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
                     </li>
                 </ul>
             </section>
