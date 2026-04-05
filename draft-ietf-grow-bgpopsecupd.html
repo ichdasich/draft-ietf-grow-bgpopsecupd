@@ -1284,7 +1284,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
         </ul>
 <p id="section-3.1-3">
                     Example technologies to accomplish this include GTSM/TTL-security <span>[<a href="#RFC5082" class="cite xref">RFC5082</a>]</span>, BGP-MD5 / TCP-AO <span>[<a href="#RFC5925" class="cite xref">RFC5925</a>]</span>, limiting traffic to the control plane via Control Plane Policing (CoPP), and setting maximum prefix limits for the number of prefixes a neighbor may send.
-                    Please note that limiting the number of permissible prefixes a neighbor may send may also introduce stability issues, if that number is set too low for the corresponding neighbor.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+                    When implementing prefix limits, operators <span class="bcp14">SHOULD</span> be aware of the operational implications of exceeding prefix limits, i.e., a loss of an established session.
+                    Hence, operators <span class="bcp14">SHOULD</span> appropriately weigh this impact within the specific operational circumstances, and ensure appropriate prefix limits to not cause outages under normal operations.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-protection-of-the-bgp-speaker-mgmt">

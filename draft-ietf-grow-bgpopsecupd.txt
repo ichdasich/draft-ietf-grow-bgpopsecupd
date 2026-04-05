@@ -147,10 +147,13 @@ Table of Contents
    Example technologies to accomplish this include GTSM/TTL-security
    [RFC5082], BGP-MD5 / TCP-AO [RFC5925], limiting traffic to the
    control plane via Control Plane Policing (CoPP), and setting maximum
-   prefix limits for the number of prefixes a neighbor may send.  Please
-   note that limiting the number of permissible prefixes a neighbor may
-   send may also introduce stability issues, if that number is set too
-   low for the corresponding neighbor.
+   prefix limits for the number of prefixes a neighbor may send.  When
+   implementing prefix limits, operators SHOULD be aware of the
+   operational implications of exceeding prefix limits, i.e., a loss of
+   an established session.  Hence, operators SHOULD appropriately weigh
+   this impact within the specific operational circumstances, and ensure
+   appropriate prefix limits to not cause outages under normal
+   operations.
 
 3.2.  Protecting the Management Interface of the BGP Speaker
 
