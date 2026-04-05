@@ -22,9 +22,11 @@ Abstract
 
    Previously, security considerations for BGP have been described in
    RFC7454 / BCP194.  Since the publication of RFC7454, changes in
-   operational practice have taken place.  This document obsoletes
-   RFC7454, and provides for less implementation-specific best
-   practices.
+   operational practice have taken place, which are partially
+   conflicting with the advice given in RFC7454.  This document
+   obsoletes RFC7454, and provides less implementation-specific best
+   practices, with the goal of being less prone to becoming outdated or
+   conflicting with changed operational practices.
 
 Status of This Memo
 
@@ -374,6 +376,8 @@ Acknowledgements
    *  Ben Maddison
 
    *  Mohamed Boucadair
+
+   *  Tom Petch
 
 Authors' Addresses
 
