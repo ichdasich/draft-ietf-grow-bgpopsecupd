@@ -1382,8 +1382,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                         If an attribute is unknown to the operator it <span class="bcp14">MUST</span> be considered immutable.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.2">
-            
-                        Routes carried by BGP <span class="bcp14">MUST NOT</span> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <span>[<a href="#I-D.ietf-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.ietf-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
+                        Routes carried by BGP <span class="bcp14">MUST NOT</span> carry RPKI validation states in transitive BGP path attributes <span>[<a href="#I-D.ietf-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.ietf-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
