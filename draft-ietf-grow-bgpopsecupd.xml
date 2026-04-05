@@ -202,8 +202,9 @@
                     <li>
                         An operator <bcp14>SHOULD NOT</bcp14> change or remove immutable transitive BGP attributes, e.g., ORIGIN as per <xref target="RFC4271" format="default"/>.
                         In selected cases, if a specific attribute is known to be malicious, an operator <bcp14>MAY</bcp14> either remove that specific attribute from the BGP routes when importing them or filter the routes carrying the attribute.
-			<!-- XXX JMH - there is some contention about unknowns -->
-                        If an attribute is unknown to the operator it <bcp14>MUST</bcp14> be considered immutable.
+                        Transitivity of attributes unknown to an operator cannot be established.
+                        Treating such attributes as immutable enables incremental deployment of new BGP features, while processing unknown attributes may harm availability if the eBGP speakers used by an operator are unable to handle the attribute safely.
+                        Hence, operators <bcp14>SHOULD</bcp14> carefully assess the tradeoff between incremental deployment and BGP security for their network.
                     </li>
                     <li>
                         Routes carried by BGP <bcp14>MUST NOT</bcp14> carry RPKI validation states in transitive BGP path attributes <xref target="I-D.ietf-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
