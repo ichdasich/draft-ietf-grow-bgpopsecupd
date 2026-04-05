@@ -245,9 +245,14 @@ Table of Contents
       attributes, e.g., ORIGIN as per [RFC4271].  In selected cases, if
       a specific attribute is known to be malicious, an operator MAY
       either remove that specific attribute from the BGP routes when
-      importing them or filter the routes carrying the attribute.  If an
-      attribute is unknown to the operator it MUST be considered
-      immutable.
+      importing them or filter the routes carrying the attribute.
+      Transitivity of attributes unknown to an operator cannot be
+      established.  Treating such attributes as immutable enables
+      incremental deployment of new BGP features, while processing
+      unknown attributes may harm availability if the eBGP speakers used
+      by an operator are unable to handle the attribute safely.  Hence,
+      operators SHOULD carefully assess the tradeoff between incremental
+      deployment and BGP security for their network.
 
    *  Routes carried by BGP MUST NOT carry RPKI validation states in
       transitive BGP path attributes

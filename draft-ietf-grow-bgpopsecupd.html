@@ -1378,8 +1378,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <li class="normal" id="section-4.3-2.1">
                         An operator <span class="bcp14">SHOULD NOT</span> change or remove immutable transitive BGP attributes, e.g., ORIGIN as per <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.
                         In selected cases, if a specific attribute is known to be malicious, an operator <span class="bcp14">MAY</span> either remove that specific attribute from the BGP routes when importing them or filter the routes carrying the attribute.
- 
-                        If an attribute is unknown to the operator it <span class="bcp14">MUST</span> be considered immutable.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
+                        Transitivity of attributes unknown to an operator cannot be established.
+                        Treating such attributes as immutable enables incremental deployment of new BGP features, while processing unknown attributes may harm availability if the eBGP speakers used by an operator are unable to handle the attribute safely.
+                        Hence, operators <span class="bcp14">SHOULD</span> carefully assess the tradeoff between incremental deployment and BGP security for their network.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.2">
                         Routes carried by BGP <span class="bcp14">MUST NOT</span> carry RPKI validation states in transitive BGP path attributes <span>[<a href="#I-D.ietf-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.ietf-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
