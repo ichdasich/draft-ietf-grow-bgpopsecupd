@@ -206,8 +206,7 @@
                         If an attribute is unknown to the operator it <bcp14>MUST</bcp14> be considered immutable.
                     </li>
                     <li>
-			    <!-- XXX JMH - independent of ? This isn't clear. -->
-                        Routes carried by BGP <bcp14>MUST NOT</bcp14> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <xref target="I-D.ietf-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
+                        Routes carried by BGP <bcp14>MUST NOT</bcp14> carry RPKI validation states in transitive BGP path attributes <xref target="I-D.ietf-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
                     </li>
                 </ul>
             </section>
