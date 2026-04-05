@@ -10,32 +10,29 @@
 <meta content="
        
                 The Border Gateway Protocol (BGP) is a critical component in the Internet to exchange routing information between network domains.
-                Due to this central nature, it is important to understand the security and reliability requirements that can and should be met to prevent accidental or intentional routing disturbances.
+                It is important to understand the security and reliability requirements that can and should be met to prevent accidental or intentional routing disturbances.
        
        
                 Previously, security considerations for BGP have been described in RFC7454 / BCP194.
-                Since the publications of RFC7454, several developments and changes in operational practice took place that warrant an update of these best current practices.
-                This document obsoletes RFC7454, focusing on the overall goals, and providing a less implementation centric set of best practices.
-       
-       
-                This document describes security requirements and goals when operating BGP for exchanging routing information with other networks, and explicitly does not focus on specific technical implementations and requirements.
+                Since the publication of RFC7454, changes in operational practice have taken place.
+                This document obsoletes RFC7454, and provides for less implementation-specific best practices.
        
     " name="description">
-<meta content="xml2rfc 3.31.0" name="generator">
+<meta content="xml2rfc 3.32.0" name="generator">
 <meta content="draft-ietf-grow-bgpopsecupd-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.31.0
+  xml2rfc 3.32.0
     Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.0.2
-    platformdirs 4.5.1
+    platformdirs 4.9.4
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.32.5
-    wcwidth 0.3.0
+    wcwidth 0.6.0
 -->
 <link href="draft-ietf-grow-bgpopsecupd.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1056,11 +1053,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">BGP OPSEC</td>
-<td class="right">March 2026</td>
+<td class="right">April 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Fiebig &amp; Hilliard</td>
-<td class="center">Expires 10 September 2026</td>
+<td class="center">Expires 7 October 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1076,12 +1073,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc7454" class="eref">7454</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-09" class="published">9 March 2026</time>
+<time datetime="2026-04-05" class="published">5 April 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Best Current Practice</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-09-10">10 September 2026</time></dd>
+<dd class="expires"><time datetime="2026-10-07">7 October 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1100,13 +1097,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">
                 The Border Gateway Protocol (BGP) is a critical component in the Internet to exchange routing information between network domains.
-                Due to this central nature, it is important to understand the security and reliability requirements that can and should be met to prevent accidental or intentional routing disturbances.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+                It is important to understand the security and reliability requirements that can and should be met to prevent accidental or intentional routing disturbances.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <p id="section-abstract-2">
                 Previously, security considerations for BGP have been described in RFC7454 / BCP194.
-                Since the publications of RFC7454, several developments and changes in operational practice took place that warrant an update of these best current practices.
-                This document obsoletes RFC7454, focusing on the overall goals, and providing a less implementation centric set of best practices.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
-<p id="section-abstract-3">
-                This document describes security requirements and goals when operating BGP for exchanging routing information with other networks, and explicitly does not focus on specific technical implementations and requirements.<a href="#section-abstract-3" class="pilcrow">¶</a></p>
+                Since the publication of RFC7454, changes in operational practice have taken place.
+                This document obsoletes RFC7454, and provides for less implementation-specific best practices.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1127,7 +1122,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 10 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1171,24 +1166,24 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-protection-of-the-bgp-speak" class="internal xref">Protection of the BGP Speaker and Session</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-bgp-session-protection" class="internal xref">BGP Session Protection</a></p>
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-protecting-the-bgp-session" class="internal xref">Protecting the BGP Session</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-bgp-speaker-management-inte" class="internal xref">BGP Speaker Management Interface Protection</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-protecting-the-management-i" class="internal xref">Protecting the Management Interface of the BGP Speaker</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-nlri-filtering" class="internal xref">NLRI Filtering</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-route-filtering" class="internal xref">Route Filtering</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-importing-nlri" class="internal xref">Importing NLRI</a></p>
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-importing-bgp-routes" class="internal xref">Importing BGP Routes</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-originating-and-redistribut" class="internal xref">Originating and Redistributing NLRI</a></p>
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-originating-and-propagating" class="internal xref">Originating and Propagating BGP Routes</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
-                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-altering-nlri" class="internal xref">Altering NLRI</a></p>
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-altering-bgp-routes" class="internal xref">Altering BGP Routes</a></p>
 </li>
             </ul>
 </li>
@@ -1229,8 +1224,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 BGP does not directly include mechanisms that control whether the routes exchanged conform to the various guidelines defined by the Internet community.
                 Furthermore, the BGP protocol itself, by its design, does not have any direct way to protect itself against threats to confidentiality, integrity, and availability.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">
-                This document summarizes security properties and requirements when operating BGP for securing the infrastructure as well as for security considerations regarding the exchanged routing information.
-                The document explicitly does not focus on specific technical implementations and requirements.
+                This document summarizes security properties and requirements when operating BGP for securing the infrastructure as well as security considerations regarding the exchanged routing information.
                 Operators are advised to consult documentation and contemporary informational documents concerning methods to ensure that these properties are sufficiently ensured in their network.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <section id="section-1.1">
         <h3 id="name-requirements-language">
@@ -1252,7 +1246,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       </h2>
 <p id="section-2-1">
                 The guidelines defined in this document are intended for BGP when used to exchange generic Internet routing information within the Default-Free Zone (DFZ).
-                It specifically does not cover other uses of BGP, e.g., when using BGP for NLRI exchange in a data-center context, or other use-cases when using BGP without globally unique identifiers between networks.
+                It specifically does not cover other uses of BGP, e.g., when using BGP for exchanging routes in a data-center context, or other use-cases when using BGP without globally unique identifiers between networks.
                 This document does not specify how the outlined requirements and properties can be technically realized at a specific point in time.
                 Instead, operators are advised to consult applicable documentation and contemporary informational documents describing implementation specifics (e.g., <span>[<a href="#I-D.ietf-grow-routing-ops-sec-inform" class="cite xref">I-D.ietf-grow-routing-ops-sec-inform</a>]</span> and <span>[<a href="#I-D.ietf-grow-routing-ops-terms" class="cite xref">I-D.ietf-grow-routing-ops-terms</a>]</span>).<a href="#section-2-1" class="pilcrow">¶</a></p>
 </section>
@@ -1263,11 +1257,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-protection-of-the-bgp-speak" class="section-name selfRef">Protection of the BGP Speaker and Session</a>
       </h2>
 <p id="section-3-1">
-                The BGP speaker, i.e., the node running BGP to exchange routing information, needs to be protected from external attempts to taint integrity or availability of the BGP session and node alike.<a href="#section-3-1" class="pilcrow">¶</a></p>
+                The BGP speaker, i.e., the node running BGP to exchange routing information, needs to be protected from external attempts to impact integrity or availability of the BGP session and the node.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <div id="sec-protection-of-the-bgp-speaker-net">
 <section id="section-3.1">
-        <h3 id="name-bgp-session-protection">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-bgp-session-protection" class="section-name selfRef">BGP Session Protection</a>
+        <h3 id="name-protecting-the-bgp-session">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-protecting-the-bgp-session" class="section-name selfRef">Protecting the BGP Session</a>
         </h3>
 <p id="section-3.1-1">
                     To protect a BGP speaker on the network layer, an operator <span class="bcp14">MUST</span> ensure the following properties using technical or organizational measures:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
@@ -1290,20 +1284,20 @@ svg :is([fill="white"], [fill^="#fff"]) {
         </ul>
 <p id="section-3.1-3">
                     Example technologies to accomplish this include GTSM/TTL-security <span>[<a href="#RFC5082" class="cite xref">RFC5082</a>]</span>, BGP-MD5 / TCP-AO <span>[<a href="#RFC5925" class="cite xref">RFC5925</a>]</span>, limiting traffic to the control plane via Control Plane Policing (CoPP), and setting maximum prefix limits for the number of prefixes a neighbor may send.
-                    Please note, though, that limiting the number of permissible prefixes a neighbor may send may also introduce stability issues, if that number is set too low for the corresponding neighbor.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+                    Please note that limiting the number of permissible prefixes a neighbor may send may also introduce stability issues, if that number is set too low for the corresponding neighbor.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-protection-of-the-bgp-speaker-mgmt">
 <section id="section-3.2">
-        <h3 id="name-bgp-speaker-management-inte">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-bgp-speaker-management-inte" class="section-name selfRef">BGP Speaker Management Interface Protection</a>
+        <h3 id="name-protecting-the-management-i">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-protecting-the-management-i" class="section-name selfRef">Protecting the Management Interface of the BGP Speaker</a>
         </h3>
 <p id="section-3.2-1">
                     In addition to the control plane / exchange of BGP protocol messages, the management plane of BGP speakers must be appropriately secured.
                     Hence, operators <span class="bcp14">MUST</span> ensure that:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.2-2.1">
-                        No unauthorized third-parties can obtain access or connect to the management interface of a BGP speaker in a way that allows tainting confidentiality, integrity, or availability.<a href="#section-3.2-2.1" class="pilcrow">¶</a>
+                        No unauthorized third-parties can obtain access or connect to the management interface of a BGP speaker in a way that impacts confidentiality, integrity, or availability.<a href="#section-3.2-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-3.2-2.2">
                         External activity towards the management interface does not interfere with the integrity or availability of BGP sessions.<a href="#section-3.2-2.2" class="pilcrow">¶</a>
@@ -1315,56 +1309,56 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 <div id="sec-nlri-filtering">
 <section id="section-4">
-      <h2 id="name-nlri-filtering">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-nlri-filtering" class="section-name selfRef">NLRI Filtering</a>
+      <h2 id="name-route-filtering">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-route-filtering" class="section-name selfRef">Route Filtering</a>
       </h2>
 <p id="section-4-1">
-                The purpose of BGP is exchanging routing information, i.e., NLRI.
-                Importing or exporting incorrect or malicious NLRI is a security risk for networks themselves, but may also form a threat for connected and/or remote networks.
+                The purpose of BGP is to exchange routing information.
+                Importing or exporting incorrect or malicious routes is a security risk for receiving networks and may threaten connected and/or remote networks.
                 As such, operators <span class="bcp14">MUST</span> ensure the following properties when importing or exporting routing information from their neighbors.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <div id="sec-importing-nlri">
 <section id="section-4.1">
-        <h3 id="name-importing-nlri">
-<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-importing-nlri" class="section-name selfRef">Importing NLRI</a>
+        <h3 id="name-importing-bgp-routes">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-importing-bgp-routes" class="section-name selfRef">Importing BGP Routes</a>
         </h3>
 <p id="section-4.1-1">
-                    When importing NLRI from a neighbor, an operator <span class="bcp14">MUST</span> ensure that all imported NLRI conform to the following properties by implementing technical or organizational measures:<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+                    When importing BGP routes from a neighbor, an operator <span class="bcp14">MUST</span> ensure that all imported routes conform to the following properties by implementing technical or organizational measures:<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.1-2.1">
-                        The AS originating NLRI for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.
+                        The AS originating BGP routes for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.
                         Operaters are cautioned to evaluate carefully how accepting a default route affects their network, as this occludes limitations in forwarding coverage by the upstream from which the default route was received.<a href="#section-4.1-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.2">
-                        For received NLRI with an AS_PATH = {AS1, AS2, ..., ASn}, where AS1 is the neighbor that sent the UPDATE and ASn is the originator, for each k in 1..n−1, AS(k+1) <span class="bcp14">MUST</span> be authorized to export the NLRI to ASk according to their bilateral routing policy (e.g., provider–customer, peer, or lateral-peer).<a href="#section-4.1-2.2" class="pilcrow">¶</a>
+                        For received BGP routes with an AS_PATH = {AS1, AS2, ..., ASn}, where AS1 is the neighbor that sent the UPDATE and ASn is the originator, for each k in 1..n−1, AS(k+1) <span class="bcp14">MUST</span> be authorized to export the BGP routes to ASk according to their bilateral routing policy (e.g., provider–customer, peer, or lateral-peer).<a href="#section-4.1-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.3">
                         The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases, except for those AS numbers explicitly dedicated to a special-use that requires their presence in the global routing table <span>[<a href="#IANAASNSpec" class="cite xref">IANAASNSpec</a>]</span>.<a href="#section-4.1-2.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.4">
-                        The AS_PATH for a received NLRI <span class="bcp14">MUST NOT</span> exceed the maximum length supported by the local router.<a href="#section-4.1-2.4" class="pilcrow">¶</a>
+                        The length of the AS_PATH for a received BGP routes <span class="bcp14">MUST NOT</span> exceed the maximum length supported by the local router.<a href="#section-4.1-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.5">
                         The number of transitive BGP attributes, e.g., BGP communities <span>[<a href="#RFC1997" class="cite xref">RFC1997</a>]</span>, extended BGP communities <span>[<a href="#RFC4360" class="cite xref">RFC4360</a>]</span>, or Large BGP communities <span>[<a href="#RFC8092" class="cite xref">RFC8092</a>]</span> attached to a received NLRI <span class="bcp14">MUST NOT</span> exceed the maximum supported by the local router.<a href="#section-4.1-2.5" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.6">
-                        The number of NLRI received from a neighbor <span class="bcp14">MUST NOT</span> exceed the resources of the local router.<a href="#section-4.1-2.6" class="pilcrow">¶</a>
+                        The number of BGP routes received from a neighbor <span class="bcp14">MUST NOT</span> exceed the resources of the local router.<a href="#section-4.1-2.6" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-exporting-nlri">
 <section id="section-4.2">
-        <h3 id="name-originating-and-redistribut">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-originating-and-redistribut" class="section-name selfRef">Originating and Redistributing NLRI</a>
+        <h3 id="name-originating-and-propagating">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-originating-and-propagating" class="section-name selfRef">Originating and Propagating BGP Routes</a>
         </h3>
 <p id="section-4.2-1">
-                    When originating NLRI or redistributing NLRI received from a neighbor, an operator <span class="bcp14">MUST</span> ensure that all NLRI they export conform to the following properties by implementing technical or organizational measures:<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+                    When originating or propagating BGP routes, an operator <span class="bcp14">MUST</span> ensure that all BGP routes they export conform to the following properties by implementing technical or organizational measures:<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.2-2.1">
-                        The redistributing AS <span class="bcp14">MUST</span> be authorized to redistribute NLRI for the specific prefix when received from the AS directly to its right in the AS_PATH. Additionally, each AS in the AS_PATH not originating the prefix <span class="bcp14">MUST</span> be authorized to redistribute the prefix when receiving it from the next AS to its right.<a href="#section-4.2-2.1" class="pilcrow">¶</a>
+                        The propagating AS <span class="bcp14">MUST</span> be authorized to propagate BGP routes for the specific prefix when received from the AS directly to its right in the AS_PATH. Additionally, each AS in the AS_PATH not originating the prefix <span class="bcp14">MUST</span> be authorized to propagate the prefix when receiving it from the next AS to its right.<a href="#section-4.2-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.2-2.2">
-                        The AS originating NLRI for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.<a href="#section-4.2-2.2" class="pilcrow">¶</a>
+                        The AS originating BGP routes for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.<a href="#section-4.2-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.2-2.3">
                         The AS_PATH <span class="bcp14">MUST NOT</span> contain AS numbers reserved for private <span>[<a href="#RFC6996" class="cite xref">RFC6996</a>]</span> or special-use cases, except for those AS numbers explicitly dedicated to a special-use that requires their presence in the global routing table <span>[<a href="#IANAASNSpec" class="cite xref">IANAASNSpec</a>]</span>.<a href="#section-4.2-2.3" class="pilcrow">¶</a>
@@ -1374,19 +1368,21 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 <div id="sec-handling-nlri">
 <section id="section-4.3">
-        <h3 id="name-altering-nlri">
-<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-altering-nlri" class="section-name selfRef">Altering NLRI</a>
+        <h3 id="name-altering-bgp-routes">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-altering-bgp-routes" class="section-name selfRef">Altering BGP Routes</a>
         </h3>
 <p id="section-4.3-1">
-                    When processing NLRI, an operator <span class="bcp14">MUST</span> ensure that basic properties of these NLRI are not altered:<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+                    When processing BGP routes, an operator <span class="bcp14">MUST</span> ensure that the basic properties of these routes are not altered:<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3-2.1">
                         An operator <span class="bcp14">SHOULD NOT</span> change or remove immutable transitive BGP attributes, e.g., ORIGIN as per <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.
-                        In selected cases, if a specific attribute is known to be malicious, an operator <span class="bcp14">MAY</span> either temporarily remove that specific attribute from NLRI when importing them or filter NLRI carrying the attribute.
+                        In selected cases, if a specific attribute is known to be malicious, an operator <span class="bcp14">MAY</span> either remove that specific attribute from the BGP routes when importing them or filter the routes carrying the attribute.
+ 
                         If an attribute is unknown to the operator it <span class="bcp14">MUST</span> be considered immutable.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.2">
-                        NLRI carried on BGP <span class="bcp14">MUST NOT</span> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <span>[<a href="#I-D.ietf-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.ietf-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
+            
+                        Routes carried by BGP <span class="bcp14">MUST NOT</span> be enriched with transitive attributes subject to change independent of the underlying NLRI, e.g., encoding RPKI validation state in transitive attributes <span>[<a href="#I-D.ietf-sidrops-avoid-rpki-state-in-bgp" class="cite xref">I-D.ietf-sidrops-avoid-rpki-state-in-bgp</a>]</span>.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
