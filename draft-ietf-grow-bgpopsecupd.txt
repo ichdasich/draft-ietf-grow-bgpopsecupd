@@ -6,7 +6,7 @@ Global Routing Operations                                      T. Fiebig
 Internet-Draft                                                   MPI-INF
 Obsoletes: 7454 (if approved)                                N. Hilliard
 Intended status: Best Current Practice                              INEX
-Expires: 7 October 2026                                     5 April 2026
+Expires: 9 October 2026                                     7 April 2026
 
 
                       BGP Operations and Security
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 October 2026.
+   This Internet-Draft will expire on 9 October 2026.
 
 Copyright Notice
 
@@ -188,7 +188,7 @@ Table of Contents
       authorized to originate that prefix.  Operators MAY deviate from
       this for default routes (::/0 and 0.0.0.0/0), if they granted the
       specific neighbor permission to announce default routes towards
-      them.  Operaters are cautioned to evaluate carefully how accepting
+      them.  Operators are cautioned to evaluate carefully how accepting
       a default route affects their network, as this occludes
       limitations in forwarding coverage by the upstream from which the
       default route was received.
