@@ -207,7 +207,7 @@
                         Hence, operators <bcp14>SHOULD</bcp14> carefully assess the tradeoff between incremental deployment and BGP security for their network.
                     </li>
                     <li>
-                        Routes carried by BGP <bcp14>MUST NOT</bcp14> carry RPKI validation states in transitive BGP path attributes <xref target="I-D.ietf-sidrops-avoid-rpki-state-in-bgp" format="default"/>.
+                        Routes carried by BGP <bcp14>SHOULD NOT</bcp14> carry RPKI validation states in transitive BGP path attributes, see <xref target="I-D.ietf-sidrops-avoid-rpki-state-in-bgp" format="default"/> for detailed considerations.
                     </li>
                 </ul>
             </section>
