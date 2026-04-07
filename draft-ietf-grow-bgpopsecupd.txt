@@ -256,9 +256,10 @@ Table of Contents
       operators SHOULD carefully assess the tradeoff between incremental
       deployment and BGP security for their network.
 
-   *  Routes carried by BGP MUST NOT carry RPKI validation states in
-      transitive BGP path attributes
-      [I-D.ietf-sidrops-avoid-rpki-state-in-bgp].
+   *  Routes carried by BGP SHOULD NOT carry RPKI validation states in
+      transitive BGP path attributes, see
+      [I-D.ietf-sidrops-avoid-rpki-state-in-bgp] for detailed
+      considerations.
 
 5.  IANA Considerations
 
