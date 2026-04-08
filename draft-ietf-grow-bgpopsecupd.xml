@@ -116,7 +116,7 @@
                 </ul>
                 <t>
                     Example technologies to accomplish this include GTSM/TTL-security <xref target="RFC5082" format="default"/>, BGP-MD5 / TCP-AO <xref target="RFC5925" format="default"/>, limiting traffic to the control plane via Control Plane Policing (CoPP), and setting maximum prefix limits for the number of prefixes a neighbor may send.
-                    When implementing prefix limits, operators <bcp14>SHOULD</bcp14> be aware of the operational implications of exceeding prefix limits, i.e., a loss of an established session.
+                    When implementing prefix limits, operators <bcp14>SHOULD</bcp14> be aware of the operational implications of exceeding prefix limits, i.e., loss of an established session.
                     Hence, operators <bcp14>SHOULD</bcp14> appropriately weigh this impact within the specific operational circumstances, and ensure appropriate prefix limits to not cause outages under normal operations.
                 </t>
 
@@ -146,7 +146,7 @@
             <name>Route Filtering</name>
             <t>
                 The purpose of BGP is to exchange routing information.
-                Importing or exporting incorrect or malicious routes is a security risk for receiving networks and may threaten connected and/or remote networks.
+                Importing or exporting incorrect or malicious routes is a security risk for networks that receive these routes and may threaten connected and/or remote networks.
                 As such, operators <bcp14>MUST</bcp14> ensure the following properties when importing or exporting routing information from their neighbors.
             </t>
             <section  anchor="sec-importing-nlri">
@@ -157,7 +157,8 @@
                 <ul spacing="normal">
                     <li>
                         The AS originating BGP routes for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.
-                        Operators are cautioned to evaluate carefully how accepting a default route affects their network, as this occludes limitations in forwarding coverage by the upstream from which the default route was received.
+                        Operators are cautioned to evaluate how accepting a default route affects their network.
+                        A defaultroute may hide that an upstream is unable to forward traffic to a destination, i.e., if there is no route known to that destination by the upstream.
                     </li>
                     <li>
                         For received BGP routes with an AS_PATH = {AS1, AS2, ..., ASn}, where AS1 is the neighbor that sent the UPDATE and ASn is the originator, for each k in 1..n−1, AS(k+1) <bcp14>MUST</bcp14> be authorized to export the BGP routes to ASk according to their bilateral routing policy (e.g., provider–customer, peer, or lateral-peer).
@@ -340,6 +341,9 @@
                 </li>
                 <li>
                     Tom Petch
+                </li>
+                <li>
+                    Luuk Hendriks
                 </li>
             </ul>
         </section>
