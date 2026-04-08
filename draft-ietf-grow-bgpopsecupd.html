@@ -1284,7 +1284,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         </ul>
 <p id="section-3.1-3">
                     Example technologies to accomplish this include GTSM/TTL-security <span>[<a href="#RFC5082" class="cite xref">RFC5082</a>]</span>, BGP-MD5 / TCP-AO <span>[<a href="#RFC5925" class="cite xref">RFC5925</a>]</span>, limiting traffic to the control plane via Control Plane Policing (CoPP), and setting maximum prefix limits for the number of prefixes a neighbor may send.
-                    When implementing prefix limits, operators <span class="bcp14">SHOULD</span> be aware of the operational implications of exceeding prefix limits, i.e., a loss of an established session.
+                    When implementing prefix limits, operators <span class="bcp14">SHOULD</span> be aware of the operational implications of exceeding prefix limits, i.e., loss of an established session.
                     Hence, operators <span class="bcp14">SHOULD</span> appropriately weigh this impact within the specific operational circumstances, and ensure appropriate prefix limits to not cause outages under normal operations.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1315,7 +1315,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       </h2>
 <p id="section-4-1">
                 The purpose of BGP is to exchange routing information.
-                Importing or exporting incorrect or malicious routes is a security risk for receiving networks and may threaten connected and/or remote networks.
+                Importing or exporting incorrect or malicious routes is a security risk for networks that receive these routes and may threaten connected and/or remote networks.
                 As such, operators <span class="bcp14">MUST</span> ensure the following properties when importing or exporting routing information from their neighbors.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <div id="sec-importing-nlri">
 <section id="section-4.1">
@@ -1327,7 +1327,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <ul class="normal">
 <li class="normal" id="section-4.1-2.1">
                         The AS originating BGP routes for a prefix <span class="bcp14">MUST</span> be globally authorized to originate that prefix. Operators <span class="bcp14">MAY</span> deviate from this for default routes (::/0 and 0.0.0.0/0), if they granted the specific neighbor permission to announce default routes towards them.
-                        Operators are cautioned to evaluate carefully how accepting a default route affects their network, as this occludes limitations in forwarding coverage by the upstream from which the default route was received.<a href="#section-4.1-2.1" class="pilcrow">¶</a>
+                        Operators are cautioned to evaluate how accepting a default route affects their network.
+                        A defaultroute may hide that an upstream is unable to forward traffic to a destination, i.e., if there is no route known to that destination by the upstream.<a href="#section-4.1-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.1-2.2">
                         For received BGP routes with an AS_PATH = {AS1, AS2, ..., ASn}, where AS1 is the neighbor that sent the UPDATE and ASn is the originator, for each k in 1..n−1, AS(k+1) <span class="bcp14">MUST</span> be authorized to export the BGP routes to ASk according to their bilateral routing policy (e.g., provider–customer, peer, or lateral-peer).<a href="#section-4.1-2.2" class="pilcrow">¶</a>
@@ -1533,6 +1534,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
         <li class="normal" id="appendix-A-3.13">
                     Tom Petch<a href="#appendix-A-3.13" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-A-3.14">
+                    Luuk Hendriks<a href="#appendix-A-3.14" class="pilcrow">¶</a>
 </li>
       </ul>
 </section>
