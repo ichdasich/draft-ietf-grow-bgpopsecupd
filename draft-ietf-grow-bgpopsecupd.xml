@@ -184,6 +184,7 @@
                 <ul spacing="normal">
                     <li>
                         The propagating AS <bcp14>MUST</bcp14> be authorized to propagate BGP routes for the specific prefix when received from the AS directly to its right in the AS_PATH. Additionally, each AS in the AS_PATH not originating the prefix <bcp14>MUST</bcp14> be authorized to propagate the prefix when receiving it from the next AS to its right.
+                        Operators <bcp14>MUST NOT</bcp14> originate or propagate BGP routes for prefixes that are not globally routable, including prefixes from bogon address space and prefixes more specific than commonly accepted global routing limits.
                     </li>
                     <li>
                         The AS originating BGP routes for a prefix <bcp14>MUST</bcp14> be globally authorized to originate that prefix. Operators <bcp14>MAY</bcp14> deviate from this for default routes (::/0 and 0.0.0.0/0), if they originate the default route and the specific neighbor granted them permission to announce default routes towards them.
@@ -333,6 +334,9 @@
                 </li>
                 <li>
                     Mohamed Boucadair
+                </li>
+                <li>
+                    Fedor Vompe
                 </li>
                 <li>
                     Tom Petch
